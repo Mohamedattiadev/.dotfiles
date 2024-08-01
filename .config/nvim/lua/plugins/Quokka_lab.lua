@@ -1,0 +1,22 @@
+--not working
+--TODO: iwill do it later
+return {}
+-- return {
+--   -- other plugins...
+--
+--   "0x100101/lab.nvim",
+--   run = "cd js && npm ci",
+--   requires = { "nvim-lua/plenary.nvim" },
+--   config = function()
+--     require("lab").setup({
+--       code_runner = {
+--         enabled = true,
+--       },
+--     })
+--
+--     local map_opts = { noremap = true, silent = true }
+--     vim.api.nvim_set_keymap("n", "<F3>", ":Lab code stop<CR>", map_opts)
+--     vim.api.nvim_set_keymap("n", "<F2>", ":Lab code run<CR>", map_opts)
+--     vim.api.nvim_set_keymap("n", "<F5>", ":Lab code panel<CR>", map_opts)
+--   end,
+-- }
