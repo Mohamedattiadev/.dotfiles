@@ -38,6 +38,13 @@ return {
       harpoon:list():select(4)
     end)
 
+    vim.keymap.set("n", "<leader>h5", function()
+      harpoon:list():select(5)
+    end)
+
+    vim.keymap.set("n", "<leader>h6", function()
+      harpoon:list():select(6)
+    end)
     -- Toggle previous & next buffers stored within Harpoon list
     vim.keymap.set("n", "<S-h>", function()
       harpoon:list():prev()
