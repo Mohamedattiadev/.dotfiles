@@ -1,0 +1,1 @@
+/home/mohamed/.config/emacs/elpaca/repos/closql/closql.el

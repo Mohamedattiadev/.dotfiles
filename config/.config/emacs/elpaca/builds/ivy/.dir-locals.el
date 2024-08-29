@@ -1,0 +1,1 @@
+/home/mohamed/.config/emacs/elpaca/repos/swiper/.dir-locals.el
