@@ -1,1 +1,0 @@
-/home/mohamed/.config/emacs/elpaca/repos/swiper/ivy.el
