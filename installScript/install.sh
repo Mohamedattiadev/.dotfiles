@@ -97,7 +97,7 @@ yay -S --noconfirm \
 
 # Install additional programs
 echo "Installing additional programs..."
-yay -S --noconfirm yazi tmux neovim brave
+yay -S --noconfirm yazi tmux neovim brave qutebrowser chromium pomatez blueman pavucontrol whatsdesk
 
 # Install live-server using npm
 npm install -g live-server
