@@ -16,23 +16,34 @@ paru -Scc
 echo "Updating keyring..."
 paru -S archlinux-keyring 
 paru -Syu archlinux-keyring 
+paru -S archlinux-keyring 
+
+paru -Rdd copyq
+paru -Rdd pamac
 
 # 2.stowing
 paru -S stow
+cd ~
+mkdir dotnone
+mv -f ~/.config ~/dotnone
 sleep 5
- cd ~/.dotfiles || { echo "Dotfiles directory not found!"; exit 1; }
-stow .tmux/
-stow config/
-stow installScript/
 
+ cd ~/.dotfiles || { echo "Dotfiles directory not found!"; exit 1; }
+
+stow .tmux/
+sleep 2
+stow config/
+sleep 2
+stow installScript/
+sleep 5
 
 
 # 3. Update the Keyring Again
 # Update the keyring again to ensure package signatures are up-to-date.
 echo "Updating..."
-paru -Syu 
+paru -Syu --noconfirm
 sudo pacman -Sc --noconfirm && paru -Sc --noconfirm && yay -Sc --noconfirm
-paru
+paru -Syu --noconfirm
 
 #---------------------------------Additionals----------------------------------#
 
@@ -61,7 +72,7 @@ paru -S  \
 
 # Install additional programs
 echo "Installing additional programs..."
-paru -S  yazi tmux neovim brave qutebrowser chromium pomatez blueman pavucontrol whatsdesk
+paru -S --noconfirm copyq yazi tmux neovim brave qutebrowser chromium pomatez blueman pavucontrol whatsdesk
 
 # Install live-server using npm
 npm install -g live-server
@@ -78,7 +89,7 @@ echo "Installation complete."
 #last update ---
 
 echo "the last update..."
-paru -Syu 
+paru -Syu  --noconfirm
 
 #done...
 
