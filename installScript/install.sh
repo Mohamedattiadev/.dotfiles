@@ -118,5 +118,7 @@ echo "## this is the key which u should add to ur github"
 
 cat ~/.ssh/id_ed25519.pub
 echo "--> Go to GitHub > Settings > SSH and GPG keys and add the key."
+echo "--> after connecting it with the github excute this commend--> ssh -T git@github.com"
+
 
 echo "done......."
