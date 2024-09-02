@@ -5,24 +5,30 @@
 # 0. Force Remove Problematic Packages
 # This command removes `libpamac-full` while ignoring dependencies. Use with caution.
 echo "Removing problematic packages..."
-paru -Rdd libpamac-full 
+paru -Rdd libpamac-full  --noconfirm
 # 1. Remove Package Caches
 # Clear the package cache to ensure old or conflicting packages are removed.
 echo "Removing package caches..."
-paru -Scc 
+paru -Scc --noconfirm
+sudo pacman -Sc --noconfirm && paru -Sc --noconfirm 
 
 # 2. Update the Keyring
 # Update the keyring to ensure package signatures are up-to-date.
 echo "Updating keyring..."
-paru -S archlinux-keyring 
-paru -Syu archlinux-keyring 
-paru -S archlinux-keyring 
+paru -S archlinux-keyring --noconfirm
+paru -Sy archlinux-keyring --noconfirm
+paru -S archlinux-keyring --noconfirm
 
 paru -Rdd copyq
-paru -Rdd pamac
+sudo pacman -Rdd pamac-all --noconfirm
+#2.1 installing yay 
+echo "installing yay..."
+paru -S yay --noconfirm
 
-# 2.stowing
-paru -S stow
+# 3.stowing
+echo "stowing..."
+
+yay -S stow
 cd ~
 mkdir dotnone
 mv -f ~/.config ~/dotnone
@@ -35,21 +41,24 @@ sleep 2
 stow config/
 sleep 2
 stow installScript/
+
+echo "stowing done ..."
+
 sleep 5
 
 
 # 3. Update the Keyring Again
 # Update the keyring again to ensure package signatures are up-to-date.
 echo "Updating..."
-paru -Syu --noconfirm
-sudo pacman -Sc --noconfirm && paru -Sc --noconfirm && yay -Sc --noconfirm
-paru -Syu --noconfirm
+yay -Syu --noconfirm
+sudo pacman -Sc --noconfirm && yay -Sc --noconfirm && yay -Sc --noconfirm
+yay -Syu --noconfirm
 
 #---------------------------------Additionals----------------------------------#
 
 # Install Additional Languages and Servers
 echo "Installing additional programming languages and servers..."
-paru -S    \
+yay -S --noconfirm   \
 	gcc \
 	g++ \
 	java-runtime-common \
@@ -62,7 +71,7 @@ paru -S    \
 
 # Install Language Servers from AUR if needed
 echo "Installing language servers..."
-paru -S  \
+yay -S --noconfirm \
 	vscode-langservers-extracted \
 	bash-language-server \
 	pyright \
@@ -72,7 +81,7 @@ paru -S  \
 
 # Install additional programs
 echo "Installing additional programs..."
-paru -S --noconfirm copyq yazi tmux neovim brave qutebrowser chromium pomatez blueman pavucontrol whatsdesk
+yay -S --noconfirm copyq yazi tmux neovim brave qutebrowser chromium pomatez blueman pavucontrol whatsdesk
 
 # Install live-server using npm
 npm install -g live-server
@@ -89,7 +98,7 @@ echo "Installation complete."
 #last update ---
 
 echo "the last update..."
-paru -Syu  --noconfirm
+yay -Syu  --noconfirm
 
 #done...
 
@@ -113,6 +122,9 @@ ssh-keygen -t ed25519 -C "mohamedattia.dev@gmail.com"
 eval (ssh-agent -c)
 
 ssh-add ~/.ssh/id_ed25519
+
+eval (ssh-agent -c)
+
 
 echo "## this is the key which u should add to ur github"
 
