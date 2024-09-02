@@ -2,79 +2,43 @@
 
 # This script will install Stylua and additional languages and servers on an Arch-based system
 
+# 0. Force Remove Problematic Packages
+# This command removes `libpamac-full` while ignoring dependencies. Use with caution.
+echo "Removing problematic packages..."
+paru -Rdd libpamac-full 
 # 1. Remove Package Caches
 # Clear the package cache to ensure old or conflicting packages are removed.
 echo "Removing package caches..."
-sudo pacman -Scc --noconfirm
+paru -Scc 
 
 # 2. Update the Keyring
 # Update the keyring to ensure package signatures are up-to-date.
 echo "Updating keyring..."
-sudo pacman -Syu archlinux-keyring --noconfirm
+paru -S archlinux-keyring 
+paru -Syu archlinux-keyring 
 
-# 3. Force Remove Problematic Packages
-# This command removes `libpamac-full` while ignoring dependencies. Use with caution.
-echo "Removing problematic packages..."
-sudo pacman -Rdd libpamac-full --noconfirm
+# 2.stowing
+paru -S stow
+sleep 5
+ cd ~/.dotfiles || { echo "Dotfiles directory not found!"; exit 1; }
+stow .tmux/
+stow config/
+stow installScript/
 
-# 4. installing yay and paru if not found
-echo "Checking for AUR helpers..."
-# Check if paru is installed
-if command -v paru &>/dev/null; then
-	echo "paru is already installed."
-	AUR_HELPER="paru"
-# Check if yay is installed
-elif command -v yay &>/dev/null; then
-	echo "yay is already installed."
-	AUR_HELPER="yay"
-else
-	echo "Neither paru nor yay is installed. Installing both..."
 
-	# # Update the system first
-	# sudo pacman -Syu --noconfirm
 
-	# Install yay and paru
-	sudo pacman -S --noconfirm yay
-	yay -S --noconfirm paru
-
-	# Re-check if yay is installed
-	if command -v yay &>/dev/null; then
-		echo "yay is now installed."
-		AUR_HELPER="yay"
-	else
-		echo "Failed to install yay. Exiting."
-		exit 1
-	fi
-fi
-
-# Update the system using the AUR helper
-if [[ "$AUR_HELPER" == "yay" ]]; then
-	echo "Updating system using yay..."
-	if yay -Syu --noconfirm; then
-		echo "System updated successfully with yay."
-	else
-		echo "Failed to update with yay. Falling back to pacman..."
-		sudo pacman -Syu --noconfirm
-	fi
-elif [[ "$AUR_HELPER" == "paru" ]]; then
-	echo "Updating system using paru..."
-	paru -Syu --noconfirm
-else
-	echo "No AUR helper found. Exiting."
-	exit 1
-fi
-
-# 6. Update the Keyring Again
+# 3. Update the Keyring Again
 # Update the keyring again to ensure package signatures are up-to-date.
-echo "Updating keyring again..."
-yay -S archlinux-keyring --noconfirm
-yay -Syu --noconfirm
+echo "Updating..."
+paru -Syu 
+sudo pacman -Sc --noconfirm && paru -Sc --noconfirm && yay -Sc --noconfirm
+paru
 
 #---------------------------------Additionals----------------------------------#
 
 # Install Additional Languages and Servers
 echo "Installing additional programming languages and servers..."
-yay -S --noconfirm \
+paru -S    \
 	gcc \
 	g++ \
 	java-runtime-common \
@@ -87,7 +51,7 @@ yay -S --noconfirm \
 
 # Install Language Servers from AUR if needed
 echo "Installing language servers..."
-yay -S --noconfirm \
+paru -S  \
 	vscode-langservers-extracted \
 	bash-language-server \
 	pyright \
@@ -97,7 +61,7 @@ yay -S --noconfirm \
 
 # Install additional programs
 echo "Installing additional programs..."
-yay -S --noconfirm yazi tmux neovim brave qutebrowser chromium pomatez blueman pavucontrol whatsdesk
+paru -S  yazi tmux neovim brave qutebrowser chromium pomatez blueman pavucontrol whatsdesk
 
 # Install live-server using npm
 npm install -g live-server
@@ -114,8 +78,34 @@ echo "Installation complete."
 #last update ---
 
 echo "the last update..."
-yay -Syu --noconfirm
+paru -Syu 
 
 #done...
+
+echo "done......."
+
+
+#---------------------------------Additionals----------------------------------#
+
+# additional git stuff
+
+echo "adding the user and email config of git"
+git config --global user.name "MohamedattiaDev"
+git config --global user.email "mohamedattia.dev@gmail.com"
+
+#-------ssh--------#
+
+ls -al ~/.ssh
+
+ssh-keygen -t ed25519 -C "mohamedattia.dev@gmail.com"
+
+eval (ssh-agent -c)
+
+ssh-add ~/.ssh/id_ed25519
+
+echo "## this is the key which u should add to ur github"
+
+cat ~/.ssh/id_ed25519.pub
+echo "--> Go to GitHub > Settings > SSH and GPG keys and add the key."
 
 echo "done......."
