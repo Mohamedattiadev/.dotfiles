@@ -28,7 +28,7 @@ paru -S yay --noconfirm
 # 3.stowing
 echo "stowing..."
 
-yay -S stow
+yay -S stow --noconfirm
 cd ~
 mkdir dotnone
 mv -f ~/.config ~/dotnone
