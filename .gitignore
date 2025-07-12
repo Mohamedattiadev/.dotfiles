@@ -1,0 +1,17 @@
+
+# Cache and app junk
+.config/google-chrome/
+.config/chromium/
+.config/BraveSoftware/
+.config/Code/Cache/
+.config/Code/User/globalStorage/
+.config/Surf/
+.config/obsidian/
+.config2/
+
+# Binary caches
+*.asar
+*.so
+*.vscdb
+*.json
+*.store.*

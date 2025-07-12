@@ -1,0 +1,605 @@
+Mono path[0] = '/home/ati/.local/share/Steam/steamapps/common/Valheim/valheim_Data/Managed'
+Mono config path = '/home/ati/.local/share/Steam/steamapps/common/Valheim/valheim_Data/MonoBleedingEdge/etc'
+Preloaded 'libDiskSpacePlugin.so'
+Preloaded 'libparty.so'
+Preloaded 'libsteam_api.so'
+Display 0 '0': 1366x768 (primary device).
+[PhysX] Initialized MultithreadedTaskDispatcher with 4 workers.
+Desktop is 1366 x 768 @ 60 Hz
+[Vulkan init] extensions: count=24
+[Vulkan init] extensions: name=VK_EXT_acquire_drm_display [enabled=0, external=0]
+[Vulkan init] extensions: name=VK_EXT_acquire_xlib_display [enabled=0, external=0]
+[Vulkan init] extensions: name=VK_EXT_debug_report [enabled=0, external=0]
+[Vulkan init] extensions: name=VK_EXT_debug_utils [enabled=0, external=0]
+[Vulkan init] extensions: name=VK_EXT_direct_mode_display [enabled=0, external=0]
+[Vulkan init] extensions: name=VK_EXT_display_surface_counter [enabled=0, external=0]
+[Vulkan init] extensions: name=VK_EXT_surface_maintenance1 [enabled=0, external=0]
+[Vulkan init] extensions: name=VK_EXT_swapchain_colorspace [enabled=1, external=0]
+[Vulkan init] extensions: name=VK_KHR_device_group_creation [enabled=0, external=0]
+[Vulkan init] extensions: name=VK_KHR_display [enabled=1, external=0]
+[Vulkan init] extensions: name=VK_KHR_external_fence_capabilities [enabled=1, external=0]
+[Vulkan init] extensions: name=VK_KHR_external_memory_capabilities [enabled=1, external=0]
+[Vulkan init] extensions: name=VK_KHR_external_semaphore_capabilities [enabled=1, external=0]
+[Vulkan init] extensions: name=VK_KHR_get_display_properties2 [enabled=0, external=0]
+[Vulkan init] extensions: name=VK_KHR_get_physical_device_properties2 [enabled=1, external=0]
+[Vulkan init] extensions: name=VK_KHR_get_surface_capabilities2 [enabled=0, external=0]
+[Vulkan init] extensions: name=VK_KHR_portability_enumeration [enabled=0, external=0]
+[Vulkan init] extensions: name=VK_KHR_surface [enabled=1, external=0]
+[Vulkan init] extensions: name=VK_KHR_surface_protected_capabilities [enabled=0, external=0]
+[Vulkan init] extensions: name=VK_KHR_wayland_surface [enabled=1, external=0]
+[Vulkan init] extensions: name=VK_KHR_xcb_surface [enabled=0, external=0]
+[Vulkan init] extensions: name=VK_KHR_xlib_surface [enabled=1, external=0]
+[Vulkan init] extensions: name=VK_LUNARG_direct_driver_loading [enabled=0, external=0]
+[Vulkan init] extensions: name=VK_NV_display_stereo [enabled=0, external=0]
+Vulkan detection: 0
+Initialize engine version: 2022.3.50f1 (c3db7f8bf9b1)
+[Subsystems] Discovering subsystems at path /home/ati/.local/share/Steam/steamapps/common/Valheim/valheim_Data/UnitySubsystems
+GfxDevice: creating device client; threaded=1; jobified=0
+GfxDevice: creating device client; threaded=1; jobified=0
+Renderer: Mesa Intel(R) HD Graphics 520 (SKL GT2)
+Vendor:   Intel
+Version:  4.6 (Core Profile) Mesa 24.3.3-arch1.2
+GLES:     0
+ GL_3DFX_texture_compression_FXT1 GL_AMD_conservative_depth GL_AMD_depth_clamp_separate GL_AMD_draw_buffers_blend GL_AMD_gpu_shader_int64 GL_AMD_multi_draw_indirect GL_AMD_performance_monitor GL_AMD_pinned_memory GL_AMD_query_buffer_object GL_AMD_seamless_cubemap_per_texture GL_AMD_shader_stencil_export GL_AMD_shader_trinary_minmax GL_AMD_texture_texture4 GL_AMD_vertex_shader_layer GL_AMD_vertex_shader_viewport_index GL_ANGLE_texture_compression_dxt3 GL_ANGLE_texture_compression_dxt5 GL_ARB_ES2_compatibility GL_ARB_ES3_1_compatibility GL_ARB_ES3_2_compatibility GL_ARB_ES3_compatibility GL_ARB_arrays_of_arrays GL_ARB_base_instance GL_ARB_blend_func_extended GL_ARB_buffer_storage GL_ARB_clear_buffer_object GL_ARB_clear_texture GL_ARB_clip_control GL_ARB_compressed_texture_pixel_storage GL_ARB_compute_shader GL_ARB_compute_variable_group_size GL_ARB_conditional_render_inverted GL_ARB_conservative_depth GL_ARB_copy_buffer GL_ARB_copy_image GL_ARB_cull_distance GL_ARB_debug_output GL_ARB_depth_buffer_float GL_ARB
+_depth_clamp GL_ARB_derivative_control GL_ARB_direct_state_access GL_ARB_draw_buffers GL_ARB_draw_buffers_blend GL_ARB_draw_elements_base_vertex GL_ARB_draw_indirect GL_ARB_draw_instanced GL_ARB_enhanced_layouts GL_ARB_explicit_attrib_location GL_ARB_explicit_uniform_location GL_ARB_fragment_coord_conventions GL_ARB_fragment_layer_viewport GL_ARB_fragment_shader GL_ARB_fragment_shader_interlock GL_ARB_framebuffer_no_attachments GL_ARB_framebuffer_object GL_ARB_framebuffer_sRGB GL_ARB_get_program_binary GL_ARB_get_texture_sub_image GL_ARB_gl_spirv GL_ARB_gpu_shader5 GL_ARB_gpu_shader_fp64 GL_ARB_gpu_shader_int64 GL_ARB_half_float_pixel GL_ARB_half_float_vertex GL_ARB_indirect_parameters GL_ARB_instanced_arrays GL_ARB_internalformat_query GL_ARB_internalformat_query2 GL_ARB_invalidate_subdata GL_ARB_map_buffer_alignment GL_ARB_map_buffer_range GL_ARB_multi_bind GL_ARB_multi_draw_indirect GL_ARB_occlusion_query2 GL_ARB_parallel_shader_compile GL_ARB_pipeline_statistics_query GL_ARB_pixel_buffer_object GL_ARB_po
+int_sprite GL_ARB_polygon_offset_clamp GL_ARB_post_depth_coverage GL_ARB_program_interface_query GL_ARB_provoking_vertex GL_ARB_query_buffer_object GL_ARB_robust_buffer_access_behavior GL_ARB_robustness GL_ARB_sample_shading GL_ARB_sampler_objects GL_ARB_seamless_cube_map GL_ARB_seamless_cubemap_per_texture GL_ARB_separate_shader_objects GL_ARB_shader_atomic_counter_ops GL_ARB_shader_atomic_counters GL_ARB_shader_ballot GL_ARB_shader_bit_encoding GL_ARB_shader_clock GL_ARB_shader_draw_parameters GL_ARB_shader_group_vote GL_ARB_shader_image_load_store GL_ARB_shader_image_size GL_ARB_shader_objects GL_ARB_shader_precision GL_ARB_shader_stencil_export GL_ARB_shader_storage_buffer_object GL_ARB_shader_subroutine GL_ARB_shader_texture_image_samples GL_ARB_shader_texture_lod GL_ARB_shader_viewport_layer_array GL_ARB_shading_language_420pack GL_ARB_shading_language_include GL_ARB_shading_language_packing GL_ARB_spirv_extensions GL_ARB_stencil_texturing GL_ARB_sync GL_ARB_tessellation_shader GL_ARB_texture_barrier G
+L_ARB_texture_border_clamp GL_ARB_texture_buffer_object GL_ARB_texture_buffer_object_rgb32 GL_ARB_texture_buffer_range GL_ARB_texture_compression_bptc GL_ARB_texture_compression_rgtc GL_ARB_texture_cube_map_array GL_ARB_texture_filter_anisotropic GL_ARB_texture_float GL_ARB_texture_gather GL_ARB_texture_mirror_clamp_to_edge GL_ARB_texture_multisample GL_ARB_texture_non_power_of_two GL_ARB_texture_query_levels GL_ARB_texture_query_lod GL_ARB_texture_rectangle GL_ARB_texture_rg GL_ARB_texture_rgb10_a2ui GL_ARB_texture_stencil8 GL_ARB_texture_storage GL_ARB_texture_storage_multisample GL_ARB_texture_swizzle GL_ARB_texture_view GL_ARB_timer_query GL_ARB_transform_feedback2 GL_ARB_transform_feedback3 GL_ARB_transform_feedback_instanced GL_ARB_transform_feedback_overflow_query GL_ARB_uniform_buffer_object GL_ARB_vertex_array_bgra GL_ARB_vertex_array_object GL_ARB_vertex_attrib_64bit GL_ARB_vertex_attrib_binding GL_ARB_vertex_buffer_object GL_ARB_vertex_shader GL_ARB_vertex_type_10f_11f_11f_rev GL_ARB_vertex_type_2
+_10_10_10_rev GL_ARB_viewport_array GL_ATI_blend_equation_separate GL_ATI_texture_float GL_EXT_EGL_image_storage GL_EXT_EGL_image_storage_compression GL_EXT_EGL_sync GL_EXT_abgr GL_EXT_blend_equation_separate GL_EXT_debug_label GL_EXT_demote_to_helper_invocation GL_EXT_draw_buffers2 GL_EXT_draw_instanced GL_EXT_framebuffer_blit GL_EXT_framebuffer_multisample GL_EXT_framebuffer_multisample_blit_scaled GL_EXT_framebuffer_object GL_EXT_framebuffer_sRGB GL_EXT_memory_object GL_EXT_memory_object_fd GL_EXT_packed_depth_stencil GL_EXT_packed_float GL_EXT_pixel_buffer_object GL_EXT_polygon_offset_clamp GL_EXT_provoking_vertex GL_EXT_semaphore GL_EXT_semaphore_fd GL_EXT_shader_framebuffer_fetch GL_EXT_shader_framebuffer_fetch_non_coherent GL_EXT_shader_integer_mix GL_EXT_shader_samples_identical GL_EXT_texture_array GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc GL_EXT_texture_filter_anisotropic GL_EXT_texture_integer GL_EXT_texture_sRGB GL_EXT_texture_sRGB_R8 GL_EXT_t
+exture_sRGB_decode GL_EXT_texture_shadow_lod GL_EXT_texture_shared_exponent GL_EXT_texture_snorm GL_EXT_texture_storage GL_EXT_texture_swizzle GL_EXT_timer_query GL_EXT_transform_feedback GL_EXT_vertex_array_bgra GL_EXT_vertex_attrib_64bit GL_IBM_multimode_draw_arrays GL_INTEL_blackhole_render GL_INTEL_conservative_rasterization GL_INTEL_performance_query GL_INTEL_shader_atomic_float_minmax GL_INTEL_shader_integer_functions2 GL_KHR_blend_equation_advanced GL_KHR_blend_equation_advanced_coherent GL_KHR_context_flush_control GL_KHR_debug GL_KHR_no_error GL_KHR_parallel_shader_compile GL_KHR_robust_buffer_access_behavior GL_KHR_robustness GL_KHR_texture_compression_astc_ldr GL_KHR_texture_compression_astc_sliced_3d GL_MESA_framebuffer_flip_y GL_MESA_pack_invert GL_MESA_shader_integer_functions GL_MESA_texture_const_bandwidth GL_MESA_texture_signed_rgba GL_NV_alpha_to_coverage_dither_control GL_NV_compute_shader_derivatives GL_NV_conditional_render GL_NV_copy_image GL_NV_depth_clamp GL_NV_fragment_shader_interlo
+ck GL_NV_packed_depth_stencil GL_NV_texture_barrier GL_OES_EGL_image GL_S3_s3tc
+OPENGL LOG: Creating OpenGL 4.6 graphics device ; Context level  <OpenGL 4.5> ; Context handle 137785248
+Begin MonoManager ReloadAssembly
+- Loaded All Assemblies, in  0.356 seconds
+- Finished resetting the current domain, in  0.003 seconds
+Default vsync count 1
+requesting resize 1366 x 768
+resizing window to 1366 x 768
+Desktop is 1366 x 768 @ 60 Hz
+[PhysX] Initialized MultithreadedTaskDispatcher with 4 workers.
+UnloadTime: 6.650112 ms
+Privilege Multiplayer is not known on this platform. Privilege therefore is granted without check...
+Privilege UserGeneratedContent is not known on this platform. Privilege therefore is granted without check...
+Privilege CrossPlay is not known on this platform. Privilege therefore is granted without check...
+02/20/2025 15:15:44: Set background loading budget to Low
+Unloading 5 Unused Serialized files (Serialized files now loaded: 9)
+[PhysX] Initialized MultithreadedTaskDispatcher with 4 workers.
+UnloadTime: 5.027308 ms
+02/20/2025 15:15:45: Fetching PlatformPrefs 'GuiScale' before loading defaults
+02/20/2025 15:15:45: Fetching PlatformPrefs 'GuiScale' before loading defaults
+Unloading 173 unused Assets to reduce memory usage. Loaded Objects now: 2259.
+Total: 12.264359 ms (FindLiveObjects: 0.207872 ms CreateObjectMapping: 0.163074 ms MarkObjects: 10.556602 ms  DeleteObjects: 1.334672 ms)
+
+02/20/2025 15:15:46: Starting to load scene:start.unity (169d7618616154c03be07e9ad3af5893)
+02/20/2025 15:15:46: Set background loading budget to Normal
+02/20/2025 15:15:50: Set background loading budget to High
+The referenced script on this Behaviour (Game Object '<null>') is missing!
+The referenced script on this Behaviour (Game Object '<null>') is missing!
+Couldn't create a Convex Mesh from source mesh "default" within the maximum polygons limit (256). The partial hull will be used. Consider simplifying your mesh.
+Couldn't create a Convex Mesh from source mesh "default" within the maximum polygons limit (256). The partial hull will be used. Consider simplifying your mesh.
+The referenced script on this Behaviour (Game Object '<null>') is missing!
+Unloading 3 Unused Serialized files (Serialized files now loaded: 1296)
+02/20/2025 15:17:30: Set background loading budget to Low
+[PhysX] Initialized MultithreadedTaskDispatcher with 4 workers.
+UnloadTime: 43.998340 ms
+Only custom filters can be played. Please add a custom filter or an audioclip to the audiosource (Amb_MainMenu).
+02/20/2025 15:17:30: Missing audio clip in music respawn
+02/20/2025 15:17:30: Using environment steamid 892970
+02/20/2025 15:17:30: Using steam APPID:892970
+[S_API] SteamAPI_Init(): Loaded '/home/ati/.local/share/Steam/linux64/steamclient.so' OK.
+Setting breakpad minidump AppID = 892970
+SteamInternal_SetMinidumpSteamID:  Caching Steam ID:  76561199826598145 [API loaded no]
+02/20/2025 15:17:30: Authentication:k_ESteamNetworkingAvailability_Attempting
+02/20/2025 15:17:30: Steam initialized, persona:mohattiads
+02/20/2025 15:17:30: PlayFab custom ID set to "Steam_76561199826598145"
+02/20/2025 15:17:30: Using default prefs
+02/20/2025 15:17:30: Valheim version: l-0.219.16 (network version 32)
+Trying to set graphic mode to 'Custom'
+Graphic mode 'Custom' is not or no longer supported. Fallback to default mode for platform...
+Graphic mode 'Custom' applied!
+02/20/2025 15:17:30: Worldgenerator version setup:2
+02/20/2025 15:17:30: Render threading mode:MultiThreaded
+02/20/2025 15:17:31: Checking for installed DLCs
+02/20/2025 15:17:31: DLC:beta installed:False
+02/20/2025 15:17:31: Builder started
+02/20/2025 15:17:31: Loaded localization file #0 - 'localization' language: 'English'
+02/20/2025 15:17:31: Loaded localization file #1 - 'localization_extra' language: 'English'
+02/20/2025 15:17:31: Loaded localization file #2 - 'heightmap_message' language: 'English'
+02/20/2025 15:17:31: Loaded localization file #3 - 'localization_witch' language: 'English'
+02/20/2025 15:17:31: Loaded localization file #4 - 'localization_emotes' language: 'English'
+02/20/2025 15:17:31: Loaded localization file #5 - 'localization_ashlands' language: 'English'
+02/20/2025 15:17:31: Loaded localization file #6 - 'localization_captions' language: 'English'
+02/20/2025 15:17:31: Loaded localization file #0 - 'localization' language: 'English'
+02/20/2025 15:17:31: Loaded localization file #1 - 'localization_extra' language: 'English'
+02/20/2025 15:17:31: Loaded localization file #2 - 'heightmap_message' language: 'English'
+02/20/2025 15:17:31: Loaded localization file #3 - 'localization_witch' language: 'English'
+02/20/2025 15:17:31: Loaded localization file #4 - 'localization_emotes' language: 'English'
+02/20/2025 15:17:31: Loaded localization file #5 - 'localization_ashlands' language: 'English'
+02/20/2025 15:17:31: Loaded localization file #6 - 'localization_captions' language: 'English'
+02/20/2025 15:17:31: Sending PlayFab login request (attempt 1)
+02/20/2025 15:17:31: Starting music menu
+Unloading 87585 unused Assets to reduce memory usage. Loaded Objects now: 202229.
+Total: 295.927071 ms (FindLiveObjects: 51.463215 ms CreateObjectMapping: 83.487134 ms MarkObjects: 124.104431 ms  DeleteObjects: 36.871181 ms)
+
+02/20/2025 15:17:33: PlayFab logged in as "Steam_76561199826598145"
+02/20/2025 15:17:33: PlayFab local entity ID is 1E2D9CB9F9E96EE2
+02/20/2025 15:17:38: show character selection
+02/20/2025 15:17:41: OnCharacterStart
+02/20/2025 15:17:48: Loading main scene
+The referenced script on this Behaviour (Game Object '<null>') is missing!
+Unloading 3 Unused Serialized files (Serialized files now loaded: 1297)
+[PhysX] Initialized MultithreadedTaskDispatcher with 4 workers.
+UnloadTime: 23.012986 ms
+02/20/2025 15:17:49: Audioman already exist, destroying self
+02/20/2025 15:17:49: Steam initialized, persona:mohattiads
+02/20/2025 15:17:49: PlayFab custom ID set to "Steam_76561199826598145"
+02/20/2025 15:17:49: Using default prefs
+02/20/2025 15:17:49: Loading player profile medo
+02/20/2025 15:17:49: isModded: False
+02/20/2025 15:17:49: Zonesystem Awake 6337
+02/20/2025 15:17:49: DungeonDB Awake 6337
+02/20/2025 15:17:49: Steam initialized, persona:mohattiads
+02/20/2025 15:17:49: Worldgenerator version setup:2
+02/20/2025 15:17:53: Checking for installed DLCs
+02/20/2025 15:17:53: DLC:beta installed:False
+Unloading 372 unused Assets to reduce memory usage. Loaded Objects now: 200388.
+Total: 116.498659 ms (FindLiveObjects: 11.538224 ms CreateObjectMapping: 21.318241 ms MarkObjects: 82.831168 ms  DeleteObjects: 0.810366 ms)
+
+02/20/2025 15:17:53: Zonesystem Start 6337
+02/20/2025 15:17:53: Added 3 locations, 0 vegetations, 0 environments, 0 biome env-setups, 0 clutter  from main
+02/20/2025 15:17:53: Added 1 locations, 0 vegetations, 2 environments, 0 biome env-setups, 0 clutter  from main
+02/20/2025 15:17:53: Added 27 locations, 25 vegetations, 5 environments, 1 biome env-setups, 3 clutter  from main
+02/20/2025 15:17:53: Added 4 locations, 0 vegetations, 1 environments, 0 biome env-setups, 0 clutter  from main
+02/20/2025 15:17:53: Added 25 locations, 33 vegetations, 8 environments, 2 biome env-setups, 2 clutter  from main
+02/20/2025 15:17:53: DungeonDB Start 6337
+02/20/2025 15:17:53: ZRpc timeout set to 30s 
+02/20/2025 15:17:53: ZNET START
+02/20/2025 15:17:53: Load world: Minaas (Minaas)
+02/20/2025 15:17:53: Loading 38786 zdos, my sessionID: 1750762311, data version: 35
+02/20/2025 15:17:53: Loading in ZDOs
+02/20/2025 15:17:53: Adding to Dictionary
+02/20/2025 15:17:53: Adding to Sectors
+02/20/2025 15:17:53: Connecting Portals, Spawners & ZSyncTransforms
+ConnectSpawners => Connected 2 spawners and 4 'done' spawners.
+02/20/2025 15:17:53: Loaded 11212 locations
+02/20/2025 15:17:53: Unloading unused assets
+Unloading 1 Unused Serialized files (Serialized files now loaded: 1297)
+Am I Host? True
+02/20/2025 15:17:53: Starting respawn
+02/20/2025 15:17:54: Loading minimap textures done [690ms]
+02/20/2025 15:17:54: Minimap: unpacking compressed mapData 8559 => 8388738 bytes
+02/20/2025 15:17:54: tip:$loadscreen_tip11
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 203485.
+Total: 182.332808 ms (FindLiveObjects: 22.913018 ms CreateObjectMapping: 21.025891 ms MarkObjects: 137.536669 ms  DeleteObjects: 0.856278 ms)
+
+02/20/2025 15:18:03: tip:$loadscreen_tip14
+02/20/2025 15:18:03: Spawned after 8.019994
+02/20/2025 15:18:03: Missing stat for guardian power: 
+02/20/2025 15:18:04: Skipping unloading unused assets
+02/20/2025 15:18:04: Minimap: Adding unique location (-2.04, 35.95, 4.11)
+02/20/2025 15:18:11: Starting music morning
+02/20/2025 15:18:45: Starting music meadows
+02/20/2025 15:18:45: Resumed music meadows at 0
+02/20/2025 15:20:04: Spawned Seagal x 1
+02/20/2025 15:20:04: Spawned Fish1 x 3
+02/20/2025 15:20:04: Spawned Greyling x 1
+02/20/2025 15:22:46: Spawned Greyling x 1
+02/20/2025 15:23:29: Spawned Deer x 1
+02/20/2025 15:24:33: Update PlayFab entity token
+02/20/2025 15:25:38: Setting selected recipe 0
+02/20/2025 15:25:48: Drop item $item_wood
+02/20/2025 15:25:48: drop some 3  22
+02/20/2025 15:25:48: Setting selected recipe 0
+02/20/2025 15:25:49: Spawned Greyling x 1
+02/20/2025 15:25:54: Spawned Greyling x 1
+02/20/2025 15:26:11: Player 1750762311 wants to open piece_chest_wood(Clone)   im: 1750762311
+02/20/2025 15:26:11: Setting selected recipe 0
+02/20/2025 15:26:16: Setting selected recipe 0
+02/20/2025 15:26:19: Setting selected recipe 0
+02/20/2025 15:26:32: Stopped music meadows at 1212829
+02/20/2025 15:26:32: Setting selected recipe 4
+02/20/2025 15:26:33: Starting music home
+02/20/2025 15:26:36: Setting selected recipe 0
+02/20/2025 15:26:38: Setting selected recipe 1
+02/20/2025 15:26:39: Setting selected recipe 0
+02/20/2025 15:26:42: Setting selected recipe 0
+02/20/2025 15:26:42: Setting selected recipe 0
+02/20/2025 15:26:43: Setting selected recipe 0
+02/20/2025 15:26:44: Setting selected recipe 0
+02/20/2025 15:26:44: Setting selected recipe 0
+02/20/2025 15:26:45: Setting selected recipe 0
+02/20/2025 15:26:50: Setting selected recipe 0
+02/20/2025 15:26:52: Setting selected recipe 3
+02/20/2025 15:26:57: Setting selected recipe 0
+02/20/2025 15:27:07: Stopped music home at 1517510
+02/20/2025 15:27:07: Starting music home
+02/20/2025 15:27:07: Resumed music home at 1517510
+02/20/2025 15:27:09: Player 1750762311 wants to open piece_chest_wood(Clone)   im: 1750762311
+02/20/2025 15:27:09: Setting selected recipe 0
+02/20/2025 15:27:11: Stopped music home at 1684972
+02/20/2025 15:27:11: Starting music meadows
+02/20/2025 15:27:11: Resumed music meadows at 1212829
+02/20/2025 15:27:13: Setting selected recipe 0
+02/20/2025 15:27:15: Setting selected recipe 0
+02/20/2025 15:27:22: Player 1750762311 wants to open piece_chest_wood(Clone)   im: 1750762311
+02/20/2025 15:27:22: Setting selected recipe 0
+02/20/2025 15:27:26: Stopped music meadows at 1840342
+02/20/2025 15:27:26: Starting music meadows
+02/20/2025 15:27:26: Resumed music meadows at 1840342
+02/20/2025 15:27:28: Added to stack4 0
+02/20/2025 15:27:28: Setting selected recipe 0
+02/20/2025 15:27:47: Stopped music meadows at 2771733
+02/20/2025 15:27:47: Starting music meadows
+02/20/2025 15:27:47: Resumed music meadows at 2771733
+02/20/2025 15:28:15: DiscoverClosestLocation
+02/20/2025 15:28:15: Found location of type Eikthyrnir
+Column: 1
+Lines: 3916
+Translation1: Wanderer, look to your feet
+That tread upon our tomb
+One thousand bones without their meat
+Will drag you to your doom
+Translation2: Wanderer, look to your feet
+That tread upon our tomb
+One thousand bones without their meat
+Will drag you to your doom
+Column: 1
+Lines: 48
+Column: 1
+Lines: 3
+Column: 1
+Lines: 142
+Column: 1
+Lines: 20
+Column: 1
+Lines: 3
+Column: 1
+Lines: 273
+Translation3: Wanderer, look to your feet
+That tread upon our tomb
+One thousand bones without their meat
+Will drag you to your doom
+02/20/2025 15:28:23: Show text :Wanderer, look to your feet
+That tread upon our tomb
+One thousand bones without their meat
+Will drag you to your doom
+02/20/2025 15:28:30: Activating default element Continue
+02/20/2025 15:28:31: Activating default element Continue
+Am I Host? True
+Am I Host? True
+02/20/2025 15:28:32: Available space to current user: 155717599232. Saving is blocked if below: 3924226 bytes. Warnings are given if below: 7848452
+02/20/2025 15:28:33: Minimap: compressed mapData 8388738 => 8558 bytes
+02/20/2025 15:28:33: Cloud Save: 13893 bytes. /characters/medo.fch.new
+02/20/2025 15:28:33: Steam writing file chunks 1 / 1, (13893 bytes)
+02/20/2025 15:28:33: Steam Cloud Move: 13788 bytes. /characters/medo.fch -> /characters/medo.fch.old
+02/20/2025 15:28:33: Steam writing file chunks 1 / 1, (13788 bytes)
+02/20/2025 15:28:33: Steam Cloud Move: 13893 bytes. /characters/medo.fch.new -> /characters/medo.fch
+02/20/2025 15:28:33: Steam writing file chunks 1 / 1, (13893 bytes)
+02/20/2025 15:28:33: Considering autobackup. World time: 626.5, short time: 7200, long time: 43200, backup count: 4
+02/20/2025 15:28:33: Skipping backup. World session not long enough.
+02/20/2025 15:28:33: Activating default element Continue
+02/20/2025 15:28:33: Activating default element Continue
+02/20/2025 15:28:33: PrepareSave: clone done in 28ms
+02/20/2025 15:28:33: PrepareSave: ZDOExtraData.PrepareSave done in 46 ms
+02/20/2025 15:28:33: World save writing starting
+02/20/2025 15:28:33: World save writing started
+02/20/2025 15:28:33: Saved 38783 ZDOs
+02/20/2025 15:28:33: World save writing finishing
+02/20/2025 15:28:33: Cloud Save: 1947521 bytes. /worlds/Minaas.db
+02/20/2025 15:28:33: Steam writing file chunks 1 / 1, (1947521 bytes)
+02/20/2025 15:28:33: World save writing finished
+02/20/2025 15:28:33: Cloud Save: 47 bytes. /worlds/Minaas.fwl
+02/20/2025 15:28:33: Steam writing file chunks 1 / 1, (47 bytes)
+02/20/2025 15:28:33: World saved ( 260.435ms )
+02/20/2025 15:28:33: Considering autobackup. World time: 626.5, short time: 7200, long time: 43200, backup count: 4
+02/20/2025 15:28:33: Skipping backup. World session not long enough.
+Am I Host? True
+02/20/2025 15:28:36: Available space to current user: 155717599232. Saving is blocked if below: 3922828 bytes. Warnings are given if below: 7845656
+Am I Host? True
+Am I Host? True
+02/20/2025 15:28:36: Game - OnApplicationQuit
+Am I Host? True
+02/20/2025 15:28:36: Available space to current user: 155717599232. Saving is blocked if below: 3922828 bytes. Warnings are given if below: 7845656
+02/20/2025 15:28:36: Shutting down
+02/20/2025 15:28:37: Minimap: compressed mapData 8388738 => 8558 bytes
+02/20/2025 15:28:37: Cloud Save: 13893 bytes. /characters/medo.fch.new
+02/20/2025 15:28:37: Steam writing file chunks 1 / 1, (13893 bytes)
+02/20/2025 15:28:37: Steam Cloud Move: 13893 bytes. /characters/medo.fch -> /characters/medo.fch.old
+02/20/2025 15:28:37: Steam writing file chunks 1 / 1, (13893 bytes)
+02/20/2025 15:28:37: Steam Cloud Move: 13893 bytes. /characters/medo.fch.new -> /characters/medo.fch
+02/20/2025 15:28:37: Steam writing file chunks 1 / 1, (13893 bytes)
+02/20/2025 15:28:37: Considering autobackup. World time: 626.5, short time: 7200, long time: 43200, backup count: 4
+02/20/2025 15:28:37: Skipping backup. World session not long enough.
+02/20/2025 15:28:37: ZNet Shutdown
+02/20/2025 15:28:37: PrepareSave: clone done in 20ms
+02/20/2025 15:28:37: PrepareSave: ZDOExtraData.PrepareSave done in 14 ms
+02/20/2025 15:28:37: World save writing starting
+02/20/2025 15:28:37: World save writing started
+02/20/2025 15:28:37: Saved 38783 ZDOs
+02/20/2025 15:28:37: World save writing finishing
+02/20/2025 15:28:37: Cloud Save: 1947521 bytes. /worlds/Minaas.db
+02/20/2025 15:28:37: Steam writing file chunks 1 / 1, (1947521 bytes)
+02/20/2025 15:28:37: World save writing finished
+02/20/2025 15:28:37: Cloud Save: 47 bytes. /worlds/Minaas.fwl
+02/20/2025 15:28:37: Steam writing file chunks 1 / 1, (47 bytes)
+02/20/2025 15:28:37: World saved ( 200.575ms )
+02/20/2025 15:28:37: Considering autobackup. World time: 626.5, short time: 7200, long time: 43200, backup count: 4
+02/20/2025 15:28:37: Skipping backup. World session not long enough.
+02/20/2025 15:28:37: Unloading unused assets
+Unloading 3 Unused Serialized files (Serialized files now loaded: 1311)
+02/20/2025 15:28:37: Sending disconnect msg
+ZPlayFabMatchmaking::UnregisterServer - unregistering server now. State: Uninitialized
+02/20/2025 15:28:37: Stopping build thread
+Unloading 503 unused Assets to reduce memory usage. Loaded Objects now: 383499.
+Total: 250.799497 ms (FindLiveObjects: 57.247482 ms CreateObjectMapping: 38.088811 ms MarkObjects: 154.149675 ms  DeleteObjects: 1.312418 ms)
+
+02/20/2025 15:28:40: Steam manager on destroy
+02/20/2025 15:28:41: Local player destroyed
+02/20/2025 15:28:41: ZNet OnDestroy
+02/20/2025 15:28:41: Net scene destroyed
+Memory Statistics:
+[ALLOC_TEMP_TLS] TLS Allocator
+  StackAllocators : 
+    [ALLOC_TEMP_MAIN]
+      Peak usage frame count: [2.0 KB-4.0 KB]: 6051 frames, [4.0 KB-8.0 KB]: 51 frames, [8.0 KB-16.0 KB]: 69 frames, [16.0 KB-32.0 KB]: 2 frames, [32.0 KB-64.0 KB]: 3716 frames, [64.0 KB-128.0 KB]: 442 frames, [128.0 KB-256.0 KB]: 865 frames, [256.0 KB-0.5 MB]: 98 frames, [0.5 MB-1.0 MB]: 1 frames, [1.0 MB-2.0 MB]: 6 frames, [2.0 MB-4.0 MB]: 5 frames, [4.0 MB-8.0 MB]: 6 frames
+      Initial Block Size 4.0 MB
+      Current Block Size 7.8 MB
+      Peak Allocated Bytes 7.8 MB
+      Overflow Count 11
+    [ALLOC_TEMP_Loading.AsyncRead]
+      Initial Block Size 64.0 KB
+      Current Block Size 64.0 KB
+      Peak Allocated Bytes 240 B
+      Overflow Count 0
+    [ALLOC_TEMP_Loading.PreloadManager]
+      Initial Block Size 256.0 KB
+      Current Block Size 0.5 MB
+      Peak Allocated Bytes 509.1 KB
+      Overflow Count 278283
+    [ALLOC_TEMP_Background Job.Worker 8]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 168 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 9]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 168 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 0]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 231.1 KB
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 10]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 168 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 14]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 168 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 6]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 168 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 12]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 168 B
+      Overflow Count 0
+    [ALLOC_TEMP_EnlightenWorker] x 2
+      Initial Block Size 64.0 KB
+      Current Block Size 64.0 KB
+      Peak Allocated Bytes 0 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 15]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 168 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 1]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 168 B
+      Overflow Count 1
+    [ALLOC_TEMP_Background Job.Worker 2]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 168 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 7]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 168 B
+      Overflow Count 0
+    [ALLOC_TEMP_UnityGfxDeviceWorker]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 182.1 KB
+      Overflow Count 6
+    [ALLOC_TEMP_NavMesh Builder.Worker 0]
+      Initial Block Size 64.0 KB
+      Current Block Size 64.0 KB
+      Peak Allocated Bytes 0 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 5]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 168 B
+      Overflow Count 0
+    [ALLOC_TEMP_AssetGarbageCollectorHelper] x 3
+      Initial Block Size 64.0 KB
+      Current Block Size 64.0 KB
+      Peak Allocated Bytes 0 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 13]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 168 B
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 1]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 231.1 KB
+      Overflow Count 0
+    [ALLOC_TEMP_Job.Worker 2]
+      Initial Block Size 256.0 KB
+      Current Block Size 256.0 KB
+      Peak Allocated Bytes 231.1 KB
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 3]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 168 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 11]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 168 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 0]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 168 B
+      Overflow Count 0
+    [ALLOC_TEMP_Background Job.Worker 4]
+      Initial Block Size 32.0 KB
+      Current Block Size 32.0 KB
+      Peak Allocated Bytes 168 B
+      Overflow Count 0
+    [ALLOC_TEMP_BatchDeleteObjects]
+      Initial Block Size 64.0 KB
+      Current Block Size 64.0 KB
+      Peak Allocated Bytes 0 B
+      Overflow Count 0
+[ALLOC_DEFAULT] Dual Thread Allocator
+  Peak main deferred allocation count 31235
+    [ALLOC_BUCKET]
+      Large Block size 4.0 MB
+      Used Block count 1
+      Peak Allocated bytes 4.0 MB
+      Failed Allocations. Bucket layout:
+        16B: 6 Subsections = 6144 buckets. Failed count: 1599182
+        32B: 18 Subsections = 9216 buckets. Failed count: 397158
+        48B: 26 Subsections = 8874 buckets. Failed count: 2960494
+        64B: 94 Subsections = 24064 buckets. Failed count: 1842327
+        80B: 59 Subsections = 12083 buckets. Failed count: 193705
+        96B: 25 Subsections = 4266 buckets. Failed count: 875442
+        112B: 9 Subsections = 1316 buckets. Failed count: 63984
+        128B: 19 Subsections = 2432 buckets. Failed count: 431335
+    [ALLOC_DEFAULT_MAIN]
+      Peak usage frame count: [16.0 MB-32.0 MB]: 1 frames, [32.0 MB-64.0 MB]: 5117 frames, [64.0 MB-128.0 MB]: 1231 frames, [128.0 MB-256.0 MB]: 4963 frames
+      Requested Block Size 16.0 MB
+      Peak Block count 14
+      Peak Allocated memory 232.0 MB
+      Peak Large allocation bytes 52.0 MB
+    [ALLOC_DEFAULT_THREAD]
+      Peak usage frame count: [4.0 MB-8.0 MB]: 14 frames, [8.0 MB-16.0 MB]: 81 frames, [16.0 MB-32.0 MB]: 3567 frames, [32.0 MB-64.0 MB]: 101 frames, [64.0 MB-128.0 MB]: 174 frames, [128.0 MB-256.0 MB]: 377 frames, [256.0 MB-0.50 GB]: 6998 frames
+      Requested Block Size 16.0 MB
+      Peak Block count 22
+      Peak Allocated memory 308.2 MB
+      Peak Large allocation bytes 24.0 MB
+[ALLOC_TEMP_JOB_1_FRAME]
+  Initial Block Size 2.0 MB
+  Used Block Count 0
+  Overflow Count (too large) 0
+  Overflow Count (full) 0
+[ALLOC_TEMP_JOB_2_FRAMES]
+  Initial Block Size 2.0 MB
+  Used Block Count 0
+  Overflow Count (too large) 0
+  Overflow Count (full) 0
+[ALLOC_TEMP_JOB_4_FRAMES (JobTemp)]
+  Initial Block Size 2.0 MB
+  Used Block Count 1
+  Overflow Count (too large) 0
+  Overflow Count (full) 0
+[ALLOC_TEMP_JOB_ASYNC (Background)]
+  Initial Block Size 1.0 MB
+  Used Block Count 1
+  Overflow Count (too large) 8
+  Overflow Count (full) 0
+[ALLOC_GFX] Dual Thread Allocator
+  Peak main deferred allocation count 10
+    [ALLOC_BUCKET]
+      Large Block size 4.0 MB
+      Used Block count 1
+      Peak Allocated bytes 4.0 MB
+      Failed Allocations. Bucket layout:
+        16B: 6 Subsections = 6144 buckets. Failed count: 1599182
+        32B: 18 Subsections = 9216 buckets. Failed count: 397158
+        48B: 26 Subsections = 8874 buckets. Failed count: 2960494
+        64B: 94 Subsections = 24064 buckets. Failed count: 1842327
+        80B: 59 Subsections = 12083 buckets. Failed count: 193705
+        96B: 25 Subsections = 4266 buckets. Failed count: 875442
+        112B: 9 Subsections = 1316 buckets. Failed count: 63984
+        128B: 19 Subsections = 2432 buckets. Failed count: 431335
+    [ALLOC_GFX_MAIN]
+      Peak usage frame count: [32.0 KB-64.0 KB]: 3680 frames, [64.0 KB-128.0 KB]: 23 frames, [128.0 KB-256.0 KB]: 73 frames, [256.0 KB-0.5 MB]: 45 frames, [0.5 MB-1.0 MB]: 93 frames, [1.0 MB-2.0 MB]: 132 frames, [2.0 MB-4.0 MB]: 223 frames, [4.0 MB-8.0 MB]: 241 frames, [8.0 MB-16.0 MB]: 1826 frames, [64.0 MB-128.0 MB]: 4976 frames
+      Requested Block Size 16.0 MB
+      Peak Block count 2
+      Peak Allocated memory 100.4 MB
+      Peak Large allocation bytes 92.0 MB
+    [ALLOC_GFX_THREAD]
+      Peak usage frame count: [0-1.0 KB]: 1 frames, [0.5 MB-1.0 MB]: 3671 frames, [1.0 MB-2.0 MB]: 12 frames, [2.0 MB-4.0 MB]: 18 frames, [4.0 MB-8.0 MB]: 13 frames, [8.0 MB-16.0 MB]: 8 frames, [16.0 MB-32.0 MB]: 112 frames, [32.0 MB-64.0 MB]: 259 frames, [64.0 MB-128.0 MB]: 5544 frames, [128.0 MB-256.0 MB]: 1674 frames
+      Requested Block Size 16.0 MB
+      Peak Block count 9
+      Peak Allocated memory 131.7 MB
+      Peak Large allocation bytes 0 B
+[ALLOC_CACHEOBJECTS] Dual Thread Allocator
+  Peak main deferred allocation count 137
+    [ALLOC_BUCKET]
+      Large Block size 4.0 MB
+      Used Block count 1
+      Peak Allocated bytes 4.0 MB
+      Failed Allocations. Bucket layout:
+        16B: 6 Subsections = 6144 buckets. Failed count: 1599182
+        32B: 18 Subsections = 9216 buckets. Failed count: 397158
+        48B: 26 Subsections = 8874 buckets. Failed count: 2960494
+        64B: 94 Subsections = 24064 buckets. Failed count: 1842327
+        80B: 59 Subsections = 12083 buckets. Failed count: 193705
+        96B: 25 Subsections = 4266 buckets. Failed count: 875442
+        112B: 9 Subsections = 1316 buckets. Failed count: 63984
+        128B: 19 Subsections = 2432 buckets. Failed count: 431335
+    [ALLOC_CACHEOBJECTS_MAIN]
+      Peak usage frame count: [2.0 MB-4.0 MB]: 1 frames, [16.0 MB-32.0 MB]: 4808 frames, [32.0 MB-64.0 MB]: 6502 frames, [64.0 MB-128.0 MB]: 1 frames
+      Requested Block Size 4.0 MB
+      Peak Block count 9
+      Peak Allocated memory 66.6 MB
+      Peak Large allocation bytes 34.8 MB
+    [ALLOC_CACHEOBJECTS_THREAD]
+      Peak usage frame count: [128.0 KB-256.0 KB]: 1 frames, [64.0 MB-128.0 MB]: 3652 frames, [128.0 MB-256.0 MB]: 46 frames, [256.0 MB-0.50 GB]: 6779 frames, [0.50 GB-1.00 GB]: 834 frames
+      Requested Block Size 4.0 MB
+      Peak Block count 111
+      Peak Allocated memory 0.58 GB
+      Peak Large allocation bytes 181.7 MB
+[ALLOC_TYPETREE] Dual Thread Allocator
+  Peak main deferred allocation count 136
+    [ALLOC_BUCKET]
+      Large Block size 4.0 MB
+      Used Block count 1
+      Peak Allocated bytes 4.0 MB
+      Failed Allocations. Bucket layout:
+        16B: 6 Subsections = 6144 buckets. Failed count: 1599182
+        32B: 18 Subsections = 9216 buckets. Failed count: 397158
+        48B: 26 Subsections = 8874 buckets. Failed count: 2960494
+        64B: 94 Subsections = 24064 buckets. Failed count: 1842327
+        80B: 59 Subsections = 12083 buckets. Failed count: 193705
+        96B: 25 Subsections = 4266 buckets. Failed count: 875442
+        112B: 9 Subsections = 1316 buckets. Failed count: 63984
+        128B: 19 Subsections = 2432 buckets. Failed count: 431335
+    [ALLOC_TYPETREE_MAIN]
+      Peak usage frame count: [256.0 KB-0.5 MB]: 6335 frames, [1.0 MB-2.0 MB]: 4977 frames
+      Requested Block Size 2.0 MB
+      Peak Block count 1
+      Peak Allocated memory 1.5 MB
+      Peak Large allocation bytes 0 B
+    [ALLOC_TYPETREE_THREAD]
+      Peak usage frame count: [1.0 KB-2.0 KB]: 1 frames, [8.0 MB-16.0 MB]: 11 frames, [16.0 MB-32.0 MB]: 13 frames, [32.0 MB-64.0 MB]: 55 frames, [64.0 MB-128.0 MB]: 11232 frames
+      Requested Block Size 2.0 MB
+      Peak Block count 57
+      Peak Allocated memory 109.3 MB
+      Peak Large allocation bytes 0 B

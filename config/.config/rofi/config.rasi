@@ -1,0 +1,13 @@
+configuration {
+  modi: "window,drun,ssh,combi";
+  font: "hack 10";
+  combi-modi: "window,drun,ssh";
+
+  kb-accept-entry: "Return";
+  kb-remove-to-eol: "";
+
+  kb-row-up: "Up,Control+p,Control+k";
+  kb-row-down: "Down,Control+n,Control+j";
+}
+
+@theme "~/.config/rofi/themes/dtos-center.rasi"

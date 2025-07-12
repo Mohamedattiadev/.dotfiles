@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>lineedit_history_tweak_book_find_edit</key>
+	<array>
+		<string> O</string>
+		<string> OO</string>
+		<string> OO </string>
+		<string> OO OO</string>
+		<string>OO 04 04 OO OO</string>
+		<string>OO OO </string>
+		<string>The text on this page is estimated to be only </string>
+		<string>The text on this page is estimated to be only 45.63% accurate</string>
+		<string>OO OO O</string>
+		<string>OO OO OO</string>
+		<string>OO OO OO O</string>
+		<string>OO OO OO </string>
+		<string>OO OO OO OO </string>
+		<string>OO OO OO OO OO</string>
+		<string>OO OO OO OO OO </string>
+		<string>0000000</string>
+	</array>
+	<key>lineedit_history_tweak_book_replace_edit</key>
+	<array>
+		<string>  </string>
+		<string>   </string>
+		<string> </string>
+	</array>
+</dict>
+</plist>

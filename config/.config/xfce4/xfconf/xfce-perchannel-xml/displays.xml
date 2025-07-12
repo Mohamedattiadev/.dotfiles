@@ -1,0 +1,43 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<channel name="displays" version="1.0">
+  <property name="Notify" type="int" value="2"/>
+  <property name="AutoEnableProfiles" type="int" value="3"/>
+  <property name="Schemes" type="empty">
+    <property name="Apply" type="string" value="a2454a15-5d1f-494c-8f8b-e8b931e785ef"/>
+  </property>
+  <property name="Default" type="empty">
+    <property name="eDP1" type="string" value="Laptop">
+      <property name="Active" type="bool" value="true"/>
+      <property name="EDID" type="string" value="117a99ea2d97aafbbceb70abebca16a0e075874e"/>
+      <property name="Resolution" type="string" value="960x540"/>
+      <property name="RefreshRate" type="double" value="59.999058469070711"/>
+      <property name="Rotation" type="int" value="0"/>
+      <property name="Reflection" type="string" value="0"/>
+      <property name="Primary" type="bool" value="true"/>
+      <property name="Scale" type="double" value="10"/>
+      <property name="Position" type="empty">
+        <property name="X" type="int" value="0"/>
+        <property name="Y" type="int" value="0"/>
+      </property>
+    </property>
+  </property>
+  <property name="a2454a15-5d1f-494c-8f8b-e8b931e785ef" type="string" value="hd">
+    <property name="eDP1" type="string" value="Laptop">
+      <property name="Active" type="bool" value="true"/>
+      <property name="EDID" type="string" value="117a99ea2d97aafbbceb70abebca16a0e075874e"/>
+      <property name="Resolution" type="string" value="960x540"/>
+      <property name="RefreshRate" type="double" value="59.999058469070711"/>
+      <property name="Rotation" type="int" value="0"/>
+      <property name="Reflection" type="string" value="0"/>
+      <property name="Primary" type="bool" value="true"/>
+      <property name="Scale" type="double" value="10"/>
+      <property name="Position" type="empty">
+        <property name="X" type="int" value="0"/>
+        <property name="Y" type="int" value="0"/>
+      </property>
+    </property>
+  </property>
+  <property name="ActiveProfile" type="string" value="a2454a15-5d1f-494c-8f8b-e8b931e785ef"/>
+  <property name="IdentityPopups" type="bool" value="false"/>
+</channel>

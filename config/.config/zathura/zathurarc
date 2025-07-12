@@ -1,0 +1,2 @@
+map <C-e> scroll down 10
+map <C-y> scroll up 10

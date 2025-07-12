@@ -1,0 +1,22 @@
+MenuBar=Disabled
+
+[Desktop Entry]
+FullScreen=true
+shouldShowMenuBarComingFromFullScreen=true
+shouldShowToolBarComingFromFullScreen=true
+
+[General]
+LockSidebar=true
+ShowSidebar=true
+
+[MainWindow]
+MenuBar=Disabled
+
+[Recent Files]
+File1[$e]=$HOME/.config/gtk-3.0/settings.ini
+File2[$e]=$HOME/Calibre Library/Jo-Nesbo/Yarasa (2)/Yarasa - Jo-Nesbo.pdf
+Name1[$e]=settings.ini
+Name2[$e]=Yarasa - Jo-Nesbo.pdf
+
+[UiSettings]
+ColorScheme=Breeze Dark
