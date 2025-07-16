@@ -50,6 +50,7 @@ os.environ["GTK_IM_MODULE"] = "none"
 os.environ["QT_IM_MODULE"] = "none"
 os.environ["XMODIFIERS"] = ""
 
+
 mod = "mod1"  # Sets mod key to SUPER/WINDOWS
 mod2 = "mod4"  # Sets mod key to SUPER/WINDOWS
 myTerm = "alacritty"  # My terminal of choice
@@ -58,6 +59,8 @@ myBrowser = ["zen-browser", "--layout.css.devPixelsPerPx=0.8"]
 myBrowser2 = ["brave", "--layout.css.devPixelsPerPx=0.8"]
 
 myBrowser3 = ["google-chrome-stable", "--layout.css.devPixelsPerPx=0.8"]
+
+home = os.path.expanduser("~")
 # myEmacs = "emacsclient -c -a 'emacs' "  # The space at the end is IMPORTANT!
 
 
@@ -90,14 +93,26 @@ def minimize_all(qtile):
 
 keys=[
 
-    # The essentials
+    #hints
+    Key([mod2], "f", lazy.spawn("hints")),
 
+    # keyboardlayout
 Key([mod2], "space", lazy.widget["keyboardlayout"].next_keyboard(), desc="Switch keyboard layout"),
-  # Key(
-  #       [mod2], "space",
-  #       lazy.spawn("setxkbmap -layout us,ara,tr -option grp:win_space_toggle"),
-  #       desc="Switch keyboard layout (US, AR, TR)"
-  #   ),
+    # vimium like motions
+Key([mod2], "j", lazy.spawn("xdotool click --repeat 5 --delay 1 5")),
+Key([mod2], "k", lazy.spawn("xdotool click --repeat 5 --delay 1 4")),
+Key([mod2], "h", lazy.spawn("xdotool click --repeat 5 --delay 1 6")),  # Scroll left
+Key([mod2], "l", lazy.spawn("xdotool click --repeat 5 --delay 1 7")),  # Scroll right
+
+
+
+
+# Shift+g → Go to bottom (scroll down fast)
+Key([mod2, "shift"], "g", lazy.spawn("xdotool click --repeat 300 --delay 1 5")),
+
+# g → Go to top (scroll up fast)
+Key([mod2], "g", lazy.spawn(f"bash {home}/.config/qtile/scripts/gg_scroll.sh")),
+
     Key([mod], "Return", lazy.spawn(myTerm), desc="Terminal"),
     # Key([mod, "shift"], "Return", lazy.spawn("dm-run"), desc="Run Launcher"),
     Key([mod, "shift"], "Return", lazy.spawn("rofi -show run -show-icons"), desc='Run Launcher'),

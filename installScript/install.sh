@@ -40,7 +40,7 @@ install_packages() {
 	log "Installing all core packages and languages..."
 
 	yay -S --needed --noconfirm \
-		stow tmux zathura zathura-pdf-poppler neovim docker docker-compose postman-bin alacritty copyq code zed-editor-bin rofi rofi-pass dunst arandr htop kitty okular lazygit pcmanfm vlc obsidian ticktick \
+		stow tmux zathura zathura-pdf-poppler neovim docker docker-compose postman-bin alacritty warpd copyq code zed-editor-bin rofi rofi-pass dunst arandr htop kitty okular lazygit pcmanfm vlc obsidian ticktick \
 		blueman pavucontrol brave-browser google-chrome chromium whatsdesk zen-browser \
 		fish fnm \
 		gcc g++ clang cmake make vala \
@@ -53,10 +53,45 @@ install_packages() {
 		godot love fasm vlang-bin zig \
 		lua-language-server pyright rust-analyzer bash-language-server typescript-language-server \
 		vscode-langservers-extracted \
-		rstudio-desktop-bin
+		rstudio-desktop-bin \
+		python-pipx cairo pkgconf gobject-introspection gtk4 libwnck3
 
-	log "Installing global npm packages..."
-	npm install -g live-server typescript eslint prettier nodemon ts-node yarn http-server
+	log "Installing Wayland/X11-specific dependencies for 'hints'..."
+	if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+		yay -S --needed --noconfirm gtk-layer-shell grim
+	else
+		yay -S --needed --noconfirm libwnck3
+	fi
+
+	log "Ensuring pipx is set up..."
+	pipx ensurepath
+	export PATH="$PATH:$HOME/.local/bin"
+
+	log "Installing 'hints' via pipx..."
+	pipx install git+https://github.com/AlfredoSequeida/hints.git
+
+	log "Configuring accessibility environment variables in /etc/environment..."
+	sudo tee -a /etc/environment >/dev/null <<EOF
+
+# Required for 'hints'
+ACCESSIBILITY_ENABLED=1
+GTK_MODULES=gail:atk-bridge
+OOO_FORCE_DESKTOP=gnome
+GNOME_ACCESSIBILITY=1
+QT_ACCESSIBILITY=1
+QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1
+EOF
+
+	log "Enabling and starting hintsd and accessibility DBus service..."
+	systemctl --user enable --now hintsd.service
+	systemctl --user restart at-spi-dbus-bus.service
+	# WARN: important to work:
+	#   systemctl --user enable --now hintsd.service
+	#   systemctl --user restart at-spi-dbus-bus.service
+
+	log "NOTE: To customize hints configuration, edit:"
+	#NOTE: compy the  hintsConfig to this :
+	echo "    ~/.local/share/pipx/venvs/hints/lib/python*/site-packages/hints/constants.py"
 }
 
 install_cli_tools() {

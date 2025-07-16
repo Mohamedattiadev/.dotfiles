@@ -27,10 +27,22 @@ else
 	echo "has-been-run: TRUE" >"$HOME/.config/fix-elpaca-symlinks/log"
 fi
 
+### ENABLE AND RESTART SYSTEMD USER SERVICES ###
+# Only enable hintsd.service once. Check if it's already enabled.
+if ! systemctl --user is-enabled hintsd.service &>/dev/null; then
+	systemctl --user enable --now hintsd.service
+else
+	systemctl --user start hintsd.service
+fi
+
+# Always restart the accessibility service (safe to do each boot)
+systemctl --user restart at-spi-dbus-bus.service
+
 ### AUTOSTART PROGRAMS ###
 lxsession &
 picom &
 copyq &
+warpd &
 zen-browser &
 brave https://www.youtube.com &
 # sleep 5
