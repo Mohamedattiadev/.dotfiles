@@ -20,18 +20,21 @@ ICON_DONE="󰄲"    # checkbox_marked
 ICON_ADD=""     # plus_circle
 ICON_DEL=""     # trash
 ICON_WORKING="󰓎" # fire
+ICON_SEP="✔"     # check
 
-# FORMAT FUNCTION
+# FORMAT FUNCTION (MODIFIED)
 # -----------------------------------------------------------------------------
 format_todos() {
-	nl -w1 -s'|' "$TODO_FILE" | while IFS= read -r line; do
+	local todo_items=""
+	local done_items=""
+
+	# Read the file once and prepare formatted strings for both lists
+	while IFS= read -r line; do
 		NUMBER=$(echo "$line" | cut -d'|' -f1)
 		CONTENT=$(echo "$line" | cut -d'|' -f2-)
-
 		TEXT=$(echo "$CONTENT" | sed 's/- \[[x ]\] //')
 		IS_DONE=$(echo "$CONTENT" | grep -q "\[x\]" && echo "yes" || echo "no")
 
-		# Check if this is marked as "working"
 		if grep -Fxq "$NUMBER" "$WORKING_FILE"; then
 			WORKING_MARK="<span color='red'>${ICON_WORKING}</span> "
 		else
@@ -39,11 +42,26 @@ format_todos() {
 		fi
 
 		if [[ "$IS_DONE" == "yes" ]]; then
-			echo "$NUMBER|  $WORKING_MARK<span color='green'>${ICON_DONE}  </span> <span alpha='80%'><s>$TEXT</s></span>"
+			# Append formatted 'done' item to its variable
+			done_items+="$NUMBER|  $WORKING_MARK<span color='green'>${ICON_DONE}  </span> <span alpha='80%'><s>$TEXT</s></span>\n"
 		else
-			echo "$NUMBER|  $WORKING_MARK<span color='orange'>${ICON_TODO}  </span> $TEXT"
+			# Append formatted 'todo' item to its variable
+			todo_items+="$NUMBER|  $WORKING_MARK<span color='orange'>${ICON_TODO}  </span> $TEXT\n"
 		fi
-	done
+	done < <(nl -w1 -s'|' "$TODO_FILE")
+
+	# Print active todos first
+	echo -en "$todo_items"
+
+	# If there are both active and done tasks, print a separator
+	if [[ -n "$todo_items" && -n "$done_items" ]]; then
+		# This is a non-selectable separator for Rofi
+		# The '0|' prefix prevents errors if it's somehow selected.
+		echo "<b>───────────────────────────── <span color='green'>${ICON_SEP}</span> DONE ─────────────────────────────────</b>"
+	fi
+
+	# Print completed todos last
+	echo -en "$done_items"
 }
 
 # MAIN LOOP
@@ -61,6 +79,12 @@ while true; do
 	EXIT_CODE=$?
 
 	LINE_NUMBER=$(echo "$SELECTION" | cut -d'|' -f1)
+
+	# Ignore the separator line
+	if [[ "$LINE_NUMBER" == "0" ]]; then
+		continue
+	fi
+
 	LINE_CONTENT=$(sed "${LINE_NUMBER}q;d" "$TODO_FILE")
 
 	case $EXIT_CODE in
@@ -75,7 +99,7 @@ while true; do
 		fi
 		;;
 	10) # Add
-		NEW_TODO=$(rofi -theme ~/.config/rofi/themes/todo-large.rasi -dmenu -p "${ICON_ADD}   Add new todo")
+		NEW_TODO=$(rofi -theme ~/.config/rofi/themes/todo-large.rasi -dmenu -p "${ICON_ADD}    Add new todo")
 		if [ -n "$NEW_TODO" ]; then
 			echo "- [ ] $NEW_TODO" >>"$TODO_FILE"
 		fi

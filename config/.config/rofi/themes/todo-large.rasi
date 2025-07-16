@@ -17,7 +17,7 @@
 
     /* Basic Configuration */
     background-color: transparent;
-    text-color:       @foreground;
+    text-color:       white;
     font:             "Ubuntu Mono 14";
 }
 
@@ -25,8 +25,8 @@ window {
     background-color: @background;
     location:         center;
     anchor:           center;
-    width:            45%;
-    padding:          15px;
+    width:            50%;
+    padding:          12px;
     border-radius:    3px;
     
     /* --- THIS IS THE ADDED LINE --- */
