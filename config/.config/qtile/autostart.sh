@@ -29,21 +29,20 @@ fi
 
 ### ENABLE AND RESTART SYSTEMD USER SERVICES ###
 # Only enable hintsd.service once. Check if it's already enabled.
-if ! systemctl --user is-enabled hintsd.service &>/dev/null; then
-	systemctl --user enable --now hintsd.service
-else
-	systemctl --user start hintsd.service
-fi
-
-# Always restart the accessibility service (safe to do each boot)
-systemctl --user restart at-spi-dbus-bus.service
+# if ! systemctl --user is-enabled hintsd.service &>/dev/null; then
+# systemctl --user enable --now hintsd.service
+# # else
+# systemctl --user start hintsd.service
+# # fi
+#
+# # Always restart the accessibility service (safe to do each boot)
+# systemctl --user restart at-spi-dbus-bus.service
 
 ### AUTOSTART PROGRAMS ###
 lxsession &
 picom &
 copyq &
 warpd &
-hints &
 zen-browser &
 brave https://www.youtube.com &
 # sleep 5
@@ -83,3 +82,9 @@ else
 	# sleep 2
 	conky -c "$HOME"/.config/conky/qtile/02/"$COLORSCHEME".conf || echo "Couldn't start conky."
 fi
+
+(
+	sleep 12
+	systemctl --user enable --now hintsd.service
+	systemctl --user restart at-spi-dbus-bus.service
+) &

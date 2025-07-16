@@ -99,10 +99,13 @@ keys=[
     # keyboardlayout
 Key([mod2], "space", lazy.widget["keyboardlayout"].next_keyboard(), desc="Switch keyboard layout"),
     # vimium like motions
-Key([mod2], "j", lazy.spawn("xdotool click --repeat 5 --delay 1 5")),
-Key([mod2], "k", lazy.spawn("xdotool click --repeat 5 --delay 1 4")),
-Key([mod2], "h", lazy.spawn("xdotool click --repeat 5 --delay 1 6")),  # Scroll left
-Key([mod2], "l", lazy.spawn("xdotool click --repeat 5 --delay 1 7")),  # Scroll right
+Key([mod2], "j", lazy.spawn("xdotool click --repeat 4 --delay 1 5")),
+Key([mod2], "k", lazy.spawn("xdotool click --repeat 4 --delay 1 4")),
+Key([mod2], "h", lazy.spawn("xdotool click --repeat 4 --delay 1 6")),  # Scroll left
+Key([mod2], "l", lazy.spawn("xdotool click --repeat 4 --delay 1 7")),  # Scroll right
+Key([mod2], "m", lazy.spawn("xdotool click 1")),  # left
+# Key([mod2], "comma", lazy.spawn("xdotool click 2")),
+Key([mod2], "period", lazy.spawn("xdotool click 3")),
 
 
 
@@ -306,6 +309,7 @@ Key([mod2], "g", lazy.spawn(f"bash {home}/.config/qtile/scripts/gg_scroll.sh")),
         Key([], "q", lazy.spawn("dm-logout -r"), desc='Logout menu'),
         Key([], "r", lazy.spawn("dm-record -r"), desc='record'),
         Key([], "s", lazy.spawn("dm-websearch -r"), desc='Search various engines'),
+        Key([], "w", lazy.spawn("dm-wifi -r"), desc='Search wifi'),
         Key([], "t", lazy.spawn(os.path.expanduser("~/.config/rofi/rofi_todo.sh")),
         desc="Open todo manager"),
         Key([], "u", lazy.spawn("dm-music -r"), desc='Toggle music mpc/mpd')
