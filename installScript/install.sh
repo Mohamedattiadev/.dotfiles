@@ -107,7 +107,35 @@ install_cli_tools() {
 
 	log "CLI tools installed."
 }
+# --- Touchpad Configuration ---
+setup_touchpad() {
+	log "Configuring touchpad for tap-to-click..."
 
+	# Ensure modern libinput driver is installed and conflicting one is removed
+	yay -S --needed --noconfirm xf86-input-libinput xorg-xinput
+	sudo pacman -R --noconfirm xf86-input-synaptics || true # || true ignores error if not installed
+
+	# Define the config file path
+	local config_dir="/etc/X11/xorg.conf.d"
+	local config_file="$config_dir/30-touchpad.conf"
+
+	# Create directory if it doesn't exist
+	sudo mkdir -p "$config_dir"
+
+	# Create the touchpad configuration file using a "here document"
+	log "Creating Xorg touchpad configuration at $config_file"
+	sudo tee "$config_file" >/dev/null <<EOF
+Section "InputClass"
+    Identifier "libinput touchpad catchall"
+    MatchIsTouchpad "on"
+    MatchDevicePath "/dev/input/event*"
+    Driver "libinput"
+    # Enable tap to click
+    Option "Tapping" "on"
+EndSection
+EOF
+	log "Touchpad configured successfully."
+}
 # --- Dotfiles via GNU Stow ---
 stow_dotfiles() {
 	log "Setting up dotfiles with stow..."
@@ -162,6 +190,7 @@ main() {
 	stow_dotfiles
 	install_packages
 	install_cli_tools
+	setup_touchpad
 	setup_dev_tools
 	setup_ssh
 	log "🚀 All done! You may want to reboot or logout now."
