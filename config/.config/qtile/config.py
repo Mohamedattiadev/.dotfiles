@@ -312,6 +312,8 @@ Key([mod2], "g", lazy.spawn(f"bash {home}/.config/qtile/scripts/gg_scroll.sh")),
         Key([], "w", lazy.spawn("dm-wifi -r"), desc='Search wifi'),
         Key([], "t", lazy.spawn(os.path.expanduser("~/.config/rofi/rofi_todo.sh")),
         desc="Open todo manager"),
+        Key([], "l", lazy.spawn(os.path.expanduser("~/.config/rofi/rofi_light.sh")),
+        desc="screen light"),
         Key([], "u", lazy.spawn("dm-music -r"), desc='Toggle music mpc/mpd')
     ])
 ]
