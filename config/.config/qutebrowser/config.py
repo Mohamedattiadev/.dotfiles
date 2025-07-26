@@ -72,8 +72,8 @@ config.bind('<space>e', 'spawn --userscript qute-editor')              # Edit in
 config.bind('<space>V', 'view-source')                                 # View Page Source
 config.bind('<space>m', 'spawn --detach mpv {url}')                    # Open in MPV
 
-config.bind('<space>ls', 'session-load default')
-config.bind('<space>ss', 'session-save default')
+config.bind('<space>l', 'session-load default')
+config.bind('<space>s', 'session-save default')
 
 
 config.unbind('<Ctrl-n>', mode='command')
