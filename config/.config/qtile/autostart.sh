@@ -43,7 +43,7 @@ lxsession &
 picom &
 copyq &
 warpd &
-zen-browser &
+qutebrowser &
 brave https://www.youtube.com &
 # sleep 5
 pcmanfm &

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ati's Homepage</title>
+    <link rel="stylesheet" href="../styles/homepage.css" />
+  </head>
+  <body>
+    <div id="search">
+      <input
+        id="search-field"
+        type="text"
+        name="search-field"
+        placeholder="Type to search..."
+      />
+    </div>
+
+    <div class="container">
+      <div id="clock"></div>
+      <div class="welcome-message">Welcome, Ati...</div>
+
+      <div class="bookmark-container">
+        <div class="bookmark-set">
+          <div class="bookmark-title">🔧 Developer Tools</div>
+          <div class="bookmark-inner-container">
+            <a class="bookmark" href="https://devdocs.io/" target="_blank"
+              >DevDocs</a
+            >
+            <a
+              class="bookmark"
+              href="https://developer.mozilla.org/"
+              target="_blank"
+              >MDN Web Docs</a
+            >
+            <a
+              class="bookmark"
+              href="https://github.com/MohamedattiaDev"
+              target="_blank"
+              >GitHub</a
+            >
+            <a class="bookmark" href="https://gitlab.com" target="_blank"
+              >GitLab</a
+            >
+            <a class="bookmark" href="https://caniuse.com/" target="_blank"
+              >Can I use</a
+            >
+            <a class="bookmark" href="https://stackoverflow.com" target="_blank"
+              >Stack Overflow</a
+            >
+          </div>
+        </div>
+
+        <div class="bookmark-set">
+          <div class="bookmark-title">📺 YouTube / Channels</div>
+          <div class="bookmark-inner-container">
+            <a class="bookmark" href="https://youtube.com" target="_blank"
+              >Youtube</a
+            >
+            <!-- <a -->
+            <!--   class="bookmark" -->
+            <!--   href="https://youtube.com/c/DistroTube" -->
+            <!--   target="_blank" -->
+            <!--   >DistroTube</a -->
+            <!-- > -->
+            <!-- <a -->
+            <!--   class="bookmark" -->
+            <!--   href="https://www.youtube.com/c/ThePrimeagen" -->
+            <!--   target="_blank" -->
+            <!--   >ThePrimeagen</a -->
+            <!-- > -->
+            <!-- <a -->
+            <!--   class="bookmark" -->
+            <!--   href="https://www.youtube.com/c/TraversyMedia" -->
+            <!--   target="_blank" -->
+            <!--   >Traversy Media</a -->
+            <!-- > -->
+            <!-- <a -->
+            <!--   class="bookmark" -->
+            <!--   href="https://www.youtube.com/c/Fireship" -->
+            <!--   target="_blank" -->
+            <!--   >Fireship</a -->
+            <!-- > -->
+            <!-- <a -->
+            <!--   class="bookmark" -->
+            <!--   href="https://www.youtube.com/c/Computerphile" -->
+            <!--   target="_blank" -->
+            <!--   >Computerphile</a -->
+            <!-- > -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const getTime = () => {
+        const date = new Date();
+        const hour = date.getHours().toString().padStart(2, "0");
+        const min = date.getMinutes().toString().padStart(2, "0");
+        const sec = date.getSeconds().toString().padStart(2, "0");
+        return `${hour}:${min}:${sec}`;
+      };
+
+      window.onload = () => {
+        const clock = document.getElementById("clock");
+        clock.innerHTML = getTime();
+        setInterval(() => {
+          clock.innerHTML = getTime();
+        }, 1000);
+      };
+
+      document.addEventListener("keydown", (event) => {
+        const search = document.getElementById("search");
+        const field = document.getElementById("search-field");
+
+        if (event.key === " " && document.activeElement !== field) {
+          event.preventDefault();
+          search.style.display = "flex";
+          field.focus();
+        } else if (event.key === "Escape") {
+          field.value = "";
+          search.style.display = "none";
+        } else if (event.key === "Enter" && document.activeElement === field) {
+          const query = field.value.trim();
+          if (query) {
+            window.open(
+              `https://www.google.com/search?q=${encodeURIComponent(query)}`,
+            );
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

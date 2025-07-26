@@ -59,6 +59,7 @@ myBrowser = ["zen-browser", "--layout.css.devPixelsPerPx=0.8"]
 myBrowser2 = ["brave", "--layout.css.devPixelsPerPx=0.8"]
 
 myBrowser3 = ["google-chrome-stable", "--layout.css.devPixelsPerPx=0.8"]
+myBrowser4 = "qutebrowser"
 
 home = os.path.expanduser("~")
 # myEmacs = "emacsclient -c -a 'emacs' "  # The space at the end is IMPORTANT!
@@ -119,7 +120,7 @@ Key([mod2], "g", lazy.spawn(f"bash {home}/.config/qtile/scripts/gg_scroll.sh")),
     Key([mod], "Return", lazy.spawn(myTerm), desc="Terminal"),
     # Key([mod, "shift"], "Return", lazy.spawn("dm-run"), desc="Run Launcher"),
     Key([mod, "shift"], "Return", lazy.spawn("rofi -show run -show-icons"), desc='Run Launcher'),
-    Key([mod], "b", lazy.spawn(myBrowser), desc="Web browser"),
+    Key([mod], "b", lazy.spawn(myBrowser4), desc="Web browser"),
     Key([mod, "shift"],"b", lazy.spawn(myBrowser3), desc="Web browser3"),
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod, "shift"], "c", lazy.window.kill(), desc="Kill focused window"),
@@ -359,7 +360,7 @@ groups = [
     Group(
         "5",
         label="",
-        matches=[Match(wm_class="firefox")],
+        matches=[Match(wm_class="firefox"),Match(wm_class="qutebrowser")],
 
         layout="monadtall",
     ),
