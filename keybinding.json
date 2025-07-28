@@ -1,0 +1,302 @@
+// Place your key bindings in this file to override the defaults
+[
+  // ---------------------------------
+  //  Sidebar Navigation
+  // ---------------------------------
+  {
+    // Navigate down in any sidebar list
+    "key": "j",
+    "command": "list.focusDown",
+    "when": "sideBarFocus && !inputFocus"
+  },
+  {
+    // Navigate up in any sidebar list
+    "key": "k",
+    "command": "list.focusUp",
+    "when": "sideBarFocus && !inputFocus"
+  },
+
+  // ---------------------------------
+  //  File Explorer Operations (Vim-like)
+  // ---------------------------------
+  {
+    // Create a new file
+    "key": "a",
+    "command": "workbench.files.action.createFileFromExplorer",
+    "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+  },
+  {
+    // Create a new folder
+    "key": "shift+a",
+    "command": "workbench.files.action.createFolderFromExplorer",
+    "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+  },
+  {
+    // Copy selected file/folder (Yank)
+    "key": "shift+y",
+    "command": "filesExplorer.copy",
+    "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+  },
+  {
+    // Cut selected file/folder
+    "key": "x",
+    "command": "filesExplorer.cut",
+    "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+  },
+  {
+    // Paste file/folder
+    "key": "p",
+    "command": "filesExplorer.paste",
+    "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+  },
+  {
+    // Delete selected file/folder (move to trash)
+    "key": "d",
+    "command": "moveFileToTrash",
+    "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+  },
+  {
+    // Rename selected file/folder
+    "key": "r",
+    "command": "renameFile",
+    "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+  },
+  {
+    // Copy absolute file path
+    "key": "g y",
+    "command": "copyFilePath",
+    "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+  },
+  {
+    // Copy relative file path
+    "key": "y",
+    "command": "copyRelativeFilePath",
+    "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+  },
+
+  // ---------------------------------
+  //  Vim Remaps & Editor Navigation
+  // ---------------------------------
+  {
+    // Remap Ctrl+O for Vim's jump list navigation
+    "key": "ctrl+o",
+    "command": "vim.remap",
+    "when": "editorTextFocus && vim.mode == 'Normal'",
+    "args": {
+      "after": ["<C-o>"]
+    }
+  },
+  {
+    // Remap Ctrl+I for Vim's jump list navigation
+    "key": "ctrl+i",
+    "command": "vim.remap",
+    "when": "editorTextFocus && vim.mode == 'Normal'",
+    "args": {
+      "after": ["<C-i>"]
+    }
+  },
+
+  // ---------------------------------
+  //  Sidebar Toggle
+  // ---------------------------------
+  {
+    // Focus the file explorer if the sidebar is not visible
+    "key": "space e",
+    "command": "runCommands",
+    "args": {
+      "commands": [
+        "workbench.files.action.focusFilesExplorer",
+        "workbench.action.focusSideBar"
+      ]
+    },
+    "when": "editorTextFocus && vim.mode == 'Normal' && !sideBarVisible"
+  },
+  {
+    // Toggle sidebar visibility when it is already visible
+    "key": " space e",
+    "command": "workbench.action.toggleSidebarVisibility",
+    "when": " sideBarVisible  && vim.mode == 'Normal'"
+  },
+  {
+    // Fallback to toggle sidebar if the other context doesn't match
+    "key": "space e",
+    "command": "workbench.action.toggleSidebarVisibility",
+    "when": "editorTextFocus && vim.mode == 'Normal' && sideBarVisible"
+  },
+
+  // ---------------------------------
+  //  Pane and Panel Navigation
+  // ---------------------------------
+  {
+    // Navigate to the pane on the left
+    "key": "ctrl-h",
+    "command": "workbench.action.navigateLeft"
+  },
+  {
+    // Navigate to the pane on the right
+    "key": "ctrl-l",
+    "command": "workbench.action.navigateRight"
+  },
+  {
+    // Navigate to the pane above
+    "key": "ctrl-k",
+    "command": "workbench.action.navigateUp"
+  },
+  {
+    // Navigate to the pane below
+    "key": "ctrl-j",
+    "command": "workbench.action.navigateDown"
+  },
+
+  // ---------------------------------
+  //  Panel and View Management
+  // ---------------------------------
+  {
+    // Toggle the bottom panel (Terminal, Problems, etc.)
+    "key": "space t t",
+    "command": "workbench.action.togglePanel",
+    "when": "editorTextFocus && vim.mode == 'Normal'"
+  },
+  {
+    // Kill the active terminal instance
+    "key": "space q",
+    "command": "workbench.action.terminal.kill",
+    "when": "terminalFocus && vim.mode=='Normal'"
+  },
+  {
+    // Close the sidebar when file explorer has focus
+    "key": "space q",
+    "command": "workbench.action.toggleSidebarVisibility",
+    "when": "filesExplorerFocus"
+  },
+  {
+    // Close the active editor tab
+    "key": "space q",
+    "command": "workbench.action.closeActiveEditor",
+    "when": "editorTextFocus && vim.mode == 'Normal'"
+  },
+
+  // ---------------------------------
+  //  Chat & AI Assistant
+  // ---------------------------------
+  {
+    "key": "ctrl+shift+a",
+    "command": "workbench.panel.chatEditing",
+    "when": "workbench.panel.chat.view.edits.active"
+  },
+  {
+    "key": "ctrl+a",
+    "command": "workbench.panel.chat",
+    "when": "workbench.panel.chat.view.edits.active"
+  },
+
+  // ---------------------------------
+  //  Source Control (Git)
+  // ---------------------------------
+  {
+    // Open the Source Control sidebar
+    "key": "space g g",
+    "command": "workbench.view.scm",
+    "when": "editorTextFocus && vim.mode == 'Normal'"
+  },
+  {
+    // Close the Source Control sidebar
+    "key": "space q",
+    "command": "workbench.action.closeSidebar",
+    "when": "activeViewlet == 'workbench.view.scm' && vim.mode == 'Normal'"
+  },
+
+  // ---------------------------------
+  //  Editor Splitting
+  // ---------------------------------
+  {
+    // Split editor vertically (to the right)
+    "key": "space space v",
+    "command": "workbench.action.splitEditorRight",
+    "when": "editorTextFocus && vim.mode == 'Normal'"
+  },
+  {
+    // Split editor horizontally (downward)
+    "key": "space space h",
+    "command": "workbench.action.splitEditorDown",
+    "when": "editorTextFocus && vim.mode == 'Normal'"
+  },
+
+  // ---------------------------------
+  //  Quick Open & Lists Navigation
+  // ---------------------------------
+  {
+    // Show all editors by most recently used
+    "key": "space ,",
+    "command": "workbench.action.showAllEditorsByMostRecentlyUsed",
+    "when": "editorTextFocus && vim.mode == 'Normal'"
+  },
+  {
+    // Select next item in Quick Open
+    "key": "ctrl+j",
+    "command": "workbench.action.quickOpenSelectNext",
+    "when": "inQuickOpen"
+  },
+  {
+    // Select previous item in Quick Open
+    "key": "ctrl+k",
+    "command": "workbench.action.quickOpenSelectPrevious",
+    "when": "inQuickOpen"
+  },
+  {
+    // Select next suggestion in suggestion/completion widget
+    "key": "ctrl+j",
+    "command": "selectNextSuggestion",
+    "when": "editorTextFocus && suggestWidgetVisible"
+  },
+  {
+    // Select previous suggestion in suggestion/completion widget
+    "key": "ctrl+k",
+    "command": "selectPrevSuggestion",
+    "when": "editorTextFocus && suggestWidgetVisible"
+  },
+
+  // ---------------------------------
+  //  Search Functionality
+  // ---------------------------------
+  {
+    // Focus next search result in the search panel
+    "key": "ctrl+j",
+    "command": "search.action.focusNextSearchResult",
+    "when": "hasSearchResults && searchViewletFocus"
+  },
+  {
+    // Focus previous search result in the search panel
+    "key": "ctrl+k",
+    "command": "search.action.focusPreviousSearchResult",
+    "when": "hasSearchResults && searchViewletFocus"
+  },
+  {
+    // Trigger "Find in Files" (global search)
+    "key": "space f w",
+    "command": "workbench.action.findInFiles",
+    "when": "editorTextFocus && vim.mode == 'Normal'"
+  },
+  {
+    // Close the search results sidebar
+    "key": "space q",
+    "command": "workbench.action.closeSidebar",
+    "when": "activeViewlet == 'workbench.view.search' && vim.mode == 'Normal'"
+  },
+
+  // ---------------------------------
+  //  File Actions
+  // ---------------------------------
+  {
+    // Save the current file
+    "key": "space w",
+    "command": "workbench.action.files.save",
+    "when": "editorTextFocus && vim.mode == 'Normal'"
+  },
+  {
+    // Open Quick Open to find a file
+    "key": "space space f",
+    "command": "workbench.action.quickOpen",
+    "when": "editorTextFocus && vim.mode == 'Normal'"
+  }
+]

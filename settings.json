@@ -1,0 +1,300 @@
+{
+  // -------------------------
+  //  File Save Behavior
+  // -------------------------
+  "files.autoSave": "onFocusChange",
+
+  // -------------------------
+  //  Vim Extension Settings
+  // -------------------------
+  "vim.easymotion": true,
+  "vim.incsearch": true,
+  "vim.useSystemClipboard": true,
+  "vim.useCtrlKeys": true,
+  "vim.hlsearch": true,
+  "vim.sneak": true,
+  "vim.easymotionMarkerBackgroundColor": "#020202",
+  "vim.leader": "<space>",
+
+  // Highlight yank settings (highlight text after copying)
+  "vim.highlightedyank.enable": true,
+  "vim.highlightedyank.duration": 300,
+  "vim.highlightedyank.color": "rgba(255, 185, 4, 0.8)",
+
+  // -------------------------
+  //  Vim Keybindings - Normal Mode
+  // -------------------------
+  "vim.normalModeKeyBindings": [
+    {
+      // Switch to the next editor tab
+      "before": ["<S-l>"],
+      "commands": ["workbench.action.nextEditor"]
+    },
+    {
+      // Switch to the previous editor tab
+      "before": ["<S-h>"],
+      "commands": ["workbench.action.previousEditor"]
+    },
+    // {
+    //  // Quick open file explorer
+    //  "before": ["<leader>","f"],
+    //  "commands": ["workbench.action.quickOpen"]
+    // },
+    {
+      // Clear search highlight
+      "before": ["<leader>", "n", "n"],
+      "commands": [":nohl"]
+    }
+  ],
+
+  // -------------------------
+  //  Vim Keybindings - Normal Mode (Non-Recursive)
+  // -------------------------
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      // Save the current file
+      "before": ["<leader>", "w"],
+      "commands": ["workbench.action.files.save"]
+    },
+    {
+      // Show diagnostics (problems)
+      "before": ["<leader>", "d"],
+      "commands": ["workbench.action.problems.focus"]
+    },
+    {
+      // Open a new terminal
+      "before": ["<leader>", "t", "n"],
+      "commands": ["workbench.action.terminal.new"]
+    },
+    {
+      // Start searching
+      "before": ["/"],
+      "commands": ["actions.find"]
+    },
+    {
+      // Close panel or active editor
+      "before": ["<space>", "<space>", "q"],
+      "commands": [
+        {
+          "command": "workbench.action.closePanel",
+          "when": "panelVisible"
+        },
+        {
+          "command": "workbench.action.closeActiveEditor",
+          "when": "!panelVisible"
+        }
+      ]
+    },
+    {
+      // Move 5 characters left with <Tab> + h
+      "before": ["<Tab>", "h"],
+      "commands": [
+        {
+          "command": "cursorMove",
+          "args": { "to": "left", "by": "character", "value": 5 }
+        }
+      ]
+    },
+    {
+      // Move 5 lines down with <Tab> + j
+      "before": ["<Tab>", "j"],
+      "commands": [
+        {
+          "command": "cursorMove",
+          "args": { "to": "down", "by": "line", "value": 5 }
+        }
+      ]
+    },
+    {
+      // Move 5 lines up with <Tab> + k
+      "before": ["<Tab>", "k"],
+      "commands": [
+        {
+          "command": "cursorMove",
+          "args": { "to": "up", "by": "line", "value": 5 }
+        }
+      ]
+    },
+    {
+      // Move 5 characters right with <Tab> + l
+      "before": ["<Tab>", "l"],
+      "commands": [
+        {
+          "command": "cursorMove",
+          "args": { "to": "right", "by": "character", "value": 5 }
+        }
+      ]
+    },
+    {
+      // Show hover information under the cursor
+      "before": ["<S-k>"],
+      "commands": ["editor.action.showHover"]
+    },
+    {
+      // Format the current document
+      "before": ["<leader>", "g", "f"],
+      "commands": ["editor.action.formatDocument"]
+    },
+    {
+      // Go to the definition of the symbol under the cursor
+      "before": ["<leader>", "g", "d"],
+      "commands": ["editor.action.revealDefinition"]
+    }
+  ],
+
+  // -------------------------
+  //  Vim Keybindings - Visual Mode
+  // -------------------------
+  "vim.visualModeKeyBindings": [
+    {
+      "before": [">"],
+      "after": [">", "g", "v"]
+    },
+    {
+      "before": ["<"],
+      "after": ["<", "g", "v"]
+    },
+    {
+      "before": ["J"],
+      "commands": ["editor.action.moveLinesDownAction"]
+    },
+    {
+      "before": ["K"],
+      "commands": ["editor.action.moveLinesUpAction"]
+    }
+  ],
+
+  // -------------------------
+  //  Disable Conflicting VS Code Keybindings for Vim
+  // -------------------------
+  "vim.handleKeys": {
+    "<C-a>": false,
+    "<C-f>": false,
+    "<C-c>": false,
+    "<C-x>": false,
+    "<C-v>": false,
+    "<C-z>": false,
+    "<C-y>": false,
+    "<C-h>": false,
+    "<C-j>": false,
+    "<C-k>": false,
+    "<C-l>": false
+  },
+
+  // -------------------------
+  //  Language-Specific Auto-Formatting
+  // -------------------------
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.formatOnSave": true
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // -------------------------
+  //  Editor Appearance & Behavior
+  // -------------------------
+  "editor.minimap.enabled": false,
+  "editor.wordWrap": "on",
+  "editor.lineHeight": 25,
+  "editor.hover.enabled": true,
+  "editor.renderLineHighlight": "line",
+  "editor.occurrencesHighlight": "on",
+  "editor.guides.indentation": true,
+  "editor.guides.highlightActiveIndentation": true,
+  "editor.emptySelectionClipboard": false,
+  "editor.stickyScroll.enabled": false,
+  "editor.unicodeHighlight.invisibleCharacters": false,
+  "editor.unicodeHighlight.ambiguousCharacters": false,
+  "editor.bracketPairColorization.enabled": false,
+  "editor.multiCursorModifier": "ctrlCmd",
+  "editor.formatOnSave": true,
+
+  // -------------------------
+  //  Workbench & UI Settings
+  // -------------------------
+  "workbench.colorTheme": "doom-one",
+  "workbench.iconTheme": "eq-material-theme-icons-light",
+  "workbench.editor.showTabs": "none",
+  "workbench.tips.enabled": false,
+  "breadcrumbs.enabled": false,
+  "window.menuBarVisibility": "toggle",
+  "zenMode.showTabs": "none",
+  "workbench.activityBar.location": "top",
+  "workbench.statusBar.visible": false,
+  "workbench.editor.editorActionsLocation": "hidden",
+
+  // -------------------------
+  //  Color and Cursor Customizations
+  // -------------------------
+  "workbench.colorCustomizations": {
+    "editorCursor.foreground": "#3498db",
+    "terminalCursor.foreground": "#3498db",
+    "terminalCursor.background": "#3498db",
+    "statusBar.background": "#005f5f",
+    "statusBar.noFolderBackground": "#005f5f",
+    "statusBar.debuggingBackground": "#005f5f",
+    "statusBar.foreground": "#ffffff",
+    "statusBar.debuggingForeground": "#ffffff"
+  },
+  "vim.cursorStylePerMode": {
+    "normal": "block",
+    "insert": "bar",
+    "replace": "underline"
+  },
+  "vim.cursorColor": true, // Ensures Vim extension respects cursor color
+  "vim.statusBarColorControl": false,
+
+  // -------------------------
+  //  File Explorer Settings
+  // -------------------------
+  "explorer.sortOrder": "type",
+
+  // -------------------------
+  //  Git & SCM Settings
+  // -------------------------
+  "scm.diffDecorations": "none",
+  "git.decorations.enabled": false,
+  "git.autofetch": true,
+
+  // -------------------------
+  //  Language & Extension Specific Settings
+  // -------------------------
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "eslint.format.enable": true,
+  "eslint.codeActionsOnSave.rules": null,
+  "cmake.options.advanced": {
+    "build": {
+      "statusBarVisibility": "inherit",
+      "inheritDefault": "visible"
+    },
+    "launch": {
+      "statusBarVisibility": "inherit",
+      "inheritDefault": "visible"
+    },
+    "debug": {
+      "statusBarVisibility": "inherit",
+      "inheritDefault": "visible"
+    }
+  }
+}
