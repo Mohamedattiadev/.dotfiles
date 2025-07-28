@@ -1,17 +1,13 @@
-
-
 # CRITICAL: Load the autoconfig first.
 config.load_autoconfig()
 
-# Import the theme module.
-# The 'doom_one.py' file must be in ~/.config/qutebrowser/ for this to work.
+# Import the theme module (doom_one.py should be in ~/.config/qutebrowser/)
 import doom_one
 
 # -----------------------------------------------------------------------------
-# SECTION: Theme & UI
+# Theme & UI
 # -----------------------------------------------------------------------------
-
-# Load and configure the Doom One theme.
+config.set("colors.webpage.darkmode.enabled", True)
 doom_one.setup(c, {
     "spacing": {
         "vertical": 5,
@@ -19,359 +15,176 @@ doom_one.setup(c, {
     }
 })
 
-# Set default fonts
 c.fonts.default_family = "JetBrains Mono"
 c.fonts.default_size = "9pt"
-
-c.content.blocking.method = 'auto'
-
-# Set start and default pages
-#
-c.url.default_page = 'file:///home/ati/.config/qutebrowser/html/homepage.html'
-c.url.start_pages = ['file:///home/ati/.config/qutebrowser/html/homepage.html']
-# c.url.default_page = "https://www.duckduckgo.com"
-
-# -----------------------------------------------------------------------------
-# SECTION: Keybindings - The Core of the Vim Experience
-# -----------------------------------------------------------------------------
-
-# --- Unbind conflicting keys before re-binding ---
-config.unbind('H', mode='normal')
-config.unbind('L', mode='normal')
-config.unbind('J', mode='normal') # [NEW] Unbind Shift+J
-config.unbind('K', mode='normal') # [NEW] Unbind Shift+K
-
-# # # Optional: avoid error if space not bound
-# try:
-#     config.unbind(' ', mode='normal')  # Unbind space to use as leader
-# except:
-#     pass
-
-# --- Leader Key Setup ---
-
-# --- Tab Navigation ---
-config.bind('H', 'tab-prev')
-config.bind('L', 'tab-next')
-config.bind('<Ctrl-h>', 'back')      # [NEW] Go back in history
-config.bind('<Ctrl-l>', 'forward')   # [NEW] Go forward in history
-config.unbind('<Space>', mode='caret')
-
-
-# --- Leader Key Shortcuts (spacebar) ---
-config.bind('<space>t', 'open -t')                          # Open New Tab
-config.bind('<space>w', 'tab-close')                        # Close Current Tab
-config.bind('<space>o', 'tab-only')                         # Close Other Tabs
-config.bind('<space>v', 'open -t -- {primary}')             # Open Link in New Vertical Split
-config.bind('<space>s', 'open -t -- {primary}')             # Open Link in New Horizontal Split
-
-config.bind('<space>f', 'set-cmd-text :')                   # Focus Command Bar
-config.bind('<space>g', 'open https://github.com/search?q={primary}')  # GitHub Search
-
-config.bind(',d', 'config-cycle colors.webpage.darkmode.enabled')      # Toggle Dark Mode
-config.bind('<space>e', 'spawn --userscript qute-editor')              # Edit in Neovim
-config.bind('<space>V', 'view-source')                                 # View Page Source
-config.bind('<space>m', 'spawn --detach mpv {url}')                    # Open in MPV
-
-config.bind('<space>l', 'session-load default')
-config.bind('<space>s', 'session-save default')
-
-
-config.unbind('<Ctrl-n>', mode='command')
-config.unbind('<Ctrl-p>', mode='command')
-
-config.bind('<Ctrl-j>', 'completion-item-focus --next', mode='prompt')
-config.bind('<Ctrl-k>', 'completion-item-focus --prev', mode='prompt')
-# -----------------------------------------------------------------------------
-# SECTION: Search Engines
-# -----------------------------------------------------------------------------
-
-c.url.searchengines = {
-    'DEFAULT': 'https://duckduckgo.com/?q={}',
-    'g': 'https://www.google.com/search?q={}',
-    'gh': 'https://github.com/search?q={}',
-    's': 'https://stackoverflow.com/search?q={}',
-    'r': 'https://www.reddit.com/r/all/search?q={}',
-    'aw': 'https://wiki.archlinux.org/index.php?search={}',
-    'yt': 'https://www.youtube.com/results?search_query={}', 
-}
-
-# -----------------------------------------------------------------------------
-# SECTION: General Settings
-# -----------------------------------------------------------------------------
-
-# Enable smooth scrolling
-c.scrolling.smooth = True
-
-# Set editor command for text fields
-c.editor.command = ["alacritty", "-e", "nvim", "{}"]
-
-# Allow JavaScript to access the clipboard
-c.content.javascript.clipboard = 'access'
-
-
-print("--- Custom Developer Config Loaded ---")
-
-
-# aliases 
-#
-# NOTE:
-# adding a dev or work tabs 
-# u can add any tabs u want here which can be open with one command
-c.aliases['dev'] = 'spawn --userscript ~/.config/qutebrowser/scripts/open-work-tabs'
-c.aliases['yt'] = 'open https://www.youtube.com'
-c.aliases['gh'] = 'open https://github.com'
-c.aliases['g'] = 'open https://google.com'
-c.aliases['gl'] = 'open https://gitlab.com'
-c.aliases['mail'] = 'open https://mail.google.com'
-c.aliases['chat'] = 'open https://chat.google.com'
-c.aliases['devdocs'] = 'open https://devdocs.io'
-#------------------------------------------
-
-
-# Autogenerated config.py
-#
-# NOTE: config.py is intended for advanced users who are comfortable
-# with manually migrating the config file on qutebrowser upgrades. If
-# you prefer, you can also configure qutebrowser using the
-# :set/:bind/:config-* commands without having to write a config.py
-# file.
-#
-# Documentation:
-#   qute://help/configuring.html
-#   qute://help/settings.html
-
-# Uncomment this to still load settings configured via autoconfig.yml
-# config.load_autoconfig()
-# Or uncomment this line to load settings from config.py
-
-# Aliases for commands. The keys of the given dictionary are the
-# aliases, while the values are the commands they map to.
-# Type: Dict
-c.aliases = {'<space>q': 'quit', '<space>w': 'session-save default', '<space>wq': 'quit --save'}
-
-# Setting dark mode
-config.set("colors.webpage.darkmode.enabled", True)
-
-
-# Which cookies to accept. With QtWebEngine, this setting also controls
-# other features with tracking capabilities similar to those of cookies;
-# including IndexedDB, DOM storage, filesystem API, service workers, and
-# AppCache. Note that with QtWebKit, only `all` and `never` are
-# supported as per-domain values. Setting `no-3rdparty` or `no-
-# unknown-3rdparty` per-domain on QtWebKit will have the same effect as
-# `all`.
-# Type: String
-# Valid values:
-#   - all: Accept all cookies.
-#   - no-3rdparty: Accept cookies from the same origin only. This is known to break some sites, such as GMail.
-#   - no-unknown-3rdparty: Accept cookies from the same origin only, unless a cookie is already set for the domain. On QtWebEngine, this is the same as no-3rdparty.
-#   - never: Don't accept cookies at all.
-config.set('content.cookies.accept', 'all', 'chrome-devtools://*')
-
-# Which cookies to accept. With QtWebEngine, this setting also controls
-# other features with tracking capabilities similar to those of cookies;
-# including IndexedDB, DOM storage, filesystem API, service workers, and
-# AppCache. Note that with QtWebKit, only `all` and `never` are
-# supported as per-domain values. Setting `no-3rdparty` or `no-
-# unknown-3rdparty` per-domain on QtWebKit will have the same effect as
-# `all`.
-# Type: String
-# Valid values:
-#   - all: Accept all cookies.
-#   - no-3rdparty: Accept cookies from the same origin only. This is known to break some sites, such as GMail.
-#   - no-unknown-3rdparty: Accept cookies from the same origin only, unless a cookie is already set for the domain. On QtWebEngine, this is the same as no-3rdparty.
-#   - never: Don't accept cookies at all.
-config.set('content.cookies.accept', 'all', 'devtools://*')
-
-# User agent to send.  The following placeholders are defined:  *
-# `{os_info}`: Something like "X11; Linux x86_64". * `{webkit_version}`:
-# The underlying WebKit version (set to a fixed value   with
-# QtWebEngine). * `{qt_key}`: "Qt" for QtWebKit, "QtWebEngine" for
-# QtWebEngine. * `{qt_version}`: The underlying Qt version. *
-# `{upstream_browser_key}`: "Version" for QtWebKit, "Chrome" for
-# QtWebEngine. * `{upstream_browser_version}`: The corresponding
-# Safari/Chrome version. * `{qutebrowser_version}`: The currently
-# running qutebrowser version.  The default value is equal to the
-# unchanged user agent of QtWebKit/QtWebEngine.  Note that the value
-# read from JavaScript is always the global value. With QtWebEngine
-# between 5.12 and 5.14 (inclusive), changing the value exposed to
-# JavaScript requires a restart.
-# Type: FormatString
-config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version}', 'https://web.whatsapp.com/')
-
-# User agent to send.  The following placeholders are defined:  *
-# `{os_info}`: Something like "X11; Linux x86_64". * `{webkit_version}`:
-# The underlying WebKit version (set to a fixed value   with
-# QtWebEngine). * `{qt_key}`: "Qt" for QtWebKit, "QtWebEngine" for
-# QtWebEngine. * `{qt_version}`: The underlying Qt version. *
-# `{upstream_browser_key}`: "Version" for QtWebKit, "Chrome" for
-# QtWebEngine. * `{upstream_browser_version}`: The corresponding
-# Safari/Chrome version. * `{qutebrowser_version}`: The currently
-# running qutebrowser version.  The default value is equal to the
-# unchanged user agent of QtWebKit/QtWebEngine.  Note that the value
-# read from JavaScript is always the global value. With QtWebEngine
-# between 5.12 and 5.14 (inclusive), changing the value exposed to
-# JavaScript requires a restart.
-# Type: FormatString
-config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}; rv:71.0) Gecko/20100101 Firefox/71.0', 'https://accounts.google.com/*')
-
-# User agent to send.  The following placeholders are defined:  *
-# `{os_info}`: Something like "X11; Linux x86_64". * `{webkit_version}`:
-# The underlying WebKit version (set to a fixed value   with
-# QtWebEngine). * `{qt_key}`: "Qt" for QtWebKit, "QtWebEngine" for
-# QtWebEngine. * `{qt_version}`: The underlying Qt version. *
-# `{upstream_browser_key}`: "Version" for QtWebKit, "Chrome" for
-# QtWebEngine. * `{upstream_browser_version}`: The corresponding
-# Safari/Chrome version. * `{qutebrowser_version}`: The currently
-# running qutebrowser version.  The default value is equal to the
-# unchanged user agent of QtWebKit/QtWebEngine.  Note that the value
-# read from JavaScript is always the global value. With QtWebEngine
-# between 5.12 and 5.14 (inclusive), changing the value exposed to
-# JavaScript requires a restart.
-# Type: FormatString
-config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99 Safari/537.36', 'https://*.slack.com/*')
-
-# User agent to send.  The following placeholders are defined:  *
-# `{os_info}`: Something like "X11; Linux x86_64". * `{webkit_version}`:
-# The underlying WebKit version (set to a fixed value   with
-# QtWebEngine). * `{qt_key}`: "Qt" for QtWebKit, "QtWebEngine" for
-# QtWebEngine. * `{qt_version}`: The underlying Qt version. *
-# `{upstream_browser_key}`: "Version" for QtWebKit, "Chrome" for
-# QtWebEngine. * `{upstream_browser_version}`: The corresponding
-# Safari/Chrome version. * `{qutebrowser_version}`: The currently
-# running qutebrowser version.  The default value is equal to the
-# unchanged user agent of QtWebKit/QtWebEngine.  Note that the value
-# read from JavaScript is always the global value. With QtWebEngine
-# between 5.12 and 5.14 (inclusive), changing the value exposed to
-# JavaScript requires a restart.
-# Type: FormatString
-config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}; rv:71.0) Gecko/20100101 Firefox/71.0', 'https://docs.google.com/*')
-
-# User agent to send.  The following placeholders are defined:  *
-# `{os_info}`: Something like "X11; Linux x86_64". * `{webkit_version}`:
-# The underlying WebKit version (set to a fixed value   with
-# QtWebEngine). * `{qt_key}`: "Qt" for QtWebKit, "QtWebEngine" for
-# QtWebEngine. * `{qt_version}`: The underlying Qt version. *
-# `{upstream_browser_key}`: "Version" for QtWebKit, "Chrome" for
-# QtWebEngine. * `{upstream_browser_version}`: The corresponding
-# Safari/Chrome version. * `{qutebrowser_version}`: The currently
-# running qutebrowser version.  The default value is equal to the
-# unchanged user agent of QtWebKit/QtWebEngine.  Note that the value
-# read from JavaScript is always the global value. With QtWebEngine
-# between 5.12 and 5.14 (inclusive), changing the value exposed to
-# JavaScript requires a restart.
-# Type: FormatString
-config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}; rv:71.0) Gecko/20100101 Firefox/71.0', 'https://drive.google.com/*')
-
-# Load images automatically in web pages.
-# Type: Bool
-config.set('content.images', True, 'chrome-devtools://*')
-
-# Load images automatically in web pages.
-# Type: Bool
-config.set('content.images', True, 'devtools://*')
-
-# Enable JavaScript.
-# Type: Bool
-config.set('content.javascript.enabled', True, 'chrome-devtools://*')
-
-# Enable JavaScript.
-# Type: Bool
-config.set('content.javascript.enabled', True, 'devtools://*')
-
-# Enable JavaScript.
-# Type: Bool
-config.set('content.javascript.enabled', True, 'chrome://*/*')
-
-# Enable JavaScript.
-# Type: Bool
-config.set('content.javascript.enabled', True, 'qute://*/*')
-
-# Allow websites to show notifications.
-# Type: BoolAsk
-# Valid values:
-#   - true
-#   - false
-#   - ask
-config.set('content.notifications.enabled', True, 'https://www.reddit.com')
-
-# Allow websites to show notifications.
-# Type: BoolAsk
-# Valid values:
-#   - true
-#   - false
-#   - ask
-config.set('content.notifications.enabled', True, 'https://www.youtube.com')
-
-# Directory to save downloads to. If unset, a sensible OS-specific
-# default is used.
-# Type: Directory
-c.downloads.location.directory = '~/Downloads'
-
-# When to show the tab bar.
-# Type: String
-# Valid values:
-#   - always: Always show the tab bar.
-#   - never: Always hide the tab bar.
-#   - multiple: Hide the tab bar if only one tab is open.
-#   - switching: Show the tab bar when switching tabs.
-c.tabs.show = 'always'
-
-# Setting default page for when opening new tabs or new windows with
-# commands like :open -t and :open -w .
-# c.url.default_page = 'https://distro.tube/'
-# c.url.start_pages = 'https://distro.tube/'
-
-# Search engines which can be used via the address bar.  Maps a search
-# engine name (such as `DEFAULT`, or `ddg`) to a URL with a `{}`
-# placeholder. The placeholder will be replaced by the search term, use
-# `{{` and `}}` for literal `{`/`}` braces.  The following further
-# placeholds are defined to configure how special characters in the
-# search terms are replaced by safe characters (called 'quoting'):  *
-# `{}` and `{semiquoted}` quote everything except slashes; this is the
-# most   sensible choice for almost all search engines (for the search
-# term   `slash/and&amp` this placeholder expands to `slash/and%26amp`).
-# * `{quoted}` quotes all characters (for `slash/and&amp` this
-# placeholder   expands to `slash%2Fand%26amp`). * `{unquoted}` quotes
-# nothing (for `slash/and&amp` this placeholder   expands to
-# `slash/and&amp`).  The search engine named `DEFAULT` is used when
-# `url.auto_search` is turned on and something else than a URL was
-# entered to be opened. Other search engines can be used by prepending
-# the search engine name to the search term, e.g. `:open google
-# qutebrowser`.
-# Type: Dict
-# c.url.searchengines = {'DEFAULT': 'https://duckduckgo.com/?q={}', 'am': 'https://www.amazon.com/s?k={}', 'aw': 'https://wiki.archlinux.org/?search={}', 'goog': 'https://www.google.com/search?q={}', 'hoog': 'https://hoogle.haskell.org/?hoogle={}', 're': 'https://www.reddit.com/r/{}', 'ub': 'https://www.urbandictionary.com/define.php?term={}', 'wiki': 'https://en.wikipedia.org/wiki/{}', 'yt': 'https://www.youtube.com/results?search_query={}'}
-
-# Text color of the completion widget. May be a single color to use for
-# all columns or a list of three colors, one for each column.
-# Type: List of QtColor, or QtColor
-
-# Font used for prompts.
-# Type: Font
 c.fonts.prompts = 'default_size sans-serif'
-
-# Font used in the statusbar.
-# Type: Font
 c.fonts.statusbar = '11pt "Source Code Pro"'
 
-# Bindings to use dmenu rather than qutebrowser's builtin search.
-#config.bind('o', 'spawn --userscript dmenu-open')
-#config.bind('O', 'spawn --userscript dmenu-open --tab')
+c.content.blocking.method = 'auto'
+c.keyhint.blacklist = ['*']
+c.messages.timeout = 0
+c.scrolling.smooth = True
 
-# Bindings for normal mode
+# -----------------------------------------------------------------------------
+# Startup Pages
+# -----------------------------------------------------------------------------
+c.url.default_page = 'file:///home/ati/.config/qutebrowser/html/homepage.html'
+c.url.start_pages = ['file:///home/ati/.config/qutebrowser/html/homepage.html']
+
+# -----------------------------------------------------------------------------
+# Editor & Clipboard
+# -----------------------------------------------------------------------------
+c.editor.command = ["alacritty", "-e", "nvim", "{}"]
+c.content.javascript.clipboard = 'access'
+
+# -----------------------------------------------------------------------------
+# Tabs & Statusbar
+# -----------------------------------------------------------------------------
+c.tabs.show = 'always'
+
+# -----------------------------------------------------------------------------
+# Downloads
+# -----------------------------------------------------------------------------
+c.downloads.location.directory = '~/Downloads'
+
+# -----------------------------------------------------------------------------
+# Keybindings - Vim Style
+# -----------------------------------------------------------------------------
+config.unbind('H', mode='normal')
+config.unbind('L', mode='normal')
+config.unbind('J', mode='normal')
+config.unbind('K', mode='normal')
+config.unbind('<Space>', mode='caret')
+
+# Navigation
+config.bind('H', 'tab-prev')
+config.bind('L', 'tab-next')
+config.bind('<Ctrl-h>', 'back')
+config.bind('<Ctrl-l>', 'forward')
+
+# Prompt navigation
+config.bind('<Ctrl-j>', 'completion-item-focus --next', mode='prompt')
+config.bind('<Ctrl-k>', 'completion-item-focus --prev', mode='prompt')
+
+# Hints
+config.bind('T', 'hint links tab')
+config.bind('Y', 'hint links yank')
 config.bind('M', 'hint links spawn mpv {hint-url}')
-# config.bind('Z', 'hint links spawn st -e youtube-dl {hint-url}')
+
+# Passthrough
+config.bind('<Ctrl-p>', 'mode-enter passthrough ;; message-info "Passthrough mode ON"')
+config.bind('<Escape>', 'mode-leave ;; message-info "Passthrough mode OFF"', mode='passthrough')
+config.bind('<Escape>', 'clear-messages', mode='normal')
+
+# Custom Commands
+config.bind('<space>t', 'open -t')
+config.bind('<space>w', 'tab-close')
+config.bind('<space>o', 'tab-only')
+config.bind('<space>f', 'cmd-set-text :')
+config.bind('<space>g', 'open https://github.com/search?q={primary}')
+config.bind('<space>myg', 'open https://github.com/MohamedattiaDev')
+config.bind('<space>ati', 'open https://mohamedattiaDev.github.io/AtiDocs')
+config.bind('<space>ls', 'session-load default')
+config.bind('<space>ss', 'session-save default')
+config.bind('<space>wq', 'quit --save')
+config.bind('<space>w', 'session-save default')
+config.bind('<space>V', 'view-source')
+config.bind(',d', 'config-cycle colors.webpage.darkmode.enabled')
 config.bind('<space><space>', 'cmd-set-text -s :open -t')
 config.bind('xb', 'config-cycle statusbar.show always never')
 config.bind('xt', 'config-cycle tabs.show always never')
 config.bind('xx', 'config-cycle statusbar.show always never;; config-cycle tabs.show always never')
 
-# Bindings for cycling through CSS stylesheets from Solarized Everything CSS:
-# https://github.com/alphapapa/solarized-everything-css
-config.bind(',ap', 'config-cycle content.user_stylesheets ~/.config/qutebrowser/solarized-everything-css/css/apprentice/apprentice-all-sites.css ""')
-config.bind(',dr', 'config-cycle content.user_stylesheets ~/.config/qutebrowser/solarized-everything-css/css/darculized/darculized-all-sites.css ""')
-config.bind(',gr', 'config-cycle content.user_stylesheets ~/.config/qutebrowser/solarized-everything-css/css/gruvbox/gruvbox-all-sites.css ""')
-config.bind(',sd', 'config-cycle content.user_stylesheets ~/.config/qutebrowser/solarized-everything-css/css/solarized-dark/solarized-dark-all-sites.css ""')
-config.bind(',sl', 'config-cycle content.user_stylesheets ~/.config/qutebrowser/solarized-everything-css/css/solarized-light/solarized-light-all-sites.css ""')
+# -----------------------------------------------------------------------------
+# Search Engines
+# -----------------------------------------------------------------------------
+c.url.searchengines = {
+    'DEFAULT': 'https://duckduckgo.com/?q={}',
+    'g': 'https://www.google.com/search?q={}',
+    'ddg': 'https://duckduckgo.com/?q={}',
+    'br': 'https://search.brave.com/search?q={}',
+    'b': 'https://www.bing.com/search?q={}',
+    'gh': 'https://github.com/search?q={}',
+    'gl': 'https://gitlab.com/search?q={}',
+    'so': 'https://stackoverflow.com/search?q={}',
+    'npm': 'https://www.npmjs.com/search?q={}',
+    'py': 'https://pypi.org/search/?q={}',
+    'aur': 'https://aur.archlinux.org/packages/?K={}',
+    'aw': 'https://wiki.archlinux.org/index.php?search={}',
+    'yt': 'https://www.youtube.com/results?search_query={}',
+    'wiki': 'https://en.wikipedia.org/w/index.php?search={}',
+    'mdn': 'https://developer.mozilla.org/en-US/search?q={}',
+    'dev': 'https://devdocs.io/#q={}',
+    'chatgpt': 'https://chat.openai.com/?q={}',
+    'gemini': 'https://gemini.google.com/?q={}',
+    'r': 'https://www.reddit.com/r/all/search?q={}',
+    'hn': 'https://hn.algolia.com/?q={}',
+}
 
+# -----------------------------------------------------------------------------
+# Aliases
+# -----------------------------------------------------------------------------
+c.aliases.update({
+    'dev': 'spawn --userscript ~/.config/qutebrowser/scripts/open-work-tabs',
+    'yt': 'open https://www.youtube.com',
+    'gh': 'open https://github.com',
+    'mgh': 'open https://github.com/MohamedattiaDev',
+    'ati': 'open https://mohamedattiaDev.github.io/AtiDocs',
+    'fa3': 'open https://Fa3elKheer.github.io/Fa3elKheer',
+    'g': 'open https://google.com',
+    'gl': 'open https://gitlab.com',
+    'mail': 'open https://mail.google.com',
+    'chat': 'open https://chat.google.com',
+    'devdocs': 'open https://devdocs.io'
+})
 
+# -----------------------------------------------------------------------------
+# Per-domain Settings
+# -----------------------------------------------------------------------------
+# Accept all cookies
+config.set('content.cookies.accept', 'all', 'chrome-devtools://*')
+config.set('content.cookies.accept', 'all', 'devtools://*')
+
+# Enable JavaScript
+for url in [
+    'chrome-devtools://*',
+    'devtools://*',
+    'chrome://*/*',
+    'qute://*/*',
+]:
+    config.set('content.javascript.enabled', True, url)
+
+# Load images
+config.set('content.images', True, 'chrome-devtools://*')
+config.set('content.images', True, 'devtools://*')
+
+# Notifications
+config.set('content.notifications.enabled', True, 'https://www.reddit.com')
+config.set('content.notifications.enabled', True, 'https://www.youtube.com')
+
+# User Agents for compatibility
+config.set('content.headers.user_agent',
+           'Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} '
+           '(KHTML, like Gecko) {upstream_browser_key}/{upstream_browser_version} '
+           'Safari/{webkit_version}', 'https://web.whatsapp.com/')
+
+config.set('content.headers.user_agent',
+           'Mozilla/5.0 ({os_info}; rv:71.0) Gecko/20100101 Firefox/71.0',
+           'https://accounts.google.com/*')
+
+config.set('content.headers.user_agent',
+           'Mozilla/5.0 ({os_info}) AppleWebKit/537.36 (KHTML, like Gecko) '
+           'Chrome/99 Safari/537.36', 'https://*.slack.com/*')
+
+config.set('content.headers.user_agent',
+           'Mozilla/5.0 ({os_info}; rv:71.0) Gecko/20100101 Firefox/71.0',
+           'https://docs.google.com/*')
+
+config.set('content.headers.user_agent',
+           'Mozilla/5.0 ({os_info}; rv:71.0) Gecko/20100101 Firefox/71.0',
+           'https://drive.google.com/*')
+
+# -----------------------------------------------------------------------------
+# Final Print
+# -----------------------------------------------------------------------------
+print("--- Custom Developer Config Loaded ---")
