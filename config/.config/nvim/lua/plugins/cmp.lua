@@ -93,6 +93,7 @@ return {
           menu = {
             nvim_lsp = "[LSP]",
             luasnip = "[Snippet]",
+            supermaven = "[Maven]",
             codeium = "[AI]",
             buffer = "[Buffer]",
             path = "[Path]",
