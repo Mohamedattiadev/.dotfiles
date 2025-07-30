@@ -166,6 +166,77 @@ setup_dev_tools() {
 	git config --global user.email "$GIT_EMAIL"
 }
 
+install_gptscript() {
+	local GPTSCRIPT_DIR="$HOME/.config/GptScript"
+
+	log "Installing GPTScript clipboard assistant..."
+
+	# Ensure git is installed
+	if ! command -v git &>/dev/null; then
+		log "Git not found, installing git..."
+		sudo pacman -S --needed --noconfirm git
+	fi
+
+	# Clone repo if not exists
+	if [[ ! -d "$GPTSCRIPT_DIR" ]]; then
+		git clone https://github.com/Mohamedattiadev/gptscript.git "$GPTSCRIPT_DIR"
+		log "Cloned GPTScript repo to $GPTSCRIPT_DIR."
+	else
+		log "GPTScript repo already exists at $GPTSCRIPT_DIR. Pulling latest changes..."
+		git -C "$GPTSCRIPT_DIR" pull
+	fi
+
+	# Install dependencies (python3, xclip, xdotool)
+	log "Installing GPTScript dependencies: python3, xclip, xdotool..."
+	sudo pacman -S --needed --noconfirm python xclip xdotool
+
+	# Setup python venv and install python dependencies
+	cd "$GPTSCRIPT_DIR"
+	if [[ ! -d "venv" ]]; then
+		python -m venv venv
+		log "Created Python virtual environment."
+	fi
+
+	# Activate and install python deps
+	source venv/bin/activate
+	pip install --upgrade pip
+	pip install -r requirements.txt
+	deactivate
+
+	# Make main script executable
+	chmod +x gpt_inline_auto.py
+
+	# Setup user.env from example if missing (no GEMINI_API_KEY here)
+	if [[ ! -f "$GPTSCRIPT_DIR/user.env" ]]; then
+		cp "$GPTSCRIPT_DIR/user.env.example" "$GPTSCRIPT_DIR/user.env"
+		warn "Please edit $GPTSCRIPT_DIR/user.env and add your NAME, STUDENT_ID, EMAIL, etc."
+	else
+		log "user.env already exists at $GPTSCRIPT_DIR/user.env"
+	fi
+
+	# Check /etc/environment for GEMINI_API_KEY, add placeholder if missing
+	if ! grep -q '^GEMINI_API_KEY=' /etc/environment 2>/dev/null; then
+		warn "GEMINI_API_KEY not found in /etc/environment."
+		echo "Adding placeholder GEMINI_API_KEY to /etc/environment..."
+		sudo bash -c 'echo "GEMINI_API_KEY=your_gemini_api_here" >> /etc/environment'
+		echo "Please edit /etc/environment and replace 'your_gemini_api_here' with your actual API key."
+		echo "Then reboot or run: source /etc/environment"
+	else
+		log "GEMINI_API_KEY found in /etc/environment."
+	fi
+
+	log "GPTScript installation complete."
+
+	echo
+	echo "To activate the Python environment for GPTScript (fish shell):"
+	echo "  source $GPTSCRIPT_DIR/venv/bin/activate.fish"
+	echo
+	echo "To run GPTScript:"
+	echo "  $GPTSCRIPT_DIR/gpt_inline_auto.py"
+	echo
+	echo "Or bind it in your window manager keybindings."
+}
+
 setup_ssh() {
 	if [[ -f "$HOME/.ssh/id_ed25519.pub" ]]; then
 		warn "SSH key already exists. Skipping."
@@ -193,6 +264,7 @@ main() {
 	setup_touchpad
 	setup_dev_tools
 	setup_ssh
+	install_gptscript
 	log "🚀 All done! You may want to reboot or logout now."
 }
 
