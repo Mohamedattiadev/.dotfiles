@@ -6,8 +6,7 @@
 
 ## 📦 Overview
 
-This dotfiles repo represents my personal Linux setup, optimized for speed, aesthetics, keyboard efficiency, and deep integration with modern tools like GPT, Neovim IDEs, and window automation.  
-It extends DTOS with custom scripts, enhanced editor capabilities, better browser workflows, and tightly integrated AI tooling.
+This dotfiles repo represents my personal Linux setup, optimized for speed, aesthetics, keyboard efficiency, and deep integration with modern tools like GPT, Neovim IDEs, and window automation. It extends DTOS with custom scripts, enhanced editor capabilities, better browser workflows, and tightly integrated AI tooling.
 
 ---
 
@@ -18,10 +17,10 @@ It extends DTOS with custom scripts, enhanced editor capabilities, better browse
 - **Terminal**: Alacritty (GPU-accelerated)
 - **Editor**: Neovim (LSP, Treesitter, Supermaven integration)
 - **Browser**: Qutebrowser (keyboard-driven) with custom Surfingkeys
-- **AI Inline_assistant:**: GPTScript clipboard assistant powered by Google Gemini
+- **AI**: GPTScript clipboard assistant powered by Google Gemini
 - **Launcher**: Rofi with custom scripts (brightness, power, screen)
 - **Multiplexer**: TMUX with plugin support
-- **System**: Arch Linux + custom `installScript`
+- **System**: Arch Linux + custom installScript
 
 ---
 
@@ -59,6 +58,8 @@ Clipboard-triggered AI using Google Gemini API. Commands like:
 
 Integrated with `xdotool` and `xclip`.
 
+> Combined with a custom GPTScript, accessible from a **Qtile scratchpad terminal**, allowing fast prompts to Gemini, DeepSeek, or even Obsidian note generation.
+
 ---
 
 ### ⚡ Neovim as IDE
@@ -72,9 +73,10 @@ Integrated with `xdotool` and `xclip`.
 
 ### 🌐 Browser Tweaks
 
-- Qutebrowser with Vim-style keyboard navigation
-- Integrated theme and keybindings
-- Focus on speed and privacy
+- **Qutebrowser** with Vim-style keyboard navigation
+- **Custom keybindings** and configuration for optimal tab, search, and hint navigation
+- Integrated theme for minimal distraction
+- Focus on **speed and privacy**
 
 ---
 
@@ -82,6 +84,28 @@ Integrated with `xdotool` and `xclip`.
 
 - Light control: `rofi-light`
 - TODO script: `rofi-todo`
+
+---
+
+### 🧠 Productivity Boosters
+
+- ✅ **Hints** (via [`AlfredoSqueido/hints`](https://github.com/AlfredoSequeida/hints))
+
+  - Creates clickable numeric hints anywhere on screen
+  - Similar to macOS Homerow-style launcher hints
+  - Pairs **perfectly with `warpd`** for keyboard-driven mouse control
+
+- ✅ **Warpd**
+
+  - Warp anywhere on the screen with the keyboard
+  - Excellent companion to `hints` for zero-mouse workflows
+
+- ✅ **Qtile Scratchpads**
+  - Two floating terminal scratchpads for:
+    - GPTScript Assistant
+    - Obsidian Notes
+    - DeepSeek CLI
+  - Launch instantly with hotkeys for quick thought capture or coding
 
 ---
 
@@ -94,38 +118,28 @@ Integrated with `xdotool` and `xclip`.
 
 ## 🧪 Installation
 
-### 🌀 Clone the Dotfiles
+Clone and run the setup:
 
 ```bash
 git clone https://github.com/MohamedattiaDev/dotfiles ~/.dotfiles
 cd ~/.dotfiles
-```
 
-### 🧷 Use GNU Stow to Symlink Files
-> check if u have stow pack. on ur pc
-> if not  ```bash yay -S stow ```
-```bash
+# Use stow to symlink dotfiles
 stow config          # Links everything inside config/.config to ~/.config
 stow tmux            # Links .tmux.conf to ~/
 stow installScript   # Links install.sh to ~/
-```
 
-### ▶️ Run the Installer
-
-```bash
-cd ~                 # Move to your home directory
-
-chmod +x install.sh  # Make the script executable
+# Move to home directory to execute
+cd ~
+chmod +x install.sh
 ./install.sh         # Run the install script
 ```
 
-> The `installScript` folder contains logic for setting up Qtile, installing packages, configuring X11, Fish, Neovim, and more.
+> The `installScript` folder contains logic for setting up Qtile, installing packages, configuring X11, fish, Neovim, and more.
 
 ---
 
-## ⚙️ Environment Variables Setup
-
-✅ The following environment variables will be appended to `/etc/environment` automatically during install:
+> ✅ The following environment variables will be appended to `/etc/environment` automatically during install:
 
 ```env
 # Required for 'hints'
@@ -140,20 +154,15 @@ QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1
 GEMINI_API_KEY=your_gemini_api_here
 ```
 
-⚠️ After installation:
-
-1. Open `/etc/environment` with sudo
-2. Replace `your_gemini_api_here` with your actual API key
-3. Then **reboot** or run: `source /etc/environment`
+> ⚠️ After installation, edit `/etc/environment` and replace `your_gemini_api_here` with your actual Gemini API key. Then reboot or `source /etc/environment` to apply changes.
 
 ---
 
 ## 🔐 VSCode Integration
 
-> if u are a vscode + vim user, you can use the `keybinding.json` and `settings.json` to get the best experience.
-
 - Vim emulation with smooth motion
 - `keybinding.json` + `settings.json` for full productivity
+- GitHub Copilot Alternative (`Supermaven` on Neovim)
 
 ---
 
@@ -162,13 +171,15 @@ GEMINI_API_KEY=your_gemini_api_here
 - GPT clipboard assistant integration
 - Supermaven Copilot alt in Neovim
 - Touchpad config with tap + gestures
-- Qutebrowser full rebuild
+- Qutebrowser full rebuild with custom keybindings
 - Custom Rofi scripts for brightness, TODO
 - Fish shell customization
 - Tmux customization
 - Light/dark themes
 - GPTScript `/gpt`, `/mail`, `/sum` support
 - VSCode-Vim enhancements
+- Qtile scratchpads with AI tools (GPT, DeepSeek, Obsidian)
+- Warpd + Hints for full keyboard control
 
 ---
 
