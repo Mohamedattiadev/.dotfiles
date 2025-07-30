@@ -102,7 +102,8 @@ cd ~/.dotfiles
 ```
 
 ### 🧷 Use GNU Stow to Symlink Files
-
+> check if u have stow pack. on ur pc
+> if not  ```bash yay -S stow ```
 ```bash
 stow config          # Links everything inside config/.config to ~/.config
 stow tmux            # Links .tmux.conf to ~/
