@@ -1,6 +1,14 @@
 # CRITICAL: Load the autoconfig first.
 config.load_autoconfig()
 
+# -----------------------------------------------------------------------------
+# Clear all default keybindings except explicitly defined ones
+# -----------------------------------------------------------------------------
+
+
+
+# Keep <space>f intact
+config.bind('<space>f', 'cmd-set-text :')
 # Import the theme module (doom_one.py should be in ~/.config/qutebrowser/)
 import doom_one
 
@@ -95,6 +103,8 @@ config.bind('xb', 'config-cycle statusbar.show always never')
 config.bind('xt', 'config-cycle tabs.show always never')
 config.bind('xx', 'config-cycle statusbar.show always never;; config-cycle tabs.show always never')
 
+# History 
+config.bind('<space>s', 'history')
 # -----------------------------------------------------------------------------
 # Search Engines
 # -----------------------------------------------------------------------------
