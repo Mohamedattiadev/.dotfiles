@@ -1,0 +1,100 @@
+{
+  "entries": {
+    "jpeg": [
+      {
+        "Actions": "new-window;new-private-window;",
+        "Categories": "Network;WebBrowser;",
+        "Comment": "Access the Internet",
+        "Exec": [
+          "brave",
+          "%U"
+        ],
+        "GenericName": "Web Browser",
+        "Icon": "/usr/share/icons/candy-icons/apps/scalable/brave-desktop.svg",
+        "MimeType": [
+          "application/rss+xml",
+          "",
+          "image/gif",
+          "x-scheme-handler/ipfs",
+          "x-scheme-handler/https",
+          "application/xhtml+xml",
+          "application/xhtml_xml",
+          "x-scheme-handler/ipns",
+          "application/rdf+xml",
+          "image/jpeg",
+          "x-scheme-handler/http",
+          "text/xml",
+          "image/webp",
+          "image/png",
+          "application/xml",
+          "application/pdf",
+          "text/html"
+        ],
+        "Name": "Brave",
+        "StartupNotify": "true",
+        "StartupWMClass": "brave-browser",
+        "Terminal": "false",
+        "TryExec": "brave",
+        "Type": "Application",
+        "Version": "1.0",
+        "desktop_file_path": "/usr/share/applications/brave-browser.desktop",
+        "icon_data": {
+          "__class__": "bytearray",
+          "__value__": "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"
+        },
+        "uuid": "d6f030ca-f74e-419a-a5e1-375fad4f601f"
+      }
+    ]
+  },
+  "geometry-of-choose-open-with-program-dialog-geometry": {
+    "frame_geometry": {
+      "height": 504,
+      "width": 604,
+      "x": 371,
+      "y": 92
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 500,
+      "width": 600,
+      "x": 373,
+      "y": 94
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 500,
+      "width": 600,
+      "x": 373,
+      "y": 94
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAFzAAAAXAAAA84AAAJTAAABdQAAAF4AAAPMAAACUQAAAAAAAAAABVYAAAF1AAAAXgAAA8wAAAJR"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 1.0,
+      "geometry_in_logical_pixels": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "LG Display",
+      "model": "",
+      "name": "eDP1",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 768,
+        "width": 1366
+      },
+      "virtual_geometry": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      }
+    }
+  }
+}

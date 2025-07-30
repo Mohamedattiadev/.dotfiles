@@ -1,0 +1,885 @@
+{
+  "advanced search dialog current tab": 0,
+  "basic_metadata_widget_splitter_state": {
+    "__class__": "bytearray",
+    "__value__": "AAAA/wAAAAEAAAADAAAA0gAAAToAAAEKAf////8BAAAAAQA="
+  },
+  "book_info_dialog_splitter_state": {
+    "__class__": "bytearray",
+    "__value__": "AAAA/wAAAAEAAAACAAABXgAAAV4B/////wEAAAABAA=="
+  },
+  "book_list_pin_splitter_state": {
+    "__class__": "bytearray",
+    "__value__": "AAAA/wAAAAEAAAACAAABAAAAAD0A/////wEAAAABAA=="
+  },
+  "custom_colors_for_color_dialog": [
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ]
+  ],
+  "geometry-of-book-details-popup-conf-geometry": {
+    "frame_geometry": {
+      "height": 504,
+      "width": 488,
+      "x": 603,
+      "y": 139
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 500,
+      "width": 484,
+      "x": 605,
+      "y": 141
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 500,
+      "width": 484,
+      "x": 605,
+      "y": 141
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAJbAAAAiwAABEIAAAKCAAACXQAAAI0AAARAAAACgAAAAAAAAAAABVYAAAJdAAAAjQAABEAAAAKA"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 1.0,
+      "geometry_in_logical_pixels": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "LG Display",
+      "model": "",
+      "name": "eDP1",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 768,
+        "width": 1366
+      },
+      "virtual_geometry": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "geometry-of-book_info_dialog_geometry": {
+    "frame_geometry": {
+      "height": 672,
+      "width": 704,
+      "x": 497,
+      "y": 57
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 668,
+      "width": 700,
+      "x": 499,
+      "y": 59
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 668,
+      "width": 700,
+      "x": 499,
+      "y": 59
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAHxAAAAOQAABLAAAALYAAAB8wAAADsAAASuAAAC1gAAAAAAAAAABVYAAAHzAAAAOwAABK4AAALW"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 1.0,
+      "geometry_in_logical_pixels": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "LG Display",
+      "model": "",
+      "name": "eDP1",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 768,
+        "width": 1366
+      },
+      "virtual_geometry": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "geometry-of-calibre_main_window_geometry": {
+    "frame_geometry": {
+      "height": 726,
+      "width": 1009,
+      "x": 347,
+      "y": 32
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 722,
+      "width": 1005,
+      "x": 349,
+      "y": 34
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 722,
+      "width": 1005,
+      "x": 349,
+      "y": 34
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAFbAAAAIAAABUsAAAL1AAABXQAAACIAAAVJAAAC8wAAAAAAAAAABVYAAAFdAAAAIgAABUkAAALz"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 1.0,
+      "geometry_in_logical_pixels": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "LG Display",
+      "model": "",
+      "name": "eDP1",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 768,
+        "width": 1366
+      },
+      "virtual_geometry": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "geometry-of-convert_single_dialog_geom": {
+    "frame_geometry": {
+      "height": 768,
+      "width": 1366,
+      "x": 0,
+      "y": 26
+    },
+    "full_screened": true,
+    "geometry": {
+      "height": 768,
+      "width": 1366,
+      "x": 0,
+      "y": 26
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 768,
+      "width": 1366,
+      "x": 0,
+      "y": 26
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAAAAAAAGgAABVUAAAMZAAAAAAAAABoAAAVVAAADGQAAAAAABAAABVYAAAAAAAAAGgAABVUAAAMZ"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 1.0,
+      "geometry_in_logical_pixels": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "LG Display",
+      "model": "",
+      "name": "eDP1",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 768,
+        "width": 1366
+      },
+      "virtual_geometry": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "geometry-of-duplicates-question-dialog-geometry": {
+    "frame_geometry": {
+      "height": 376,
+      "width": 494,
+      "x": 416,
+      "y": 116
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 372,
+      "width": 490,
+      "x": 418,
+      "y": 118
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 372,
+      "width": 490,
+      "x": 418,
+      "y": 118
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAGgAAAAdAAAA40AAAHrAAABogAAAHYAAAOLAAAB6QAAAAAAAAAABVYAAAGiAAAAdgAAA4sAAAHp"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 1.0,
+      "geometry_in_logical_pixels": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "LG Display",
+      "model": "",
+      "name": "eDP1",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 768,
+        "width": 1366
+      },
+      "virtual_geometry": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "geometry-of-job-detail-view-dialog-geometry": {
+    "frame_geometry": {
+      "height": 772,
+      "width": 1370,
+      "x": -2,
+      "y": -2
+    },
+    "full_screened": true,
+    "geometry": {
+      "height": 768,
+      "width": 1366,
+      "x": 0,
+      "y": 0
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 500,
+      "width": 700,
+      "x": 323,
+      "y": 94
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAD////+/////gAABVcAAAMBAAABQwAAAF4AAAP+AAACUQAAAAAABAAABVYAAAAAAAAAAAAABVUAAAL/"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 1.0,
+      "geometry_in_logical_pixels": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "LG Display",
+      "model": "",
+      "name": "eDP1",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 768,
+        "width": 1366
+      },
+      "virtual_geometry": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "geometry-of-jobs_dialog_geometry": {
+    "frame_geometry": {
+      "height": 177,
+      "width": 667,
+      "x": 691,
+      "y": 397
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 173,
+      "width": 663,
+      "x": 693,
+      "y": 399
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 173,
+      "width": 663,
+      "x": 693,
+      "y": 399
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAKzAAABjQAABU0AAAI9AAACtQAAAY8AAAVLAAACOwAAAAAAAAAABVYAAAK1AAABjwAABUsAAAI7"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 1.0,
+      "geometry_in_logical_pixels": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "LG Display",
+      "model": "",
+      "name": "eDP1",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 768,
+        "width": 1366
+      },
+      "virtual_geometry": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "geometry-of-manage-data-files-xx-geometry": {
+    "frame_geometry": {
+      "height": 504,
+      "width": 404,
+      "x": 471,
+      "y": 92
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 500,
+      "width": 400,
+      "x": 473,
+      "y": 94
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 500,
+      "width": 400,
+      "x": 473,
+      "y": 94
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAHXAAAAXAAAA2oAAAJTAAAB2QAAAF4AAANoAAACUQAAAAAAAAAABVYAAAHZAAAAXgAAA2gAAAJR"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 1.0,
+      "geometry_in_logical_pixels": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "LG Display",
+      "model": "",
+      "name": "eDP1",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 768,
+        "width": 1366
+      },
+      "virtual_geometry": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "geometry-of-metadata_single_gui_geom": {
+    "frame_geometry": {
+      "height": 604,
+      "width": 854,
+      "x": 287,
+      "y": 103
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 600,
+      "width": 850,
+      "x": 289,
+      "y": 105
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 600,
+      "width": 850,
+      "x": 289,
+      "y": 105
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAEfAAAAZwAABHQAAALCAAABIQAAAGkAAARyAAACwAAAAAAAAAAABVYAAAEhAAAAaQAABHIAAALA"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 1.0,
+      "geometry_in_logical_pixels": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "LG Display",
+      "model": "",
+      "name": "eDP1",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 768,
+        "width": 1366
+      },
+      "virtual_geometry": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "geometry-of-metasingle_window_geometry3": {
+    "frame_geometry": {
+      "height": 722,
+      "width": 1300,
+      "x": 66,
+      "y": 46
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 718,
+      "width": 1296,
+      "x": 68,
+      "y": 48
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 718,
+      "width": 1296,
+      "x": 68,
+      "y": 48
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAABCAAAALgAABVUAAAL/AAAARAAAADAAAAVTAAAC/QAAAAAAAAAABVYAAABEAAAAMAAABVMAAAL9"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 1.0,
+      "geometry_in_logical_pixels": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "LG Display",
+      "model": "",
+      "name": "eDP1",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 768,
+        "width": 1366
+      },
+      "virtual_geometry": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "geometry-of-preferences dialog geometry": {
+    "frame_geometry": {
+      "height": 768,
+      "width": 1366,
+      "x": 0,
+      "y": 0
+    },
+    "full_screened": true,
+    "geometry": {
+      "height": 768,
+      "width": 1366,
+      "x": 0,
+      "y": 0
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 160,
+      "width": 663,
+      "x": 691,
+      "y": 471
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAAAAAAAAAAABVUAAAL/AAACswAAAdcAAAVJAAACdgAAAAAABAAABVYAAAAAAAAAAAAABVUAAAL/"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 1.0,
+      "geometry_in_logical_pixels": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "LG Display",
+      "model": "",
+      "name": "eDP1",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 768,
+        "width": 1366
+      },
+      "virtual_geometry": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "geometry-of-scheduler_dialog_geometry": {
+    "frame_geometry": {
+      "height": 604,
+      "width": 804,
+      "x": 271,
+      "y": 42
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 600,
+      "width": 800,
+      "x": 273,
+      "y": 44
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 600,
+      "width": 800,
+      "x": 273,
+      "y": 44
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAEPAAAAKgAABDIAAAKFAAABEQAAACwAAAQwAAACgwAAAAAAAAAABVYAAAERAAAALAAABDAAAAKD"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 1.0,
+      "geometry_in_logical_pixels": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "LG Display",
+      "model": "",
+      "name": "eDP1",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 768,
+        "width": 1366
+      },
+      "virtual_geometry": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "geometry-of-single-cover-fetch-dialog-geometry": {
+    "frame_geometry": {
+      "height": 279,
+      "width": 292,
+      "x": 527,
+      "y": 205
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 275,
+      "width": 288,
+      "x": 529,
+      "y": 207
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 275,
+      "width": 288,
+      "x": 529,
+      "y": 207
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAIPAAAAzQAAAzIAAAHjAAACEQAAAM8AAAMwAAAB4QAAAAAAAAAABVYAAAIRAAAAzwAAAzAAAAHh"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 1.0,
+      "geometry_in_logical_pixels": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "LG Display",
+      "model": "",
+      "name": "eDP1",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 768,
+        "width": 1366
+      },
+      "virtual_geometry": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "geometry-of-viewer_image_popup_geometry": {
+    "frame_geometry": {
+      "height": 112,
+      "width": 816,
+      "x": 273,
+      "y": 326
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 108,
+      "width": 812,
+      "x": 275,
+      "y": 328
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 108,
+      "width": 812,
+      "x": 275,
+      "y": 328
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAERAAABRgAABEAAAAG1AAABEwAAAUgAAAQ+AAABswAAAAAAAAAABVYAAAETAAABSAAABD4AAAGz"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 1.0,
+      "geometry_in_logical_pixels": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "LG Display",
+      "model": "",
+      "name": "eDP1",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 768,
+        "width": 1366
+      },
+      "virtual_geometry": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "grid view visible": false,
+  "jobs view column layout3": {
+    "__class__": "bytearray",
+    "__value__": "AAAA/wAAAAAAAAABAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAbgAAAAFAQEBAAAAAAAAAAAAAAAAAFj/////AAAAhAAAAAAAAAAFAAAAWAAAAAEAAAAAAAAAWAAAAAEAAAAAAAAAWAAAAAEAAAAAAAAAWAAAAAEAAAAAAAAAWAAAAAEAAAAAAAAD6AAAAAAAAAAAAA=="
+  },
+  "library_usage_stats": {
+    "/home/ati/Calibre Library": 12
+  },
+  "main_window_central_widget_state": {
+    "layout": "wide",
+    "narrow_desires": {
+      "book_details_height": 0.23076923076923078,
+      "cover_browser_width": 0.34937759336099583,
+      "quick_view_height": 0.2564102564102564,
+      "tag_browser_width": 0.24979253112033195
+    },
+    "narrow_visibility": {
+      "book_details": true,
+      "book_list": true,
+      "cover_browser": false,
+      "quick_view": false,
+      "tag_browser": true
+    },
+    "wide_desires": {
+      "book_details_width": 0.2995850622406639,
+      "cover_browser_height": 0.2857142857142857,
+      "quick_view_height": 0.23809523809523808,
+      "tag_browser_width": 0.2995850622406639
+    },
+    "wide_visibility": {
+      "book_details": true,
+      "book_list": true,
+      "cover_browser": false,
+      "quick_view": false,
+      "tag_browser": true
+    }
+  },
+  "previous_sort_order_BooksView": {
+    "authors": false,
+    "timestamp": true
+  },
+  "quick_start_guide_added": true,
+  "qv_open_at_shutdown": false,
+  "recently_used_languages": [],
+  "replace_scene_breaks_history": [
+    "",
+    "<hr />",
+    "∗ ∗ ∗",
+    "• • •",
+    "♦ ♦ ♦",
+    "† †",
+    "‡ ‡ ‡",
+    "∞ ∞ ∞",
+    "¤ ¤ ¤"
+  ],
+  "search bar visible": true,
+  "server3_warning_done": true,
+  "tag browser search box visible": false
+}

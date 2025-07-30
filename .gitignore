@@ -1,17 +1,88 @@
-
-# Cache and app junk
+# ========================
+# Browsers / Cache / App Junk
+# ========================
 .config/google-chrome/
 .config/chromium/
 .config/BraveSoftware/
-.config/Code/Cache/
-.config/Code/User/globalStorage/
 .config/Surf/
+.cache/
 .config/obsidian/
-.config2/
+.config/VSCodium/
+.config/Code/Cache/
+.config/Code/CachedData/
+.config/Code/Service Worker/
+.config/Code/User/globalStorage/
+.config/Code/User/workspaceStorage/
+.config/Code/Backups/
 
-# Binary caches
+# ========================
+# Editors / IDEs / Dev Tools
+# ========================
+.vscode/
+.idea/
+*.code-workspace
+*.sublime-workspace
+*.sublime-project
+
+# ========================
+# System / Sensitive / Secrets
+# ========================
+*.env
+*.key
+*.pem
+*.crt
+*.asc
+.gpg/
+.gnupg/
+.ssh/
+.netrc
+.python_history
+
+# ========================
+# OS-specific
+# ========================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+Icon?
+
+# ========================
+# Temp / Backup / Lock
+# ========================
+*~
+*.swp
+*.swo
+*.bak
+*.tmp
+*.lock
+*.pid
+
+# ========================
+# Python / Pip / Virtualenv
+# ========================
+*.pyc
+*.pyo
+__pycache__/
+venv/
+.env/
+.venv/
+pip-wheel-metadata/
+build/
+dist/
+user.env
+
+# ========================
+# Node / JS
+# ========================
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# ========================
+# Custom or Misc
+# ========================
+.config2/
 *.asar
-*.so
 *.vscdb
-*.json
 *.store.*

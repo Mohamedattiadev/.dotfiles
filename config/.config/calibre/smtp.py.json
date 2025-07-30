@@ -1,0 +1,20 @@
+{
+  "accounts": {
+    "mohamedattia.dev@kindle.com": [
+      "EPUB, TPZ",
+      true,
+      true
+    ]
+  },
+  "aliases": {},
+  "encryption": "TLS",
+  "from_": "mohamedattia.dev@gmail.com",
+  "relay_host": "smtp.gmail.com",
+  "relay_password": "61666470207a75706e20666d687420746b6b7a",
+  "relay_port": 587,
+  "relay_username": "mohamedattia.dev@gmail.com",
+  "subjects": {
+    "mohamedattia.dev_boSQLp@kindle.com": ""
+  },
+  "tags": {}
+}

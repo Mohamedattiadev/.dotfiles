@@ -1,0 +1,241 @@
+{
+  "check-book-splitter-state": {
+    "__class__": "bytearray",
+    "__value__": "AAAA/wAAAAEAAAACAAAAPQAAAD0A/////wEAAAABAA=="
+  },
+  "custom_colors_for_color_dialog": [
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ],
+    [
+      255,
+      255,
+      255,
+      255
+    ]
+  ],
+  "find-widget-state": {
+    "case_sensitive": true,
+    "direction": "down",
+    "dot_all": false,
+    "mode": "fuzzy",
+    "where": "text",
+    "wrap": true
+  },
+  "geometry-of-import-foreign-geometry": {
+    "frame_geometry": {
+      "height": 176,
+      "width": 489,
+      "x": 1797,
+      "y": 256
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 172,
+      "width": 485,
+      "x": 1799,
+      "y": 258
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 172,
+      "width": 485,
+      "x": 1799,
+      "y": 258
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAcFAAABAAAACO0AAAGvAAAHBwAAAQIAAAjrAAABrQAAAAAAAAAABVYAAAcHAAABAgAACOsAAAGt"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 1.0,
+      "geometry_in_logical_pixels": {
+        "height": 768,
+        "width": 1366,
+        "x": 1368,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "LG Display",
+      "model": "",
+      "name": "eDP1",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 768,
+        "width": 1366
+      },
+      "virtual_geometry": {
+        "height": 768,
+        "width": 2734,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "geometry-of-main_window_geometry": {
+    "frame_geometry": {
+      "height": 768,
+      "width": 1366,
+      "x": 1368,
+      "y": 0
+    },
+    "full_screened": true,
+    "geometry": {
+      "height": 768,
+      "width": 1366,
+      "x": 1368,
+      "y": 0
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 353,
+      "width": 663,
+      "x": 2059,
+      "y": 403
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAVYAAAAAAAACq0AAAL/AAAICwAAAZMAAAqhAAAC8wAAAAAABAAABVYAAAVYAAAAAAAACq0AAAL/"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 1.0,
+      "geometry_in_logical_pixels": {
+        "height": 768,
+        "width": 1366,
+        "x": 1368,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "LG Display",
+      "model": "",
+      "name": "eDP1",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 768,
+        "width": 1366
+      },
+      "virtual_geometry": {
+        "height": 768,
+        "width": 2734,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "html-editor-state": {
+    "__class__": "bytearray",
+    "__value__": "AAAA/wAAAAD9AAAAAAAAA2IAAAIbAAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAMAAAAUAGEAYwB0AGkAbwBuAF8AYgBhAHIBAAAAAP////8AAAAAAAAAAAAAABIAdABvAG8AbABzAF8AYgBhAHIBAAAA0P////8AAAAAAAAAAAAAAB4AaAB0AG0AbABfAGYAbwByAG0AYQB0AF8AYgBhAHIBAAABpf////8AAAAAAAAAAA=="
+  },
+  "main_window_state": {
+    "__class__": "bytearray",
+    "__value__": "AAAA/wAAAAD9AAAABAAAAAAAAAA9AAACsfwCAAAABfsAAAAkAGYAaQBsAGUAcwAtAGIAcgBvAHcAcwBlAHIALQBkAG8AYwBrAQAAADkAAAKxAAAATgD////7AAAAHgB0AG8AYwAtAHYAaQBlAHcAZQByAC0AZABvAGMAawAAAAAA/////wAAAE4A////+wAAACAAdABlAHgAdAAtAHMAZQBhAHIAYwBoAC0AZABvAGMAawAAAAAA/////wAAAHEA////+wAAACAAYwBoAGUAYwBrAHAAbwBpAG4AdABzAC0AZABvAGMAawAAAAAA/////wAAAHkA////+wAAACYAcwBhAHYAZQBkAC0AcwBlAGEAcgBjAGgAZQBzAC0AZABvAGMAawAAAAAA/////wAAAeMA////AAAAAQAAAIwAAAKx/AIAAAAC+wAAABgAcAByAGUAdgBpAGUAdwAtAGQAbwBjAGsBAAAAOQAAArEAAABHAP////sAAAAaAGwAaQB2AGUALQBjAHMAcwAtAGQAbwBjAGsAAAAAAP////8AAABOAP///wAAAAIAAAAAAAAAAPwBAAAAAfsAAAAeAGMAaABlAGMAawAtAGIAbwBvAGsALQBkAG8AYwBrAAAAAAD/////AAAAfQD///8AAAADAAAAAAAAAAD8AQAAAAH7AAAAHABpAG4AcwBwAGUAYwB0AG8AcgAtAGQAbwBjAGsAAAAAAP////8AAAAlAP///wAABIMAAAKxAAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAMAAAAUAGcAbABvAGIAYQBsAC0AYgBhAHIBAAAAAP////8AAAAAAAAAAAAAABIAdABvAG8AbABzAC0AYgBhAHIBAAABFf////8AAAAAAAAAAAAAABYAcABsAHUAZwBpAG4AcwAtAGIAYQByAAAAAAD/////AAAAAAAAAAA="
+  },
+  "recent-books": [
+    "/home/ati/Downloads/Books/jjjj/edited سلسلة فانتازيا كاملة .epub",
+    "/home/ati/Calibre Library/'Hmd khald twfyq/slsl@ fantazya kaml@ (5)/slsl@ fantazya kaml@ - 'Hmd khald twfyq.epub",
+    "/home/ati/Downloads/Books/سلسلة_فانتازيا_كاملة_أحمد_خالد_توفيق.epub",
+    "/home/ati/Downloads/Books/72959517.epub"
+  ],
+  "reports-ui-state": {},
+  "saved_seaches_state": {
+    "direction": "down",
+    "where": "current",
+    "wrap": true
+  },
+  "search-panel-visible": false,
+  "text_search_widget_state": {
+    "case_sensitive": false,
+    "dot_all": true,
+    "mode": "normal",
+    "where": "current"
+  }
+}

@@ -1,0 +1,44 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 7
+    },
+    "auditLog": "/home/ati/.config/ticktick/logs/electron/.bc8243a41ce6a4d6df61764be27d222cc8507060-audit.json",
+    "files": [
+        {
+            "date": 1751564647713,
+            "name": "/home/ati/.config/ticktick/logs/electron/electron-2025-07-03.log",
+            "hash": "f204e7c0f34a4db2eeb8d8162dcddfc3"
+        },
+        {
+            "date": 1751868125150,
+            "name": "/home/ati/.config/ticktick/logs/electron/electron-2025-07-07.log",
+            "hash": "d05a1997b4037810995c7d4a241aec8b"
+        },
+        {
+            "date": 1751972278368,
+            "name": "/home/ati/.config/ticktick/logs/electron/electron-2025-07-08.log",
+            "hash": "bcef8824730bf6034b69301ce0abe060"
+        },
+        {
+            "date": 1752013568690,
+            "name": "/home/ati/.config/ticktick/logs/electron/electron-2025-07-09.log",
+            "hash": "87a4e6a1f8d7ba370a2e1455ff59924e"
+        },
+        {
+            "date": 1752165592439,
+            "name": "/home/ati/.config/ticktick/logs/electron/electron-2025-07-10.log",
+            "hash": "1a3d769a7a8268b1098db384730447c1"
+        },
+        {
+            "date": 1752195932473,
+            "name": "/home/ati/.config/ticktick/logs/electron/electron-2025-07-11.log",
+            "hash": "cb6e0a91fdd5d06478c11859994cc664"
+        },
+        {
+            "date": 1752267789166,
+            "name": "/home/ati/.config/ticktick/logs/electron/electron-2025-07-12.log",
+            "hash": "91b24701948ab772317805abd2c7e9ff"
+        }
+    ]
+}

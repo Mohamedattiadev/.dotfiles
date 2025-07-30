@@ -1,0 +1,196 @@
+{
+  "geometry-of-main_window_geometry": {
+    "frame_geometry": {
+      "height": 115,
+      "width": 667,
+      "x": 689,
+      "y": 271
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 111,
+      "width": 663,
+      "x": 691,
+      "y": 273
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 111,
+      "width": 663,
+      "x": 691,
+      "y": 273
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAKxAAABDwAABUsAAAGBAAACswAAAREAAAVJAAABfwAAAAAAAAAABVYAAAKzAAABEQAABUkAAAF/"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 1.0,
+      "geometry_in_logical_pixels": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "LG Display",
+      "model": "",
+      "name": "eDP1",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 768,
+        "width": 1366
+      },
+      "virtual_geometry": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "geometry-of-viewer_image_popup_geometry": {
+    "frame_geometry": {
+      "height": 112,
+      "width": 816,
+      "x": 267,
+      "y": 290
+    },
+    "full_screened": false,
+    "geometry": {
+      "height": 108,
+      "width": 812,
+      "x": 269,
+      "y": 292
+    },
+    "maximized": false,
+    "normal_geometry": {
+      "height": 108,
+      "width": 812,
+      "x": 269,
+      "y": 292
+    },
+    "qt": {
+      "__class__": "bytearray",
+      "__value__": "AdnQywADAAAAAAELAAABIgAABDoAAAGRAAABDQAAASQAAAQ4AAABjwAAAAAAAAAABVYAAAENAAABJAAABDgAAAGP"
+    },
+    "screen": {
+      "depth": 24,
+      "device_pixel_ratio": 1.0,
+      "geometry_in_logical_pixels": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      },
+      "index_in_screens_list": 0,
+      "manufacturer": "LG Display",
+      "model": "",
+      "name": "eDP1",
+      "serial": "",
+      "size_in_logical_pixels": {
+        "height": 768,
+        "width": 1366
+      },
+      "virtual_geometry": {
+        "height": 768,
+        "width": 1366,
+        "x": 0,
+        "y": 0
+      }
+    }
+  },
+  "main_window_state": {
+    "__class__": "bytearray",
+    "__value__": "AAAA/wAAAAH9AAAAAgAAAAAAAAAAAAAAAPwCAAAAAvsAAAAQAHQAbwBjAC0AZABvAGMAawAAAAAA/////wAAAHgA////+wAAABYAcwBlAGEAcgBjAGgALQBkAG8AYwBrAAAAAAD/////AAAAigD///8AAAABAAAAAAAAAAD8AgAAAAT7AAAAFgBsAG8AbwBrAHUAcAAtAGQAbwBjAGsAAAAAAP////8AAAB1AP////sAAAAcAGIAbwBvAGsAbQBhAHIAawBzAC0AZABvAGMAawAAAAAA/////wAAANkA////+wAAABwAaQBuAHMAcABlAGMAdABvAHIALQBkAG8AYwBrAAAAAAD/////AAAAEQD////7AAAAHgBoAGkAZwBoAGwAaQBnAGgAdABzAC0AZABvAGMAawAAAAAA/////wAAAMEA////AAAClwAAAG8AAAAEAAAABAAAAAgAAAAI/AAAAAEAAAAAAAAAAQAAAB4AYQBjAHQAaQBvAG4AcwBfAHQAbwBvAGwAYgBhAHICAAAAAP////8AAAAAAAAAAA=="
+  },
+  "old_prefs_migrated": true,
+  "session_data": {
+    "controls_help_shown_count": 2,
+    "standalone_font_settings": {},
+    "standalone_misc_settings": {
+      "remember_last_read": true,
+      "remember_window_geometry": false,
+      "save_annotations_in_ebook": true,
+      "singleinstance": false
+    },
+    "standalone_recently_opened": [
+      {
+        "authors": [
+          "أحمد خالد توفيق"
+        ],
+        "key": "/home/ati/Calibre Library/'Hmd khald twfyq/slsl@ fantazya kaml@ (14)/slsl@ fantazya kaml@ - 'Hmd khald twfyq.epub",
+        "pathtoebook": "/home/ati/Calibre Library/'Hmd khald twfyq/slsl@ fantazya kaml@ (14)/slsl@ fantazya kaml@ - 'Hmd khald twfyq.epub",
+        "timestamp": "2025-02-21T00:08:22.591Z",
+        "title": "سلسلة فانتازيا كاملة"
+      },
+      {
+        "authors": [
+          "أحمد خالد توفيق"
+        ],
+        "key": "/home/ati/Calibre Library/'Hmd khald twfyq/slsl@ fantazya kaml@ (13)/slsl@ fantazya kaml@ - 'Hmd khald twfyq.epub",
+        "pathtoebook": "/home/ati/Calibre Library/'Hmd khald twfyq/slsl@ fantazya kaml@ (13)/slsl@ fantazya kaml@ - 'Hmd khald twfyq.epub",
+        "timestamp": "2025-02-21T00:07:43.123Z",
+        "title": "سلسلة فانتازيا كاملة"
+      },
+      {
+        "key": "/home/ati/Calibre Library/Unknown/2017 rway@ lj (6)/2017 rway@ lj - Unknown.original_epub",
+        "pathtoebook": "/home/ati/Calibre Library/Unknown/2017 rway@ lj (6)/2017 rway@ lj - Unknown.original_epub",
+        "timestamp": "2025-02-20T23:46:00.667Z",
+        "title": "2017 rway@ lj"
+      },
+      {
+        "authors": [
+          "مصطفى محمود"
+        ],
+        "key": "/home/ati/Calibre Library/mSTf~ mHmwd/rHlt~ mn alshk al~ alyqyn (3)/rHlt~ mn alshk al~ alyqyn - mSTf~ mHmwd.epub",
+        "pathtoebook": "/home/ati/Calibre Library/mSTf~ mHmwd/rHlt~ mn alshk al~ alyqyn (3)/rHlt~ mn alshk al~ alyqyn - mSTf~ mHmwd.epub",
+        "timestamp": "2025-02-20T23:41:30.891Z",
+        "title": "رحلتى من الشك الى اليقين"
+      },
+      {
+        "authors": [
+          "أحمد خالد توفيق"
+        ],
+        "key": "/home/ati/Calibre Library/'Hmd khald twfyq/slsl@ fantazya kaml@ (5)/slsl@ fantazya kaml@ - 'Hmd khald twfyq.mobi",
+        "pathtoebook": "/home/ati/Calibre Library/'Hmd khald twfyq/slsl@ fantazya kaml@ (5)/slsl@ fantazya kaml@ - 'Hmd khald twfyq.mobi",
+        "timestamp": "2025-02-20T23:29:08.805Z",
+        "title": "سلسلة فانتازيا كاملة"
+      },
+      {
+        "authors": [
+          "'Hmd khald twfyq"
+        ],
+        "key": "/home/ati/Calibre Library/'Hmd khald twfyq/slsl@ fantazya kaml@ (4)/slsl@ fantazya kaml@ - 'Hmd khald twfyq.epub",
+        "pathtoebook": "/home/ati/Calibre Library/'Hmd khald twfyq/slsl@ fantazya kaml@ (4)/slsl@ fantazya kaml@ - 'Hmd khald twfyq.epub",
+        "timestamp": "2025-02-20T12:01:30.636Z",
+        "title": "slsl@ fantazya kaml@"
+      },
+      {
+        "key": "/home/ati/Calibre Library/Unknown/slsl@ fantazya kaml@ 'Hmd khald twfyq (4)/slsl@ fantazya kaml@ 'Hmd khald twfyq - Unknown.epub",
+        "pathtoebook": "/home/ati/Calibre Library/Unknown/slsl@ fantazya kaml@ 'Hmd khald twfyq (4)/slsl@ fantazya kaml@ 'Hmd khald twfyq - Unknown.epub",
+        "timestamp": "2025-02-20T10:44:02.211Z",
+        "title": "slsl@ fantazya kaml@ 'Hmd khald twfyq"
+      },
+      {
+        "authors": [
+          "Jo-Nesbo"
+        ],
+        "key": "/home/ati/Calibre Library/Jo-Nesbo/Yarasa (2)/Yarasa - Jo-Nesbo.epub",
+        "pathtoebook": "/home/ati/Calibre Library/Jo-Nesbo/Yarasa (2)/Yarasa - Jo-Nesbo.epub",
+        "timestamp": "2025-02-18T12:10:18.003Z",
+        "title": "Yarasa"
+      },
+      {
+        "authors": [
+          "John Schember"
+        ],
+        "key": "/home/ati/Calibre Library/John Schember/Quick Start Guide (1)/Quick Start Guide - John Schember.epub",
+        "pathtoebook": "/home/ati/Calibre Library/John Schember/Quick Start Guide (1)/Quick Start Guide - John Schember.epub",
+        "timestamp": "2025-02-18T11:35:42.717Z",
+        "title": "Quick Start Guide"
+      }
+    ]
+  }
+}
