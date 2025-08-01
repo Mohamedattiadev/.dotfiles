@@ -58,6 +58,13 @@ c.downloads.location.directory = '~/Downloads'
 # -----------------------------------------------------------------------------
 # Keybindings - Vim Style
 # -----------------------------------------------------------------------------
+# unbind
+config.unbind('d', mode='normal')
+config.unbind('u', mode='normal')
+config.unbind('<Ctrl-a>', mode='normal')
+config.unbind('<Ctrl-t>', mode='normal')
+config.unbind('<Ctrl-q>', mode='normal')
+# -----
 config.unbind('H', mode='normal')
 config.unbind('L', mode='normal')
 config.unbind('J', mode='normal')
@@ -85,12 +92,11 @@ config.bind('<Escape>', 'mode-leave ;; message-info "Passthrough mode OFF"', mod
 config.bind('<Escape>', 'clear-messages', mode='normal')
 
 # Custom Commands
-config.bind('<space>t', 'open -t')
+config.bind('<space>t', 'open -t', mode='normal')
 config.bind('<space>w', 'tab-close')
 config.bind('<space>o', 'tab-only')
 config.bind('<space>f', 'cmd-set-text :')
-config.bind('<space>g', 'open https://github.com/search?q={primary}')
-config.bind('<space>myg', 'open https://github.com/MohamedattiaDev')
+config.bind('<space>mgh', 'open https://github.com/MohamedattiaDev')
 config.bind('<space>ati', 'open https://mohamedattiaDev.github.io/AtiDocs')
 config.bind('<space>ls', 'session-load default')
 config.bind('<space>ss', 'session-save default')
@@ -102,9 +108,13 @@ config.bind('<space><space>', 'cmd-set-text -s :open -t')
 config.bind('xb', 'config-cycle statusbar.show always never')
 config.bind('xt', 'config-cycle tabs.show always never')
 config.bind('xx', 'config-cycle statusbar.show always never;; config-cycle tabs.show always never')
-
-# History 
+config.bind('y', 'yank', mode='normal')
+config.bind('y', 'yank selection', mode='caret')
+config.bind('<space>i', 'devtools window')
+config.bind('V', 'mode-enter caret ;; fake-key V')
 config.bind('<space>s', 'history')
+config.bind('<space>t', 'yank selection --sel primary ;; cmd-later 100 open --tab {primary}', mode='caret')
+
 # -----------------------------------------------------------------------------
 # Search Engines
 # -----------------------------------------------------------------------------
@@ -137,7 +147,7 @@ c.url.searchengines = {
 c.aliases.update({
     'dev': 'spawn --userscript ~/.config/qutebrowser/scripts/open-work-tabs',
     'yt': 'open https://www.youtube.com',
-    'gh': 'open https://github.com',
+    # 'gh': 'open https://github.com',
     'mgh': 'open https://github.com/MohamedattiaDev',
     'ati': 'open https://mohamedattiaDev.github.io/AtiDocs',
     'fa3': 'open https://Fa3elKheer.github.io/Fa3elKheer',
