@@ -1,4 +1,0 @@
-#!/bin/bash
-# qute_translate — Translate selected text in qutebrowser via translate-shell
-
-notify-send "Translate:" "$(trans -tl en -b "${QUTE_SELECTED_TEXT}")"

@@ -95,7 +95,9 @@ def minimize_all(qtile):
 keys=[
 
     #hints
+    Key([mod2], "n", lazy.spawn("dunstctl close")),
     Key([mod2], "f", lazy.spawn("hints")),
+    Key([mod], "g",  lazy.spawn("fish -c 'xdotool key ctrl+a ctrl+x; ~/.config/GptScript/gpt_inline_auto.py'")),
 
     # keyboardlayout
 Key([mod2], "space", lazy.widget["keyboardlayout"].next_keyboard(), desc="Switch keyboard layout"),
@@ -293,6 +295,8 @@ Key([mod2], "g", lazy.spawn(f"bash {home}/.config/qtile/scripts/gg_scroll.sh")),
     # ),
 
  KeyChord([mod], "p", [
+
+        Key([], "x", lazy.spawn("dunstctl close-all"), desc='Close all notifications'),
         Key([], "h", lazy.spawn("dm-hub -r"), desc='List all dmscripts'),
         Key([], "a", lazy.spawn("dm-sounds -r"), desc='Choose ambient sound'),
         Key([], "b", lazy.spawn("dm-setbg -r"), desc='Set background'),

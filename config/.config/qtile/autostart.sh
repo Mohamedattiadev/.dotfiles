@@ -42,6 +42,7 @@ fi
 lxsession &
 picom &
 copyq &
+dunst &
 warpd &
 qutebrowser &
 brave https://www.youtube.com &
