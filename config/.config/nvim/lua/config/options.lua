@@ -12,6 +12,9 @@ vim.cmd("set shiftwidth=2")
 
 vim.o.lazyredraw = false
 
+---conceallevel
+vim.opt.conceallevel = 0
+vim.opt.concealcursor = ""
 ------------mouse
 -- Set cursor movement and update speeds
 vim.o.timeoutlen = 300 -- Time to wait for a mapped sequence to complete (default is 1000 ms)

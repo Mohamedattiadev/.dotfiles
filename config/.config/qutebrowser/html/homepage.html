@@ -142,6 +142,23 @@
         return `${hour}:${min}:${sec}`;
       };
 
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
+      document.documentElement.setAttribute(
+        "data-theme",
+        prefersDark ? "dark" : "light",
+      );
+
+      // Optional: watch for changes
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .addEventListener("change", (e) => {
+          document.documentElement.setAttribute(
+            "data-theme",
+            e.matches ? "dark" : "light",
+          );
+        });
       window.onload = () => {
         const clock = document.getElementById("clock");
         clock.innerHTML = getTime();

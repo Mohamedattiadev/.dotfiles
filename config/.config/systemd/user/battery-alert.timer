@@ -1,0 +1,11 @@
+# battery-alert.timer
+[Unit]
+Description=Run Battery Alert Script Every 5 Minutes
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=5min
+Unit=battery-alert.service
+
+[Install]
+WantedBy=default.target

@@ -26,6 +26,9 @@
 
 import os
 import subprocess
+from libqtile.backend.base import Window
+from typing import Optional
+import logging
 from libqtile import bar, extension, hook, layout, qtile, widget
 from libqtile.config import (
     Click,
@@ -54,6 +57,7 @@ os.environ["XMODIFIERS"] = ""
 mod = "mod1"  # Sets mod key to SUPER/WINDOWS
 mod2 = "mod4"  # Sets mod key to SUPER/WINDOWS
 myTerm = "alacritty"  # My terminal of choice
+myFullScreenTerm = "kitty --start-as=fullscreen"
 # myBrowser = "firefox-small"  # My browser of choice
 myBrowser = ["zen-browser", "--layout.css.devPixelsPerPx=0.8"]
 myBrowser2 = ["brave", "--layout.css.devPixelsPerPx=0.8"]
@@ -63,6 +67,69 @@ myBrowser4 = "qutebrowser"
 
 home = os.path.expanduser("~")
 # myEmacs = "emacsclient -c -a 'emacs' "  # The space at the end is IMPORTANT!
+
+# Setup values
+sum_group = "S"
+sum_title = "nvimsum"
+sum_file = os.path.expanduser("~/.config/rofi/Todo_files/sum.md")
+last_group = [None]
+
+
+edit_title = "edit-field"
+
+@lazy.function
+def toggle_sum(qtile):
+    current_group = qtile.current_group.name
+
+    if current_group == sum_group:
+        if last_group[0]:
+            qtile.groups_map[last_group[0]].toscreen()
+        return
+
+    last_group[0] = current_group
+
+    # Create the file if it doesn't exist
+    if not os.path.exists(sum_file):
+        with open(sum_file, "w") as f:
+            f.write("")
+
+    # Check if already open
+    for window in qtile.windows_map.values():
+        if window.name == sum_title:
+            qtile.groups_map[sum_group].toscreen()
+            return
+
+    qtile.groups_map[sum_group].toscreen()
+    qtile.cmd_spawn(f'alacritty --title {sum_title} -e nvim {sum_file}')
+
+@hook.subscribe.client_killed
+def auto_return_after_sum_killed(window):
+    if window.name == sum_title and last_group[0]:
+        qtile = window.qtile
+        qtile.groups_map[last_group[0]].toscreen()
+
+        #satty
+@hook.subscribe.client_new
+def float_satty(window):
+    if window.window.get_wm_class() and 'satty' in window.window.get_wm_class()[0].lower():
+        window.floating = True
+        window.cmd_set_size_floating(1000, 700)  # Your desired dimensions
+        window.cmd_center()
+#mpv
+
+@hook.subscribe.client_new
+def float_edit_nvim(window):
+    if window.window.get_name() == "edit-field":
+        window.floating = True
+        window.cmd_set_size_floating(650, 200)  # Your desired dimensions
+        # window.cmd_center()
+
+@hook.subscribe.client_new
+def float_link_preview(window):
+    if window.window.get_name() == "link-preview":
+        window.floating = True
+        window.cmd_set_size_floating(200, 150)  # Width, Height
+        window.cmd_set_position_floating(100, 250)  # X=0 (left), Y=200 (down from top)
 
 
 # Allows you to input a name when adding treetab section.
@@ -79,6 +146,197 @@ def minimize_all(qtile):
         if hasattr(win, "toggle_minimize"):
             win.toggle_minimize()
 
+# MPV Picture-in-Picture (PIP) Manager for Qtile
+
+logger = logging.getLogger(__name__)
+
+class MPVManager:
+    """
+    Manages a single MPV window, allowing a user to toggle it between a
+    centered "normal" mode and a "sticky" Picture-in-Picture (PIP) mode
+    via a keybinding.
+    """
+    def __init__(self):
+        """Initializes the manager."""
+        self.current_mpv: Optional[Window] = None
+        self.is_in_pip_mode: bool = False
+
+    def setup_mpv(self, window: Window):
+        """
+        Called on a new window. If it's MPV, it sets its initial
+        floating and centered state.
+        """
+        wm_class = window.get_wm_class()
+        if wm_class and any(cls.lower() in ['mpv', 'mpvk'] for cls in wm_class):
+            logger.info(f"MPV window detected: {window.name}")
+            self.current_mpv = window
+            self.is_in_pip_mode = False  # Always start in normal mode
+            
+            window.cmd_enable_floating()
+            self.set_center_mode() # Set initial position
+
+    def on_mpv_killed(self, window: Window):
+        """Clears the state when the managed MPV window is closed."""
+        if self.current_mpv and self.current_mpv.wid == window.wid:
+            logger.info("Managed MPV window was killed.")
+            self.current_mpv = None
+            self.is_in_pip_mode = False
+
+    def follow_to_new_group(self):
+        """
+        This hook ensures that if the window is in PIP mode, it moves
+        to the new workspace with the user.
+        """
+        if self.current_mpv and self.is_in_pip_mode:
+            try:
+                self.current_mpv.togroup(qtile.current_group.name)
+            except Exception as e:
+                logger.error(f"Failed to move MPV window: {e}")
+
+    def set_center_mode(self):
+        """Puts the window in the center of the screen."""
+        if not self.current_mpv:
+            return
+        
+        try:
+            screen = qtile.current_screen
+            # Set size to 60% width and 50% height as requested
+            width = int(screen.width * 0.60)
+            height = int(screen.height * 0.50)
+            x = screen.x + (screen.width - width) // 2
+            y = screen.y + (screen.height - height) // 2
+            
+            self.current_mpv.cmd_set_size_floating(width, height)
+            self.current_mpv.cmd_set_position_floating(x, y)
+            # Ensure it's on the current group when centered
+            self.current_mpv.togroup(qtile.current_group.name)
+            logger.info("MPV set to Center Mode.")
+        except Exception as e:
+            logger.error(f"Error in set_center_mode: {e}")
+
+    def set_pip_mode(self):
+        """Puts the window in the bottom-right corner (PIP)."""
+        if not self.current_mpv:
+            return
+
+        try:
+            screen = qtile.current_screen
+            width, height = 480, 270
+            margin = 20
+            x = screen.x + screen.width - width - margin
+            y = screen.y + screen.height - height - margin
+            
+            self.current_mpv.cmd_set_size_floating(width, height)
+            self.current_mpv.cmd_set_position_floating(x, y)
+            self.current_mpv.cmd_bring_to_front()
+            logger.info("MPV set to PiP Mode.")
+        except Exception as e:
+            logger.error(f"Error in set_pip_mode: {e}")
+
+    def toggle_pip_mode(self, qtile):
+        """
+        The main function called by the keybinding. It toggles the state
+        between Center and PIP mode.
+        """
+        if not self.current_mpv:
+            logger.warning("Toggle PIP attempted, but no MPV window found.")
+            return
+
+        # Toggle the state
+        self.is_in_pip_mode = not self.is_in_pip_mode
+
+        if self.is_in_pip_mode:
+            self.set_pip_mode()
+        else:
+            self.set_center_mode()
+
+# --- Initialize the Manager and Hook into Qtile Events ---
+
+mpv_manager = MPVManager()
+
+# We only need hooks for window creation, destruction, and group changes.
+@hook.subscribe.client_new
+def _(window):
+    mpv_manager.setup_mpv(window)
+
+@hook.subscribe.client_killed
+def _(window):
+    mpv_manager.on_mpv_killed(window)
+
+@hook.subscribe.setgroup
+def _():
+    # This hook makes the PIP window "sticky".
+    mpv_manager.follow_to_new_group()
+
+# ----------------------------------------------------------------------------
+# End of MPV Manager Code
+# ----------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------
+# End of MPV Manager Code
+# ----------------------------------------------------------------------------
+
+#change volume
+def volume_change(change):
+    # Get current volume using subprocess
+    result = subprocess.run(
+        ["pactl", "get-sink-volume", "@DEFAULT_SINK@"],
+        capture_output=True,
+        text=True
+    )
+    vol = int(result.stdout.split()[4].replace('%', ''))
+    
+    # Calculate new volume (clamped 0-150%)
+    new_vol = max(0, min(150, vol + change))
+    subprocess.run(["pactl", "set-sink-volume", "@DEFAULT_SINK@", f"{new_vol}%"])
+    
+    # Notification
+    icon = "audio-volume-high-symbolic"
+    if new_vol <= 0:
+        icon = "audio-volume-muted-symbolic"
+    elif new_vol < 30:
+        icon = "audio-volume-low-symbolic"
+    elif new_vol < 70:
+        icon = "audio-volume-medium-symbolic"
+        
+
+    subprocess.run([
+    "notify-send",
+    "-a", "Volume",  # Matches appname in dunstrc
+    "-u", "low",
+    "-h", "string:x-dunst-stack-tag:volume",  # Ensures stacking
+    "-i", "audio-volume-medium-symbolic",  # Optional: or pass `icon` if it's a variable
+    "Volume",
+    f"{new_vol}%"
+])
+
+def toggle_mute():
+        # Toggle mute
+        subprocess.run(["pactl", "set-sink-mute", "@DEFAULT_SINK@", "toggle"])
+        
+        # Get mute state
+        result = subprocess.run(
+            ["pactl", "get-sink-mute", "@DEFAULT_SINK@"],
+            capture_output=True,
+            text=True
+        )
+        muted = "yes" in result.stdout
+
+        # Choose icon and message
+        icon = "audio-volume-muted-symbolic" if muted else "audio-volume-high-symbolic"
+        message = "Muted" if muted else "Unmuted"
+
+        # Send notification
+        subprocess.run([
+            "notify-send",
+            "-a", "Volume",  # Matches [volume] in dunstrc
+            "-u", "normal",
+            "-h", "string:x-dunst-stack-tag:volume",  # Stack with volume changes
+            "-i", icon,
+            "Volummute",
+            message
+        ])
+ #-------------------------
 
 # A list of available commands that can be bound to keys can be found
 # at https://docs.qtile.org/en/latest/manual/config/lazy.html
@@ -94,11 +352,27 @@ def minimize_all(qtile):
 
 keys=[
 
-    #hints
+Key([mod2], "p", lazy.spawn(f"bash {home}/.config/qtile/scripts/clock_popup.sh")),
+    #volume
+    Key([mod2], "bracketleft",
+        lazy.function(lambda q: volume_change(-5))),
+    Key([mod2], "bracketright",
+        lazy.function(lambda q: volume_change(5))),
+    Key([mod2], "minus",
+        lazy.function(lambda q: toggle_mute())),
+    #close notifications
     Key([mod2], "n", lazy.spawn("dunstctl close")),
+    #hints
     Key([mod2], "f", lazy.spawn("hints")),
+    #gptscript-inline
     Key([mod], "g",  lazy.spawn("fish -c 'xdotool key ctrl+a ctrl+x; ~/.config/GptScript/gpt_inline_auto.py'")),
 
+
+   #sum nvim sessio   #sum nvim sessionn
+Key(
+    [mod2, "shift"], "s",
+    toggle_sum(),  # <-- this is correct
+),
     # keyboardlayout
 Key([mod2], "space", lazy.widget["keyboardlayout"].next_keyboard(), desc="Switch keyboard layout"),
     # vimium like motions
@@ -119,6 +393,10 @@ Key([mod2, "shift"], "g", lazy.spawn("xdotool click --repeat 300 --delay 1 5")),
 # g → Go to top (scroll up fast)
 Key([mod2], "g", lazy.spawn(f"bash {home}/.config/qtile/scripts/gg_scroll.sh")),
 
+    # PIP mpv
+Key([mod], "slash", lazy.function(mpv_manager.toggle_pip_mode), desc="Toggle MPV PIP mode"),
+
+
     Key([mod], "Return", lazy.spawn(myTerm), desc="Terminal"),
     # Key([mod, "shift"], "Return", lazy.spawn("dm-run"), desc="Run Launcher"),
     Key([mod, "shift"], "Return", lazy.spawn("rofi -show run -show-icons"), desc='Run Launcher'),
@@ -126,7 +404,18 @@ Key([mod2], "g", lazy.spawn(f"bash {home}/.config/qtile/scripts/gg_scroll.sh")),
     Key([mod, "shift"],"b", lazy.spawn(myBrowser3), desc="Web browser3"),
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod, "shift"], "c", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod, "shift"], "r", lazy.reload_config(), desc="Reload the config"),
+    # Key([mod, "shift"], "r", lazy.reload_config(), desc="Reload the config"),
+    Key(
+    [mod, "shift"], "r",
+    lazy.function(
+        lambda qtile: (
+            qtile.reload_config(),
+                qtile.spawn("notify-send -u critical -i dialog-ok-symbolic  'success' ' Qtile Config : Successfully reloaded!'")
+
+        )
+    ),
+    desc="Reload the config"
+),
     Key([mod, "shift"], "q", lazy.spawn("dm-logout -r"), desc="Logout menu"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     # Switch between windows
@@ -297,17 +586,23 @@ Key([mod2], "g", lazy.spawn(f"bash {home}/.config/qtile/scripts/gg_scroll.sh")),
  KeyChord([mod], "p", [
 
         Key([], "x", lazy.spawn("dunstctl close-all"), desc='Close all notifications'),
+        Key([], "o", lazy.spawn("emacsclient --eval '(emacs-everywhere)'"), desc='Open emacs edit field'),
         Key([], "h", lazy.spawn("dm-hub -r"), desc='List all dmscripts'),
         Key([], "a", lazy.spawn("dm-sounds -r"), desc='Choose ambient sound'),
+        Key([], "f", lazy.spawn(os.path.expanduser("~/.config/rofi/dm-confedit.sh")),
+        desc="Choose a config file to edit"),
+
+        Key([], "z", lazy.spawn(os.path.expanduser("~/.config/rofi/rofi_shared.sh")),
+        desc="Choose a config file to edit"),
         Key([], "b", lazy.spawn("dm-setbg -r"), desc='Set background'),
         Key([], "d", lazy.spawn("dm-documents -r"), desc='Set background'),
         Key([], "c", lazy.spawn("dtos-colorscheme"), desc='Choose color scheme'),
         Key([], "e", lazy.spawn("dm-confedit"), desc='Choose a config file to edit'),
-        Key([], "i", lazy.spawn("dm-maim -r"), desc='Take a screenshot'),
-        Key([], "k", lazy.spawn("dm-kill -r"), desc='Kill processes '),
+        Key([], "i", lazy.spawn(os.path.expanduser("~/.config/rofi/dm-satty.sh")), desc='Take a screenshot v2 of dm-maim'),
+        Key([], "k", lazy.spawn(os.path.expanduser("~/.config/rofi/rofi-kill.sh")), desc='Kill processes '),
         Key([], "m", lazy.spawn("dm-man -r"), desc='View manpages'),
         Key([], "n", lazy.spawn("dm-note -r"), desc='Store and copy notes'),
-        Key([], "o", lazy.spawn("dm-bookman -r"), desc='Browser bookmarks'),
+        # Key([], "o", lazy.spawn("dm-bookman -r"), desc='Browser bookmarks'),
         Key([], "p", lazy.spawn("rofi-pass"), desc='Password menu'),
         Key([], "y", lazy.spawn("dm-youtube -r"), desc='youtube menu',),
             # Key([], "p", lazy.spawn('passmenu -p "Pass: "'), desc="pass menu"),
@@ -371,14 +666,18 @@ groups = [
     Group("6", label="6", layout="monadtall"),
     Group("7", label="7", layout="monadtall"),
     Group("8", label="8", layout="monadtall"),
+    Group("S", layout="monadtall"),  # Add this if not present
     Group("9", label="", matches=[Match(wm_class="thunderbird")], layout="monadtall"),
 ]
 
 
 for i in groups:
+    if i.name == "S":
+        continue  # Disable mod+s and mod+shift+s for the "S" group
+
     keys.extend(
         [
-            # mod1 + letter of group = switch to group
+            # mod + group letter = switch to group
             Key(
                 [mod],
                 i.name,
@@ -389,7 +688,7 @@ for i in groups:
                 [mod, "shift"],
                 i.name,
                 lazy.window.togroup(i.name),
-                desc="move focused window to group {}".format(i.name),
+                desc="Move focused window to group {}".format(i.name),
             ),
         ]
     )
@@ -434,7 +733,7 @@ groups.append(
                 opacity=1,
             ),
             DropDown(
-                "mixer", "pavucontrol", width=0.4, height=0.6, x=0.3, y=0.1, opacity=1
+                "mixer", "env GTK_THEME=Adwaita:dark pavucontrol", width=0.4, height=0.6, x=0.3, y=0.1, opacity=1
             ),
             # DropDown(
             #     "pomodoro", "pomatez", width=0.05, height=0.6, x=0.35, y=0.1, opacity=1
@@ -507,6 +806,7 @@ groups.append(
 keys.extend(
     [
         Key(["mod4"], "1", lazy.group["scratchpad"].dropdown_toggle("term1")),
+
         Key(["mod4"], "2", lazy.group["scratchpad"].dropdown_toggle("term2")),
         Key(["mod4"], "3", lazy.group["scratchpad"].dropdown_toggle("mixer")),
         Key(["mod4"], "4", lazy.group["scratchpad"].dropdown_toggle("obsidian")),
@@ -674,6 +974,9 @@ def init_widgets_list():
 
         widget.CPU(
             format="▓ Cpu: {load_percent}%",
+            mouse_callbacks={
+    "Button1": lambda: qtile.cmd_spawn("env GTK_THEME=Adwaita:dark missioncenter")
+    },
             foreground=colors[5],
           
         ),
@@ -682,7 +985,7 @@ def init_widgets_list():
         ),
         widget.Memory(
             foreground=colors[8],
-            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(myTerm + " -e htop")},
+            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(myFullScreenTerm + " -e btop")},
             format="{MemUsed: .0f}{mm}",
             fmt="🖥 Mem: {} used",
        
@@ -692,14 +995,19 @@ def init_widgets_list():
         ),
 
 widget.Battery(
-    format="🔋 {percent:2.0%} {hour:d}:{min:02d}",
+    format = "🔋 {char} {percent:2.0%}",
     foreground=colors[6],
-    low_foreground=colors[1],  # Red color for low battery
+    low_foreground=colors[1],  # Red for low battery
+    mouse_callbacks={
+        "Button1": lambda: qtile.cmd_spawn(
+            "/bin/sh -c 'notify-send \"Battery Status\" \"$(acpi | cut -d \",\" -f 2-)\"'"
+        )
+    },
     charge_char="↑",
     discharge_char="↓",
     full_char="✔",
     show_percentage=True,
-    show_short_text=True,  # Optional: shows just the percentage or the full time
+    show_short_text=True,
 ),
 #--------------------
  widget.TextBox(
@@ -707,16 +1015,26 @@ widget.Battery(
         ),
 
 
-        widget.DF(
-            update_interval=60,
-            foreground=colors[5],
-            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(myTerm + "pcmanfm")},
-            partition="/",
-            format="{uf}{m} free",
-            fmt="🖴  Disk: {}",
-            visible_on_warn=False,
-          
-        ),
+       
+
+
+
+
+
+
+widget.DF(
+    update_interval=60,
+    foreground=colors[5],
+    partition="/",
+    format="{uf}{m} free",
+    fmt="🖴  Disk: {}",
+    visible_on_warn=False,
+    mouse_callbacks={
+        "Button1": lambda: qtile.cmd_spawn(home + "/.config/qtile/scripts/disk_notify.sh")
+    },
+)
+
+,
  widget.TextBox(
             text="|", font="Ubuntu Mono", foreground=colors[1], padding=4, fontsize=14
         ),
@@ -730,15 +1048,6 @@ widget.Battery(
             text="|", font="Ubuntu Mono", foreground=colors[1], padding=4, fontsize=14
         ),
 
-    #     widget.KeyboardLayout(
-    #         foreground=colors[4],
-    #        fmt="⌨  Kbd: {}",
-    #       mouse_callbacks={
-    #     "Button1": lambda: qtile.cmd_spawn("setxkbmap -layout us"),  # Change to US English
-    #     "Button3": lambda: qtile.cmd_spawn("setxkbmap -layout ara"),  # Change to French
-    #
-    # },
-    #     ),
 
 widget.KeyboardLayout(
     configured_keyboards=["us", "ara", "tr"],
@@ -755,10 +1064,13 @@ widget.KeyboardLayout(
  widget.TextBox(
             text="|", font="Ubuntu Mono", foreground=colors[1], padding=4, fontsize=14
         ),
-        widget.Clock(
-            foreground=colors[8],
-            format=" %a, %b %d - %H:%M",
-        ),
+widget.Clock(
+    foreground=colors[8],
+    format=" %a, %b %d - %H:%M",
+    mouse_callbacks={
+        "Button1": lambda: qtile.cmd_spawn(home + "/.config/qtile/scripts/clock_popup.sh")
+    },
+),
  widget.TextBox(
             text="|", font="Ubuntu Mono", foreground=colors[1], padding=4, fontsize=14
         ),
@@ -848,6 +1160,14 @@ floating_layout = layout.Floating(
         Match(title="tastytrade"),  # tastytrade pop-out side gutter
         Match(title="tastytrade - Portfolio Report"),  # tastytrade pop-out allocation
         Match(wm_class="tasty.javafx.launcher.LauncherFxApp"),  # tastytrade settings
+        Match(title="ImagePopup"),  # Match the feh window
+        Match(wm_class="mpv"),  # mpv
+        Match(wm_class="mpvk"),  # mpv
+        Match(wm_class="satty"),  # mpv
+        Match(wm_class="emacs"),  # mpv
+        Match(title=edit_title),  # tastytrade pop-out side gutter
+        Match(title="link-preview"),
+
 
     ],
 )

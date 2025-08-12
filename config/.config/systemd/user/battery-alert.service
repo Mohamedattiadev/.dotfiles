@@ -1,0 +1,9 @@
+# battery-alert.service
+[Unit]
+Description=Battery Level Monitor
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /home/ati/.config/dunst/scripts/battery-alert.sh
+Restart=on-failure
+RestartSec=60

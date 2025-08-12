@@ -36,25 +36,50 @@ clean_system() {
 }
 
 # --- Install Core & Dev Tools ---
+
 install_packages() {
 	log "Installing all core packages and languages..."
 
-	yay -S --needed --noconfirm \
-		stow tmux zathura zathura-pdf-poppler neovim docker docker-compose postman-bin alacritty warpd copyq code zed-editor-bin rofi rofi-pass dunst arandr htop kitty okular lazygit pcmanfm vlc obsidian ticktick \
-		blueman pavucontrol brave-browser google-chrome chromium whatsdesk zen-browser \
-		fish fnm \
-		gcc g++ clang cmake make vala \
-		python python-rich python-pip rust go lua ruby perl php composer dotnet-sdk mono r \
+	yay -S --needed --noconfirm
+	# ── System utilities ───────────────────────────────
+	tmux stow df btop htop missioncenter inotify-tools zoxide arandr \
+		dunst rofi rofi-pass copyq warpd xdotool feh nitrogen \
+		blueman pavucontrol syncthing pcmanfm vlc obsidian ticktick kedconnect docker docker-compose
+
+	# ── Terminals & editors ─────────────────────────────
+	neovim emacs code zed-editor-bin alacritty kitty lazygit
+
+	# ── Document & PDF tools ────────────────────────────
+	zathura zathura-pdf-poppler okular
+
+	# ── Browsers ───────────────────────────────────────
+	brave-browser google-chrome chromium zen-browser whatsdesk
+
+	# ── Communication / Misc apps ──────────────────────
+	postman-bin yt-dlp
+
+	# ── Development: build tools ───────────────────────
+	gcc g++ clang cmake make vala pkgconf cairo gobject-introspection gtk4 libwnck3
+
+	# ── Programming languages & runtimes ───────────────
+	python python-pip python-rich python-pipx \
+		rust go lua ruby perl php composer dotnet-sdk mono r \
 		jdk-openjdk java-runtime-common \
 		nodejs npm pnpm \
 		dart flutter swift-bin \
 		kotlin kotlinc \
 		ghc stack haskell \
-		godot love fasm vlang-bin zig \
-		lua-language-server pyright rust-analyzer bash-language-server typescript-language-server \
-		vscode-langservers-extracted \
-		rstudio-desktop-bin \
-		python-pipx cairo pkgconf gobject-introspection gtk4 libwnck3
+		fish fnm
+
+	# ── Game engines & compilers ───────────────────────
+	godot love fasm vlang-bin zig
+
+	# ── Language servers ───────────────────────────────
+	lua-language-server pyright rust-analyzer bash-language-server typescript-language-server \
+		vscode-langservers-extracted
+
+	# ── IDEs & specialized tools ───────────────────────
+	rstudio-desktop-bin
 
 	log "Installing Wayland/X11-specific dependencies for 'hints'..."
 	if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
@@ -69,6 +94,19 @@ install_packages() {
 
 	log "Installing 'hints' via pipx..."
 	pipx install git+https://github.com/AlfredoSequeida/hints.git
+
+	# ── Node.js global packages ──────────────────────────
+	log "Installing global Node.js developer tools..."
+	npm install -g \
+		live-server \
+		nodemon \
+		typescript \
+		ts-node \
+		yarn \
+		pm2 \
+		prettier \
+		eslint \
+		http-server
 
 	log "Configuring accessibility environment variables in /etc/environment..."
 	sudo tee -a /etc/environment >/dev/null <<EOF
@@ -90,7 +128,7 @@ EOF
 	#   systemctl --user restart at-spi-dbus-bus.service
 
 	log "NOTE: To customize hints configuration, edit:"
-	#NOTE: compy the  hintsConfig to this :
+	# NOTE: copy the hintsConfig to this:
 	echo "    ~/.local/share/pipx/venvs/hints/lib/python*/site-packages/hints/constants.py"
 }
 

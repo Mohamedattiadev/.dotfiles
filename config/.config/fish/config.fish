@@ -16,8 +16,8 @@ set -U fish_user_paths $HOME/.bin $HOME/.local/bin $HOME/.config/emacs/bin $HOME
 
 set fish_greeting # Supresses fish's intro message
 set TERM xterm-256color # Sets the terminal type
-# set EDITOR "emacsclient -t -a ''" # $EDITOR use Emacs in terminal
-# set VISUAL "emacsclient -c -a emacs" # $VISUAL use Emacs in GUI mode
+set VISUAL nvim # $VISUAL use Emacs in GUI mode
+set EDITOR nvim # $EDITOR use Emacs in terminal
 
 ### SET MANPAGER
 ### Uncomment only one of these!
@@ -141,6 +141,7 @@ end
 ### END OF FUNCTIONS ###
 
 ### ALIASES ###
+#ati alias
 alias ati='cd $HOME/Attia-Pro/'
 #clear
 alias cl='clear'
@@ -195,22 +196,156 @@ function tmuxDel
     end
 end
 
+#img func
+function img
+    if not type -q feh
+        echo "feh not found. Installing with yay..."
+        yay -S --noconfirm feh
+    end
+
+    feh --title ImagePopup --zoom fill $argv
+end
+
+#pwd copy to cliboard func 
+function pwd
+    set full_path (builtin pwd)
+    echo $full_path
+
+    set display_path (string replace --regex "^$HOME" "~" $full_path)
+
+    if not type -q xclip
+        echo "xclip not found. Installing with yay..."
+        yay -S --noconfirm xclip
+    end
+
+    echo $display_path | xclip -selection clipboard
+end
+
+function src
+    echo "🔄 Reloading config files..."
+
+    # Fish shell
+    if test -f ~/.config/fish/config.fish
+        source ~/.config/fish/config.fish
+        echo "✅ Reloaded: config.fish"
+    end
+
+    # Bash
+    if test -f ~/.bashrc
+        bash -c "source ~/.bashrc"
+        echo "✅ Reloaded: .bashrc"
+    end
+
+    # Zsh
+    if test -f ~/.zshrc
+        zsh -c "source ~/.zshrc"
+        echo "✅ Reloaded: .zshrc"
+    end
+
+    # Profile (used by both Bash and others)
+    if test -f ~/.profile
+        bash -c "source ~/.profile"
+        echo "✅ Reloaded: .profile"
+    end
+
+    echo "🚀 All configs sourced (in subshells where needed)"
+end
+#random number
+function rand
+    if test (count $argv) -ne 1
+        echo "Usage: rand <number_of_digits>"
+        return 1
+    end
+
+    set digits $argv[1]
+    if not string match -rq '^[0-9]+$' -- $digits
+        echo "Please enter a valid number"
+        return 1
+    end
+
+    set min (math "10 ^ ($digits - 1)")
+    set max (math "(10 ^ $digits) - 1")
+
+    set range (math "$max - $min + 1")
+    set r (random)
+    set rand_num (math "$min + ($r % $range)")
+
+    echo $rand_num | xclip -selection clipboard # ✅ copies to clipboard
+    echo $rand_num
+end
+#yay fzf
+function yay
+    if test (count $argv) -eq 0
+        set selected (
+            command yay -Sl | fzf --multi \
+                --with-nth=2 \
+                --preview 'clear ; yay -Si (echo {} | awk "{print \$2}")' \
+                --preview-window=right:70%:wrap \
+            | awk '{print $2}'
+        )
+
+        if test -n "$selected"
+            command yay -S $selected
+        end
+    else
+        command yay $argv
+    end
+end
+
+# yayd.fish - Remove packages with fzf
+function yayd
+    if test (count $argv) -eq 0
+        set selected (
+            pacman -Qq | fzf --multi \
+                --preview 'clear; yay -Qi {}' \
+                --preview-window=right:70%:wrap
+        )
+
+        if test -n "$selected"
+            command yay -Rns $selected
+        end
+    else
+        command yay -Rns $argv
+    end
+end
 # vim and emacs
-# alias vim='nvim'
+alias vim='nvim'
 alias vi='nvim'
 alias n='nvim'
 alias nv='nvim'
 alias nvi='nvim'
 alias nvim='nvim'
-# emacs
+# alias nvd='nvim --server /tmp/nvimsocket'
+#
+# function nvk
+#     set daemon_pid (pgrep -f "nvim --headless --listen /tmp/nvimsocket")
+#
+#     if test -z "$daemon_pid"
+#         echo "No nvim daemon found on /tmp/nvimsocket"
+#         return 1
+#     end
+#
+#     for pid in (pgrep nvim)
+#         if not contains $pid $daemon_pid
+#             echo "Killing nvim process $pid"
+#             kill $pid
+#         end
+#     end
+# end
 # alias em='/usr/bin/emacs -nw'
 # alias emacs="emacsclient -c -a 'emacs'"
 # alias rem="killall emacs || echo 'Emacs server not running'; /usr/bin/emacs --daemon"
 
-# Changing "ls" to "eza"
-#
+# ls | grep
+alias lsg='ls | grep'
+#Syncthing solve confliction with of todos
+alias slc=" $HOME/.config/qtile/scripts/sync_todo_conflict_resolver.sh"
 
-alias lst="python3 $HOME/.config/fish/lst.py"
+# df -disk usage
+alias df="python3 $HOME/.config/fish/scripts/df.py"
+alias dfh="python3 $HOME/.config/fish/scripts/dfh"
+# Changing "ls" to "eza"
+alias lst="python3 $HOME/.config/fish/scripts/lst.py"
 alias ls='eza -al --color=always --group-directories-first' # my preferred listing
 alias la='eza -a --color=always --group-directories-first' # all files and dirs
 alias ll='eza -l --color=always --group-directories-first' # long format
@@ -237,8 +372,8 @@ alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 
 # adding flags
-alias df='df -h' # human-readable sizes
-alias free='free -m' # show sizes in MB
+# alias df='df -h' # human-readable sizes
+alias free="python3 $HOME/.config/fish/scripts/free.py"
 
 # ps
 alias psa="ps auxf"
@@ -366,8 +501,12 @@ set -Ux FZF_DEFAULT_OPTS "\
 --tiebreak=begin,length \
 --ansi \
 --border=rounded \
+--color=fg:#bbc2cf,bg:#282c34,hl:#51afef \
+--color=fg+:#eeeeee,bg+:#3e4451,hl+:#51afef \
+--color=info:#c678dd,prompt:#98be65,pointer:#ff6c6b \
+--color=marker:#da8548,spinner:#61afef,header:#51afef \
 --preview-window=right:55%:wrap \
---preview='bat --style=numbers,changes --color=always --paging=never {} || exa -T --icons {} || file {}'"
+--preview='clear; bat --style=numbers,changes --color=always --paging=never {} || exa -T --icons {} || file {}'"
 
 # --- Keybinding OtPTIONS ---
 
@@ -380,7 +519,7 @@ set -g fzf_alt_c_opts # Options can be added here if needed
 # Ctrl+R - Search command history (now copies on Enter)
 set -g fzf_history_opts '\
 --preview-window=right:55%:wrap \
---preview="echo {} | bat --language=sh --color=always" \
+--preview="echo {} | clear; bat --language=sh --color=always" \
 --bind="ctrl-y:execute-silent(echo -n {1..} | command copyq copy --)+abort" \
 --bind="enter:accept+execute(echo -n {1..} | command copyq copy --)"'
 
@@ -414,3 +553,12 @@ end
 function tv
     /usr/bin/tv $argv
 end
+# ------------------------------------------------------------------------------
+# pyenv
+set -gx PYENV_ROOT $HOME/.pyenv
+set -gx PATH $PYENV_ROOT/bin $PATH
+
+# Initialize pyenv
+status --is-interactive; and source (pyenv init -|psub)
+#---------------------  zoxide --------------------
+zoxide init fish | source

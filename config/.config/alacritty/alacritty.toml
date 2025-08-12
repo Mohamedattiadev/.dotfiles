@@ -12,19 +12,19 @@ cursor = "#3498db"
 text = "CellBackground"
 
 [font.bold]
-family = "Source Code Pro"
+family = "FiraCode Nerd Font"
 style = "Bold"
 
 [font.bold_italic]
-family = "Source Code Pro"
+family = "FiraCode Nerd Font"
 style = "Bold Italic"
 
 [font.italic]
-family = "Source Code Pro"
+family = "FiraCode Nerd Font"
 style = "Italic"
 
 [font.normal]
-family = "Source Code Pro"
+family = "FiraCode Nerd Font"
 style = "Regular"
 
 [font.offset]

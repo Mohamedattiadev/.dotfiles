@@ -1,0 +1,482 @@
+#!/usr/bin/env bash
+
+# CONFIGURATION
+# -----------------------------------------------------------------------------
+TODO_FILE="$HOME/.config/rofi/Todo_files/todos.md"
+SUBTASK_FILE="$HOME/.config/rofi/Todo_files/subtasks.md"
+WORKING_FILE="$HOME/.config/rofi/Todo_files/working_on.txt"
+mkdir -p "$(dirname "$TODO_FILE")"
+touch "$TODO_FILE" "$SUBTASK_FILE" "$WORKING_FILE"
+
+# SED command for macOS/Linux
+SED_COMMAND="sed -i"
+if [[ "$(uname)" == "Darwin" ]]; then
+	SED_COMMAND="sed -i ''"
+fi
+
+# AWK command - GNU Awk (gawk) is recommended.
+AWK_COMMAND="gawk"
+
+# COLORS
+# -----------------------------------------------------------------------------
+HEADER_COLOR="#61afef"
+
+# ICONS (Nerd Font)
+# -----------------------------------------------------------------------------
+ICON_TODO="󰄱"       # checkbox_blank_outline
+ICON_DONE="󰄲"       # checkbox_marked
+ICON_ADD=""        # plus_circle
+ICON_DEL=""        # trash
+ICON_EDIT=""       # pencil
+ICON_WORKING="󰓎"    # fire
+ICON_PREV="󰁭"       # chevron_left_circle
+ICON_NEXT="󰁴"       # chevron_right_circle
+ICON_DUE=""        # clock_outline
+ICON_DONE_TODAY="" # check_circle_outline
+SMALL_DUE_ICON="󰃰"  # alarm_snooze
+ICON_SUBTASK="  └─"
+
+# SESSIONS
+# -----------------------------------------------------------------------------
+SESSIONS=("Today's Todos" "Future Tasks" "General Tasks" "Done Tasks")
+SESSION_TODAY=0
+SESSION_FUTURE=1
+SESSION_GENERAL=2
+SESSION_DONE=3
+current_session_index=$SESSION_TODAY
+
+# SED command for macOS/Linux
+# -----------------------------------------------------------------------------
+SED_COMMAND="sed -i"
+if [[ "$(uname)" == "Darwin" ]]; then
+	SED_COMMAND="sed -i ''"
+fi
+
+# AWK command - GNU Awk (gawk) is recommended.
+AWK_COMMAND="gawk"
+
+# COLORS
+# -----------------------------------------------------------------------------
+HEADER_COLOR="#61afef"
+
+# SESSIONS
+# -----------------------------------------------------------------------------
+# FORMAT FUNCTION (EXCLUDES SUBTASKS FROM DONE SECTIONS)
+# -----------------------------------------------------------------------------
+
+get_session_content() {
+	local session_index="$1"
+
+	local working_list
+	working_list=" $(paste -sd' ' "$WORKING_FILE") "
+
+	local all_formatted_lines
+	all_formatted_lines=$(
+		$AWK_COMMAND -v session="$session_index" \
+			-v today="$(date "+%Y-%m-%d")" \
+			-v working_list="$working_list" \
+			-v ICON_TODO="$ICON_TODO" \
+			-v ICON_DONE="$ICON_DONE" \
+			-v ICON_WORKING="$ICON_WORKING" \
+			-v ICON_DONE_TODAY="$ICON_DONE_TODAY" \
+			-v SMALL_DUE_ICON="$SMALL_DUE_ICON" \
+			-v ICON_SUBTASK="$ICON_SUBTASK" '
+	BEGIN {
+		FS = "|"
+	}
+	{
+		line_num = $1
+		line_text = $2
+
+		is_subtask = match(line_text, /^[[:space:]]+- \[[ x]\]/)
+		if (!match(line_text, /- \[[ x]\]/)) next
+
+		sub(/^[[:space:]]+/, "", line_text)
+
+		prio_num = 0; prio_mark = ""
+		if (match(line_text, /@Prio\((high|normal|low)\)/, m)) {
+			prio_tag = m[1]
+			if (prio_tag == "high")   { prio_num = 3; prio_mark = "<span color=\"#ff5555\" size=\"80%\" weight=\"bold\">(high)</span> " }
+			if (prio_tag == "normal") { prio_num = 2; prio_mark = "<span color=\"#f0c674\" size=\"80%\">(normal)</span> " }
+			if (prio_tag == "low")    { prio_num = 1; prio_mark = "<span color=\"#8abeb7\" size=\"80%\">(low)</span> " }
+		}
+
+		task_text = line_text
+		sub(/^- \[[x ]\] ?/, "", task_text)
+		sub(/ ?@Prio\((high|normal|low)\) ?/, "", task_text)
+		sub(/ @[0-9]{4}-[0-9]{2}-[0-9]{2}( [0-9]{2}:[0-9]{2})?$/, "", task_text)
+
+		is_done = (index(line_text, "[x]") > 0)
+		match(line_text, /@[0-9]{4}-[0-9]{2}-[0-9]{2}/)
+		task_date = substr(line_text, RSTART+1, RLENGTH-1)
+
+		is_due_today = (task_date == today)
+		is_done_today = (is_done && task_date == today)
+		is_future = (!is_done && task_date > today)
+
+		working_mark = ""
+		if (index(working_list, " " line_num " ") > 0) {
+			working_mark = "<span color=\"red\">" ICON_WORKING "</span> "
+		}
+
+		prefix = (is_subtask ? ICON_SUBTASK " " : "")
+
+		if (is_done) {
+			if (is_subtask) next;  # Skip subtasks from Done lists
+
+			if (is_done_today) {
+				printf "done_today|%d|%d| %s<span color=\"#00d11f\">%s</span> <span alpha=\"80%%\"><s>%s%s</s></span>\n", prio_num, line_num, prefix, ICON_DONE_TODAY, prio_mark, task_text
+			} else {
+				printf "done_all|%d|%d| %s%s<span color=\"green\">%s</span> <span alpha=\"80%%\"><s>%s%s</s></span>\n", prio_num, line_num, prefix, working_mark, ICON_DONE, prio_mark, task_text
+			}
+		} else {
+			if (is_due_today) {
+				printf "today|%d|%d| %s%s<span color=\"#ffd700\">%s</span> %s%s\n", prio_num, line_num, prefix, working_mark, SMALL_DUE_ICON, prio_mark, task_text
+			} else if (is_future) {
+				printf "future|%d|%d| %s%s<span color=\"orange\">%s</span> %s%s\n", prio_num, line_num, prefix, working_mark, ICON_TODO, prio_mark, task_text
+			} else {
+				printf "general|%d|%d| %s%s<span color=\"orange\">%s</span> %s%s\n", prio_num, line_num, prefix, working_mark, ICON_TODO, prio_mark, task_text
+			}
+		}
+	}' < <(nl -w1 -s'|' "$TODO_FILE")
+	)
+
+	if [[ "$session_index" == "$SESSION_TODAY" ]]; then
+		echo -e "<b><span color='${HEADER_COLOR}'>${ICON_DUE}</span>  TODAY'S TODOS</b>\0meta\x1fnonselectable\x1ftrue"
+		echo "$all_formatted_lines" | grep '^today|' | sort -t'|' -k2,2nr | cut -d'|' -f3-
+	elif [[ "$session_index" == "$SESSION_FUTURE" ]]; then
+		echo -e "<b><span color='${HEADER_COLOR}'>${ICON_DUE}</span>  FUTURE TASKS</b>\0meta\x1fnonselectable\x1ftrue"
+		echo "$all_formatted_lines" | grep '^future|' | sort -t'|' -k2,2nr | cut -d'|' -f3-
+	elif [[ "$session_index" == "$SESSION_GENERAL" ]]; then
+		echo -e "<b><span color='${HEADER_COLOR}'>${ICON_TODO}</span>  GENERAL TASKS</b>\0meta\x1fnonselectable\x1ftrue"
+		echo "$all_formatted_lines" | grep '^general|' | sort -t'|' -k2,2nr | cut -d'|' -f3-
+	elif [[ "$session_index" == "$SESSION_DONE" ]]; then
+		echo -e "<b><span color='${HEADER_COLOR}'>${ICON_DONE_TODAY}</span>  DONE TODAY</b>\0meta\x1fnonselectable\x1ftrue"
+		echo "$all_formatted_lines" | grep '^done_today|' | sort -t'|' -k2,2nr | cut -d'|' -f3-
+		echo -e "<b><span color='${HEADER_COLOR}'>${ICON_DONE}</span>  ALL DONE</b>\0meta\x1fnonselectable\x1ftrue"
+		echo "$all_formatted_lines" | grep '^done_all|' | sort -t'|' -k2,2nr | cut -d'|' -f3-
+	fi
+}
+
+update_parent_task_status() {
+	local parent_line="$1"
+
+	# Check all subtasks of this parent
+	local total_subtasks
+	local done_subtasks
+
+	total_subtasks=$(grep -c "@Parent(${parent_line})" "$SUBTASK_FILE")
+	done_subtasks=$(grep "@Parent(${parent_line})" "$SUBTASK_FILE" | grep -c "^\s*- \[x\]")
+
+	if [[ $total_subtasks -gt 0 && $total_subtasks -eq $done_subtasks ]]; then
+		# All subtasks done: mark parent task done
+		local parent_task_line
+		parent_task_line=$(sed "${parent_line}q;d" "$TODO_FILE")
+
+		if [[ "$parent_task_line" == *"- [ ]"* ]]; then
+			TASK_TEXT_WITH_PRIO=$(echo "$parent_task_line" | sed -E 's/^- \[[x ]\] ?//; s/ @[0-9]{4}-[0-9]{2}-[0-9]{2}( [0-9]{2}:[0-9]{2})?$//')
+			new_timestamp=$(date "+@%Y-%m-%d %H:%M")
+			NEW_LINE="- [x] ${TASK_TEXT_WITH_PRIO} ${new_timestamp}"
+			${SED_COMMAND} "${parent_line}c${NEW_LINE}" "$TODO_FILE"
+			${SED_COMMAND} "/^${parent_line}$/d" "$WORKING_FILE"
+		fi
+	else
+		# Not all subtasks done: mark parent task not done if currently done
+		local parent_task_line
+		parent_task_line=$(sed "${parent_line}q;d" "$TODO_FILE")
+
+		if [[ "$parent_task_line" == *"- [x]"* ]]; then
+			${SED_COMMAND} "${parent_line}s/\[x\]/[ ]/" "$TODO_FILE"
+		fi
+	fi
+}
+
+# MAIN LOOP
+# -----------------------------------------------------------------------------
+while true; do
+	SESSION_TITLE="${SESSIONS[$current_session_index]}"
+	SESSION_ICON=""
+	case "$current_session_index" in
+	$SESSION_TODAY) SESSION_ICON="${ICON_DUE}" ;;
+	$SESSION_FUTURE) SESSION_ICON="${ICON_DUE}" ;;
+	$SESSION_GENERAL) SESSION_ICON="${ICON_TODO}" ;;
+	$SESSION_DONE) SESSION_ICON="${ICON_DONE}" ;;
+	esac
+
+	SELECTION=$(get_session_content "$current_session_index" | rofi -theme ~/.config/rofi/themes/todo-large.rasi -dmenu \
+		-p "<span color='${HEADER_COLOR}'>${SESSION_ICON}</span> ${SESSION_TITLE}" \
+		-mesg "<b>Alt+a:</b> ${ICON_ADD} Add | <b>Alt+d:</b> ${ICON_DEL} Del | <b>Alt+w:</b> ${ICON_WORKING} Work | <b>Alt+e:</b> ${ICON_EDIT} Edit | <b>Alt+t:</b> Date | <b>Alt+p:</b> Prio <b>Alt+s:</b> SubTask |<b>Alt+u</b> View Subtask | <b>Alt+h/l:</b> ${ICON_PREV}/${ICON_NEXT} Session" \
+		-markup-rows \
+		-i \
+		-kb-custom-1 "Alt+a" \
+		-kb-custom-2 "Alt+d" \
+		-kb-custom-3 "Alt+w" \
+		-kb-custom-4 "Alt+e" \
+		-kb-custom-5 "Alt+t" \
+		-kb-custom-6 "Alt+p" \
+		-kb-custom-7 "Alt+h" \
+		-kb-custom-8 "Alt+l" \
+		-kb-custom-9 "Alt+s" \
+		-kb-custom-10 "Alt+u" \
+		-format 's')
+	EXIT_CODE=$?
+
+	LINE_NUMBER=$(echo "$SELECTION" | cut -d'|' -f1 | xargs)
+
+	if [[ -z "$LINE_NUMBER" ]]; then
+		if [[ $EXIT_CODE -eq 1 ]]; then
+			exit 0
+		fi
+		continue
+	fi
+
+	LINE_CONTENT=$(sed "${LINE_NUMBER}q;d" "$TODO_FILE")
+
+	case $EXIT_CODE in
+	0) # Toggle done
+		if [[ "$LINE_CONTENT" == *"- [ ]"* ]]; then
+			TASK_TEXT_WITH_PRIO=$(echo "$LINE_CONTENT" | sed -E 's/^- \[[x ]\] ?//; s/ @[0-9]{4}-[0-9]{2}-[0-9]{2}( [0-9]{2}:[0-9]{2})?$//')
+			new_timestamp=$(date "+@%Y-%m-%d %H:%M")
+			NEW_LINE="- [x] ${TASK_TEXT_WITH_PRIO} ${new_timestamp}"
+			${SED_COMMAND} "${LINE_NUMBER}c${NEW_LINE}" "$TODO_FILE"
+			${SED_COMMAND} "/^${LINE_NUMBER}$/d" "$WORKING_FILE"
+		elif [[ "$LINE_CONTENT" == *"- [x]"* ]]; then
+			${SED_COMMAND} "${LINE_NUMBER}s/\[x\]/[ ]/" "$TODO_FILE"
+		fi
+		;;
+	10) # Add
+		NEW_TODO=$(echo "" | rofi -theme ~/.config/rofi/themes/todo-large.rasi \
+			-dmenu -p "${ICON_ADD} Add ( -l , -n , -h for Priority )" -filter "")
+
+		if [ -n "$NEW_TODO" ]; then
+			PRIORITY="normal"
+			TASK_TEXT="$NEW_TODO"
+
+			if [[ "$NEW_TODO" =~ ^-[hH] ]]; then
+				PRIORITY="high"
+				TASK_TEXT="${NEW_TODO:2}"
+			elif [[ "$NEW_TODO" =~ ^-[nN] ]]; then
+				PRIORITY="normal"
+				TASK_TEXT="${NEW_TODO:2}"
+			elif [[ "$NEW_TODO" =~ ^-[lL] ]]; then
+				PRIORITY="low"
+				TASK_TEXT="${NEW_TODO:2}"
+			fi
+			TASK_TEXT=$(echo "$TASK_TEXT" | sed 's/^[[:space:]]*//')
+			timestamp=$(date "+@%Y-%m-%d %H:%M")
+			echo "- [ ] @Prio(${PRIORITY}) ${TASK_TEXT} ${timestamp}" >>"$TODO_FILE"
+		fi
+		;;
+	11) # Delete
+		${SED_COMMAND} "${LINE_NUMBER}d" "$TODO_FILE"
+		${SED_COMMAND} "/^${LINE_NUMBER}$/d" "$WORKING_FILE"
+		;;
+	12) # Toggle Working On
+		if grep -Fxq "$LINE_NUMBER" "$WORKING_FILE"; then
+			${SED_COMMAND} "/^${LINE_NUMBER}$/d" "$WORKING_FILE"
+		else
+			echo "$LINE_NUMBER" >>"$WORKING_FILE"
+		fi
+		;;
+
+	13) # Edit
+		TASK_TEXT_WITH_PRIO=$(echo "$LINE_CONTENT" | sed -E 's/^- \[[x ]\] ?//; s/ @[0-9]{4}-[0-9]{2}-[0-9]{2}( [0-9]{2}:[0-9]{2})?$//')
+		CURRENT_TEXT_ONLY=$(echo "$TASK_TEXT_WITH_PRIO" | sed -E 's/ ?@Prio\((low|normal|high)\) ?//')
+
+		OLD_PRIORITY_TAG=$(echo "$TASK_TEXT_WITH_PRIO" | grep -oE "@Prio\((low|normal|high)\)")
+
+		EDIT_PROMPT_TEXT="${CURRENT_TEXT_ONLY}"
+		EDITED_INPUT=$(rofi -dmenu -theme ~/.config/rofi/themes/todo-large.rasi \
+			-p "${ICON_EDIT} Edit" \
+			-mesg "Edit task (optional: -h, -n, -l to change priority)" \
+			-filter "$EDIT_PROMPT_TEXT")
+
+		if [ -n "$EDITED_INPUT" ]; then
+			NEW_PRIORITY_TAG="$OLD_PRIORITY_TAG"
+			EDITED_TEXT="$EDITED_INPUT"
+			if [[ "$EDITED_INPUT" =~ ^-[hH][[:space:]]? ]]; then
+				NEW_PRIORITY_TAG="@Prio(high)"
+				EDITED_TEXT="${EDITED_INPUT:2}"
+			elif [[ "$EDITED_INPUT" =~ ^-[nN][[:space:]]? ]]; then
+				NEW_PRIORITY_TAG="@Prio(normal)"
+				EDITED_TEXT="${EDITED_INPUT:2}"
+			elif [[ "$EDITED_INPUT" =~ ^-[lL][[:space:]]? ]]; then
+				NEW_PRIORITY_TAG="@Prio(low)"
+				EDITED_TEXT="${EDITED_INPUT:2}"
+			fi
+			EDITED_TEXT=$(echo "$EDITED_TEXT" | sed 's/^[[:space:]]*//')
+			TASK_STATE=$(echo "$LINE_CONTENT" | grep -oE "\[[x ]\]")
+			NEW_TIMESTAMP=$(date "+@%Y-%m-%d %H:%M")
+			NEW_LINE="- ${TASK_STATE} ${NEW_PRIORITY_TAG} ${EDITED_TEXT} ${NEW_TIMESTAMP}"
+			NEW_LINE=$(echo "$NEW_LINE" | sed -E 's/ +/ /g; s/ $//')
+			${SED_COMMAND} "${LINE_NUMBER}c${NEW_LINE}" "$TODO_FILE"
+		fi
+		;;
+	14) # Change Date (Alt+t)
+		NEW_DATE_CHOICE=$(echo -e "Today\nTomorrow\nNext Week\nCustom Date\n(remove)" | rofi -theme ~/.config/rofi/themes/todo-large.rasi -dmenu -p "Select a New Date")
+
+		if [ -n "$NEW_DATE_CHOICE" ]; then
+			NEW_DATE=""
+			case "$NEW_DATE_CHOICE" in
+			"Today") NEW_DATE=$(date "+%Y-%m-%d") ;;
+			"Tomorrow") NEW_DATE=$(date --date="tomorrow" "+%Y-%m-%d") ;; # Corrected for BSD/macOS date
+			"Next Week") NEW_DATE=$(date --date="+7 days" "+%Y-%m-%d") ;; # Corrected for BSD/macOS date
+			"Custom Date")
+				NEW_DATE=$(rofi -theme ~/.config/rofi/themes/todo-large.rasi -dmenu -p "Enter a custom date (YYYY-MM-DD)")
+				if ! [[ "$NEW_DATE" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then NEW_DATE=""; fi
+				;;
+			"(remove)") NEW_DATE="" ;;
+			*) continue ;;
+			esac
+
+			TASK_TEXT_WITH_PRIO=$(echo "$LINE_CONTENT" | sed -E 's/^- \[[x ]\] ?//; s/ @[0-9]{4}-[0-9]{2}-[0-9]{2}( [0-9]{2}:[0-9]{2})?$//')
+			TASK_STATE=$(echo "$LINE_CONTENT" | grep -oE "\[[x ]\]")
+			TASK_TIME=$(echo "$LINE_CONTENT" | grep -oE "[0-9]{2}:[0-9]{2}")
+
+			if [ -n "$NEW_DATE" ]; then
+				NEW_LINE="- ${TASK_STATE} ${TASK_TEXT_WITH_PRIO} @${NEW_DATE} ${TASK_TIME}"
+			else
+				NEW_LINE="- ${TASK_STATE} ${TASK_TEXT_WITH_PRIO}"
+			fi
+
+			NEW_LINE=$(echo "$NEW_LINE" | sed -E 's/ +/ /g; s/ $//')
+			${SED_COMMAND} "${LINE_NUMBER}c${NEW_LINE}" "$TODO_FILE"
+		fi
+		;;
+	15) # Change Priority (Alt+p)
+		NEW_PRIORITY=$(echo -e "high\nnormal\nlow" | rofi -theme ~/.config/rofi/themes/todo-large.rasi -dmenu -p "Change Priority")
+		if [ -n "$NEW_PRIORITY" ]; then
+			NEW_PRIORITY_TAG="@Prio(${NEW_PRIORITY})"
+			TASK_TEXT=$(echo "$LINE_CONTENT" | sed -E 's/^- \[[x ]\] ?//; s/ ?@Prio\((low|normal|high)\) ?//; s/ @[0-9]{4}-[0-9]{2}-[0-9]{2}( [0-9]{2}:[0-9]{2})?$//')
+			TASK_STATE=$(echo "$LINE_CONTENT" | grep -oE "\[[x ]\]")
+			OLD_TIMESTAMP=$(echo "$LINE_CONTENT" | grep -oE " @[0-9]{4}-[0-9]{2}-[0-9]{2}( [0-9]{2}:[0-9]{2})?$")
+
+			NEW_LINE="- ${TASK_STATE} ${NEW_PRIORITY_TAG} ${TASK_TEXT}${OLD_TIMESTAMP}"
+			NEW_LINE=$(echo "$NEW_LINE" | sed -E 's/ +/ /g; s/ $//')
+			${SED_COMMAND} "${LINE_NUMBER}c${NEW_LINE}" "$TODO_FILE"
+		fi
+		;;
+	16) # Go to previous session (Alt+h)
+		current_session_index=$(((current_session_index - 1 + ${#SESSIONS[@]}) % ${#SESSIONS[@]}))
+		continue
+		;;
+	17) # Go to next session (Alt+l)
+		current_session_index=$(((current_session_index + 1) % ${#SESSIONS[@]}))
+		continue
+		;;
+
+	18) # Add Subtask (Alt+s)
+		PARENT_LINE=$(echo "$SELECTION" | cut -d'|' -f1 | xargs)
+		SUBTASK_INPUT=$(rofi -theme ~/.config/rofi/themes/todo-large.rasi -dmenu -p "${ICON_ADD} Add Subtask")
+
+		if [ -n "$SUBTASK_INPUT" ]; then
+			PARENT_TEXT=$(sed "${PARENT_LINE}q;d" "$TODO_FILE" | sed -E 's/^- \[[x ]\] ?//')
+			TIMESTAMP=$(date "+@%Y-%m-%d %H:%M")
+			NEW_LINE="- [ ] ${SUBTASK_INPUT} @Parent(${PARENT_LINE}) @${PARENT_TEXT} ${TIMESTAMP}"
+			echo "$NEW_LINE" >>"$SUBTASK_FILE"
+		fi
+		;;
+
+	19) # View and toggle Subtasks (Alt+u)
+		while true; do
+			PARENT_LINE=$(echo "$SELECTION" | cut -d'|' -f1 | xargs)
+			if [[ -z "$PARENT_LINE" ]]; then break; fi
+
+			# Extract subtasks with formatting for rofi
+			mapfile -t SUBTASKS < <(awk -v pline="$PARENT_LINE" \
+				-v ICON_DONE="󰄲" \
+				-v ICON_TODO="󰄱" \
+				-v COLOR_LOW="#8abeb7" \
+				-v COLOR_NORMAL="#f0c674" \
+				-v COLOR_HIGH="#ff5555" '
+		$0 ~ "@Parent\\(" pline "\\)" {
+			icon = "󰄱"
+			color = ""
+			priority = ""
+			text = $0
+
+			if (text ~ /^\s*- \[x\]/) {
+				icon = "󰄲"
+			}
+
+			if (match(text, /@Prio\(([^)]+)\)/, m)) {
+				priority = m[1]
+				if (priority == "low") color = COLOR_LOW
+				else if (priority == "normal") color = COLOR_NORMAL
+				else if (priority == "high") color = COLOR_HIGH
+			}
+
+			gsub(/^[-] \[[x ]\] /, "", text)
+			gsub(/@Parent\([^)]+\)/, "", text)
+			gsub(/@Prio\([^)]+\)/, "", text)
+			gsub(/@[0-9]{4}-[0-9]{2}-[0-9]{2}( [0-9]{2}:[0-9]{2})?/, "", text)
+			gsub(/^ +| +$/, "", text)
+
+			if (priority != "") {
+        printf "%s   <span color=\"%s\">(%s)</span>   %s\n", icon, color, priority, text
+			} else {
+				printf "%s %s\n", icon, text
+			}
+		}
+		' "$SUBTASK_FILE")
+
+			if [ ${#SUBTASKS[@]} -eq 0 ]; then
+				rofi -e "No subtasks found"
+				break
+			fi
+
+			# Show the subtasks menu with markup
+			SELECTED=$(printf '%s\n' "${SUBTASKS[@]}" | rofi -theme ~/.config/rofi/themes/todo-large.rasi -dmenu -markup-rows -p "${ICON_SUBTASK} Subtasks")
+
+			if [[ -z "$SELECTED" ]]; then
+				# User cancelled menu
+				break
+			fi
+
+			# Get the subtask line number in $SUBTASK_FILE to toggle
+			# Find matching subtask by text (strip icon and priority)
+			SELECTED_TEXT=$(echo "$SELECTED" | sed -E 's/󰄲|󰄱//g; s/<span color="[^"]+">\([^)]*\)<\/span>//g; s/^[[:space:]]+//;')
+
+			SUBTASK_LINE=$(awk -v p="$PARENT_LINE" -v t="$SELECTED_TEXT" '
+			$0 ~ "@Parent\\(" p "\\)" {
+				line = NR
+				text = $0
+				gsub(/^[-] \[[x ]\] /, "", text)
+				gsub(/@Parent\([^)]+\)/, "", text)
+				gsub(/@Prio\([^)]+\)/, "", text)
+				gsub(/@[0-9]{4}-[0-9]{2}-[0-9]{2}( [0-9]{2}:[0-9]{2})?/, "", text)
+				gsub(/^ +| +$/, "", text)
+				if (text == t) {
+					print line
+					exit
+				}
+			}
+		' "$SUBTASK_FILE")
+
+			if [[ -z "$SUBTASK_LINE" ]]; then
+				rofi -e "Error: Could not find subtask line"
+				break
+			fi
+
+			# Read current subtask line
+			CUR_LINE=$(sed "${SUBTASK_LINE}q;d" "$SUBTASK_FILE")
+
+			# Toggle done state: if [x], remove x; else add x
+			if [[ "$CUR_LINE" =~ ^-.\[x\].* ]]; then
+				NEW_LINE=$(echo "$CUR_LINE" | sed 's/\[x\]/[ ]/')
+			else
+				NEW_LINE=$(echo "$CUR_LINE" | sed 's/\[ \]/[x]/')
+			fi
+
+			# Update the file inplace
+			sed -i "${SUBTASK_LINE}s/.*/${NEW_LINE}/" "$SUBTASK_FILE"
+
+			update_parent_task_status "$LINE_NUMBER"
+			# Refresh selection to update subtasks list on next loop
+		done
+		;;
+	1 | *) # Escape or unexpected exit code
+		exit 0
+		;;
+	esac
+done

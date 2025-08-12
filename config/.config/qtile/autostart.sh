@@ -2,90 +2,79 @@
 
 COLORSCHEME=DoomOne
 
-### CHECKS IF VIRTUAL MACHINE ###
-# If so, this sets an appropriate screen resolution.
-# This is needed as part of DTOS.
-if [[ $(systemd-detect-virt) = "none" ]]; then
-	echo "Not running in a Virtual Machine"
-elif xrandr | grep "1366x768"; then
-	xrandr -s 1366x768 || echo "Cannot set 1366x768 resolution."
-elif xrandr | grep "1920x1080"; then
-	xrandr -s 1920x1080 || echo "Cannot set 1920x1080 resolution."
-else
-	echo "Could not set a resolution."
-fi
+# --- 0. Pre-X configuration ---
+# If possible, move resolution config into ~/.xprofile or Xorg config so it's applied before Qtile.
+# Otherwise, do it in the background:
+(systemd-detect-virt | grep -qv none && ~/.config/qtile/scripts/set_vm_resolution.sh) &
 
-### FIX EMACS ELPACA SYMLINKS ###
-# This runs the fix-elpaca-symlinks scripts which
-# fixes all of the symlinks in .config/emacs/elpaca/build.
-# This is needed as part of DTOS and is only run ONCE!
-if [[ -f "$HOME/.config/fix-elpaca-symlinks/log" ]]; then
-	echo "fix-eplaca-symlinks has been run previously."
-else
-	/usr/local/bin/fix-elpaca-symlinks
-	touch "$HOME/.config/fix-elpaca-symlinks/log"
-	echo "has-been-run: TRUE" >"$HOME/.config/fix-elpaca-symlinks/log"
-fi
-
-### ENABLE AND RESTART SYSTEMD USER SERVICES ###
-# Only enable hintsd.service once. Check if it's already enabled.
-# if ! systemctl --user is-enabled hintsd.service &>/dev/null; then
-# systemctl --user enable --now hintsd.service
-# # else
-# systemctl --user start hintsd.service
-# # fi
-#
-# # Always restart the accessibility service (safe to do each boot)
-# systemctl --user restart at-spi-dbus-bus.service
-
-### AUTOSTART PROGRAMS ###
+# --- 1. Instant essentials (start first, no sleeps) ---
 lxsession &
 picom &
-copyq &
 dunst &
-warpd &
-qutebrowser &
-brave https://www.youtube.com &
-# sleep 5
-pcmanfm &
-# NOTE: add the fctix for language layouts
-# sleep 5
-alacritty &
-ticktick &
 nm-applet &
-# sleep 5
-pamac-tray-icon-plasma &
 "$HOME"/.screenlayout/layout.sh &
+copyq &
 
+# Wallpaper (non-blocking)
 ### UNCOMMENT ONLY ONE OF THE FOLLOWING THREE OPTIONS! ###
+
 # 1. Uncomment to restore last saved wallpaper
 # xargs xwallpaper --stretch <~/.cache/wall &
+
 # 2. Uncomment to set a random wallpaper on login
-find /usr/share/backgrounds/dtos-backgrounds/ -type f | shuf -n 1 | xargs xwallpaper --stretch &
+# (find /usr/share/backgrounds/dtos-backgrounds/ -type f | shuf -n 1 | xargs xwallpaper --stretch) &
+
 # 3. Uncomment to set wallpaper with nitrogen
-# nitrogen --restore &
+nitrogen --restore &
 
 ### SETS CONKY STYLE BASED ON SCREEN RESOLUTION
 # Checks screen resolution.  If 1080p or higher, then we use '01' conky.
 # If less than 1080p (laptops?), then we use the smaller '02' conky.
-resolutionHeight=$(xrandr | grep "primary" | awk '{print $4}' | awk -F "+" '{print $1}' | awk -F 'x' '{print $2}')
 
-if [[ $resolutionHeight -ge 1080 ]]; then
-	killall conky || echo "Conky not running."
-	# sleep 2
-	conky -c "$HOME"/.config/conky/qtile/01/"$COLORSCHEME".conf || echo "Couldn't start conky."
-elif [[ $resolutionHeight -lt 1080 ]]; then
-	killall conky || echo "Conky not running."
-	# sleep 2
-	conky -c "$HOME"/.config/conky/qtile/02/"$COLORSCHEME".conf || echo "Couldn't start conky."
-else
-	killall conky || echo "Conky not running."
-	# sleep 2
-	conky -c "$HOME"/.config/conky/qtile/02/"$COLORSCHEME".conf || echo "Couldn't start conky."
-fi
+# if [[ $resolutionHeight -ge 1080 ]]; then
+# 	killall conky || echo "Conky not running."
+# 	# sleep 2
+# 	conky -c "$HOME"/.config/conky/qtile/01/"$COLORSCHEME".conf || echo "Couldn't start conky."
+# elif [[ $resolutionHeight -lt 1080 ]]; then
+# 	killall conky || echo "Conky not running."
+# 	# sleep 2
+# 	conky -c "$HOME"/.config/conky/qtile/02/"$COLORSCHEME".conf || echo "Couldn't start conky."
+# else
+# 	killall conky || echo "Conky not running."
+# 	# sleep 2
+# 	conky -c "$HOME"/.config/conky/qtile/02/"$COLORSCHEME".conf || echo "Couldn't start conky."
+# fi
 
+# --- 2. Light apps (start right after essentials) ---
+pamac-tray-icon-plasma &
+kdeconnectd &
+qutebrowser &
+
+# --- 3. Heavy apps (deferred a few seconds) ---
 (
-	sleep 12
-	systemctl --user enable --now hintsd.service
-	systemctl --user restart at-spi-dbus-bus.service
+	sleep 3
+	warpd &
+	brave https://www.youtube.com &
+	pcmanfm &
+	alacritty &
 ) &
+
+# --- 4. Daemons / services ---
+(
+	sleep 5
+	emacs --daemon &
+	# nvim --headless --listen /tmp/nvimsocket &
+) &
+
+# --- 5. Systemd user services (batched where possible) ---
+(
+	sleep 8
+	systemctl --user enable --now hintsd.service at-spi-dbus-bus.service
+	systemctl --user is-enabled battery-alert.timer >/dev/null 2>&1 ||
+		systemctl --user enable --now battery-alert.timer
+	syncthing serve --no-browser &
+) &
+
+# --- 6. Watchers / scripts ---
+~/.config/qtile/scripts/keyboard_layout_watcher.sh &
+~/.config/qtile/scripts/watch_todo_conflicts.sh &
