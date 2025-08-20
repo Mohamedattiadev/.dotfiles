@@ -2,10 +2,6 @@
 
 ## what i edited :
 
-- > rofi
-- > qtile
-- > dmscripts
-
 ---
 
 ## what i added :
