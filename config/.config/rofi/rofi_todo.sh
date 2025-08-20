@@ -67,6 +67,8 @@ HEADER_COLOR="#61afef"
 # FORMAT FUNCTION (EXCLUDES SUBTASKS FROM DONE SECTIONS)
 # -----------------------------------------------------------------------------
 
+# -------------------- RANDOM COLOR FUNCTION -----------------------
+
 get_session_content() {
 	local session_index="$1"
 
@@ -84,16 +86,29 @@ get_session_content() {
 			-v ICON_DONE_TODAY="$ICON_DONE_TODAY" \
 			-v SMALL_DUE_ICON="$SMALL_DUE_ICON" \
 			-v ICON_SUBTASK="$ICON_SUBTASK" '
-	BEGIN {
-		FS = "|"
-	}
+	BEGIN { FS = "|" }
+
+	
+# deterministic ord() function
+function ord(c) {
+    return sprintf("%d", strtonum("0x" sprintf("%02x", index("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", c)-1 + 65)))
+}
+
+# deterministic color from tag
+function tag_color(tag,   char_code, r, g, b) {
+    char_code = ord(substr(tag,1,1))
+    r = (char_code * 53) % 256
+    g = (char_code * 97) % 256
+    b = (char_code * 193) % 256
+    return sprintf("#%02X%02X%02X", r, g, b)
+}
+
+
 	{
 		line_num = $1
 		line_text = $2
-
 		is_subtask = match(line_text, /^[[:space:]]+- \[[ x]\]/)
-		if (!match(line_text, /^[-] \[[ x]\]/)) next  # FIX: Only match actual tasks
-
+		if (!match(line_text, /^[-] \[[ x]\]/)) next
 		sub(/^[[:space:]]+/, "", line_text)
 
 		prio_num = 0; prio_mark = ""
@@ -115,11 +130,19 @@ get_session_content() {
 		sub(/^- \[[x ]\] ?/, "", task_text)
 		sub(/ ?@Prio\((high|normal|low)\) ?/, "", task_text)
 		sub(/ ?@Color\([^)]+\) ?/, "", task_text)
-		sub(/ @[0-9]{4}-[0-9]{2}-[0-9]{2}( [0-9]{2}:[0-9]{2})?$/, "", task_text)
 
-		gsub(/&/, "&amp;", task_text);
-		gsub(/</, "&lt;", task_text);
-		gsub(/>/, "&gt;", task_text);
+		# --- deterministic @Tag(...) processing ---
+		tag_html = ""
+		while (match(task_text, /@Tag\(([^)]+)\)/, tag_match)) {
+			tag_name = tag_match[1]
+			tag_html = tag_html "<span color=\"" tag_color(tag_name) "\">#" tag_name "</span> "
+			task_text = substr(task_text, 1, RSTART-1) substr(task_text, RSTART+RLENGTH)
+		}
+
+		sub(/ @[0-9]{4}-[0-9]{2}-[0-9]{2}( [0-9]{2}:[0-9]{2})?$/, "", task_text)
+		gsub(/&/, "&amp;", task_text)
+		gsub(/</, "&lt;", task_text)
+		gsub(/>/, "&gt;", task_text)
 
 		is_done = (index(line_text, "[x]") > 0)
 		match(line_text, /@[0-9]{4}-[0-9]{2}-[0-9]{2}/)
@@ -137,22 +160,22 @@ get_session_content() {
 		prefix = (is_subtask ? ICON_SUBTASK " " : "")
 
 		if (is_done) {
-			if (is_subtask) next;
+			if (is_subtask) next
 			if (is_done_today) {
-				printf "done_today|%d|%d|%s<span color=\"#00d11f\">%s</span> <span alpha=\"80%%\"><s>%s%s%s%s</s></span>\n", prio_num, line_num, prefix, ICON_DONE_TODAY, prio_mark, color_start, task_text, color_end
+				printf "done_today|%d|%d|%s<span color=\"#00d11f\">%s</span> <span alpha=\"80%%\"><s>%s%s%s%s%s</s></span>\n", prio_num, line_num, prefix, ICON_DONE_TODAY, prio_mark, tag_html, color_start, task_text, color_end
 			} else {
-				printf "done_all|%d|%d|%s%s<span color=\"green\">%s</span> <span alpha=\"80%%\"><s>%s%s%s%s</s></span>\n", prio_num, line_num, prefix, working_mark, ICON_DONE, prio_mark, color_start, task_text, color_end
+				printf "done_all|%d|%d|%s%s<span color=\"green\">%s</span> <span alpha=\"80%%\"><s>%s%s%s%s%s</s></span>\n", prio_num, line_num, prefix, working_mark, ICON_DONE, prio_mark, tag_html, color_start, task_text, color_end
 			}
 		} else {
 			if (is_due_today) {
-				printf "today|%d|%d|%s%s<span color=\"#ffd700\">%s</span> %s%s%s%s\n", prio_num, line_num, prefix, working_mark, SMALL_DUE_ICON, prio_mark, color_start, task_text, color_end
+				printf "today|%d|%d|%s%s<span color=\"#ffd700\">%s</span> %s%s%s%s%s\n", prio_num, line_num, prefix, working_mark, SMALL_DUE_ICON, prio_mark, tag_html, color_start, task_text, color_end
 			} else if (is_future) {
-				printf "future|%d|%d|%s%s<span color=\"orange\">%s</span> %s%s%s%s\n", prio_num, line_num, prefix, working_mark, ICON_TODO, prio_mark, color_start, task_text, color_end
+				printf "future|%d|%d|%s%s<span color=\"orange\">%s</span> %s%s%s%s%s\n", prio_num, line_num, prefix, working_mark, ICON_TODO, prio_mark, tag_html, color_start, task_text, color_end
 			} else {
-				printf "general|%d|%d|%s%s<span color=\"orange\">%s</span> %s%s%s%s\n", prio_num, line_num, prefix, working_mark, ICON_TODO, prio_mark, color_start, task_text, color_end
+				printf "general|%d|%d|%s%s<span color=\"orange\">%s</span> %s%s%s%s%s\n", prio_num, line_num, prefix, working_mark, ICON_TODO, prio_mark, tag_html, color_start, task_text, color_end
 			}
 		}
-	}' < <(awk '{ print NR "|" $0 }' "$TODO_FILE") # ← HERE'S THE FIX
+	}' < <(awk '{ print NR "|" $0 }' "$TODO_FILE")
 	)
 
 	if [[ "$session_index" == "$SESSION_TODAY" ]]; then
@@ -262,8 +285,9 @@ while true; do
 		;;
 
 	10) # MODIFIED: Add Task
+		# Add Task section
 		NEW_TODO=$(echo "" | rofi -theme ~/.config/rofi/themes/todo-large.rasi \
-			-dmenu -p "${ICON_ADD} Add (-h|-n|-l) (-c color) Task" -filter "")
+			-dmenu -p "${ICON_ADD} Add (-h|-n|-l)(-c color)(# tag)" -filter "")
 
 		if [ -n "$NEW_TODO" ]; then
 			TASK_TEXT="$NEW_TODO"
@@ -290,13 +314,17 @@ while true; do
 			fi
 
 			TASK_TEXT=$(echo "$TASK_TEXT" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+
+			# Convert #tags to @Tag(name)@Color(random) if COLOR_TAG not set
+			TASK_TEXT=$(echo "$TASK_TEXT" | sed -E "s/#([a-zA-Z0-9_]+)/@Tag(\1)/g")
+
 			timestamp=$(date "+@%Y-%m-%d %H:%M")
 
-			# Assemble the final line, handling potential empty color tag
+			# Assemble the final line
 			FINAL_LINE="- [ ] @Prio(${PRIORITY}) ${COLOR_TAG} ${TASK_TEXT} ${timestamp}"
 			FINAL_LINE=$(echo "$FINAL_LINE" | sed 's/  / /g') # Clean up double spaces
 
-			# SAFELY append to the file with newline
+			# Append to file safely
 			printf "%s\n" "$FINAL_LINE" >>"$TODO_FILE"
 		fi
 		;;

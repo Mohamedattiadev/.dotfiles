@@ -10,3 +10,12 @@
 - [Fa3elKheer Home page - فاعل خير](https://Fa3elKheer.github.io/Fa3elKheer)
 - [React 11 hour](https://youtube.com/watch?v=bMknfKXIFA8)
 - [ci cd GitHub actios](https://youtu.be/7gJFHjXscr8?si=toA_wFuefrN3-Lw9)
+
+- [InboxWhiz - Clean Up Your Gmail Inbox Effortlessly](https://www.inboxwhiz.net/)
+- [Docker and Kubernetes | العلبة دي فيها سوعبان - YouTube](https://youtu.be/PrusdhS2lmo?list=PLrooD4hY1QqADSWBJISGAq_qEPIed550b)
+
+https://youtube.com/watch?v=VtmBevBcDzI- [🚀 Archon V2: The World’s First AI Programming Operating System - YouTube](https://www.youtube.com/watch?v=YikXYgAzdk0)
+
+- [أفضل OCR يدعم العربي مجاناً - Mistral ! - YouTube](https://youtube.com/watch?v=njjOAYthjxQ)
+- [‏بيقولوا إن سنة 2025 هتبقى سنة الـ AI Agents...‏ | ‏Ali Arabi‏](https://www.linkedin.com/posts/aliarabi55_aiagents-artificialintelligence-generativeai-activity-7357795306077356032-z9ES?utm_source=social_share_send&utm_medium=android_app&rcm=ACoAAE94sasB4W488D-j4eOSt5IfcZXjBG0gl7U&utm_campaign=share_via)
+- [How to Use Neovim with Devcontainers - YouTube](https://youtube.com/watch?v=9YG6QlzuNwM)

@@ -221,7 +221,7 @@ class MPVManager:
 
         try:
             screen = qtile.current_screen
-            width, height = 480, 270
+            width, height = 250, 150
             margin = 20
             x = screen.x + screen.width - width - margin
             y = screen.y + screen.height - height - margin
@@ -351,6 +351,18 @@ def toggle_mute():
 #     qtile.cmd_spawn(f"setxkbmap -layout {layout}")  # Set the layout using setxkbmap
 
 keys=[
+
+
+
+    # --- Gromit-MPX controls ---
+    Key([mod2, "shift"], "w", lazy.spawn("gromit-mpx -t"), desc="Gromit: toggle draw"),
+ Key([mod2, "shift"], "z", lazy.spawn("gromit-mpx -z"), desc="Gromit: undo"),
+    Key([mod2, "shift"], "r", lazy.spawn("gromit-mpx -y"), desc="Gromit: redo"),
+
+    Key([mod2, "shift"], "c", lazy.spawn("gromit-mpx -c"), desc="Gromit: clear"),
+
+    Key([mod2, "shift"], "v", lazy.spawn("gromit-mpx -v"), desc="Gromit: toggle visibility"),
+
 
 Key([mod2], "p", lazy.spawn(f"bash {home}/.config/qtile/scripts/clock_popup.sh")),
     #volume
@@ -596,7 +608,13 @@ Key([mod], "slash", lazy.function(mpv_manager.toggle_pip_mode), desc="Toggle MPV
         desc="Choose a config file to edit"),
         Key([], "b", lazy.spawn("dm-setbg -r"), desc='Set background'),
         Key([], "d", lazy.spawn("dm-documents -r"), desc='Set background'),
-        Key([], "c", lazy.spawn("dtos-colorscheme"), desc='Choose color scheme'),
+Key(
+    [], 
+    "c", 
+    lazy.spawn("fish -c 'screenshot_todos_today'"), 
+    desc="Screenshot today's todos",
+),
+        # Key([], "c", lazy.spawn("dtos-colorscheme"), desc='Choose color scheme'),
         Key([], "e", lazy.spawn("dm-confedit"), desc='Choose a config file to edit'),
         Key([], "i", lazy.spawn(os.path.expanduser("~/.config/rofi/dm-satty.sh")), desc='Take a screenshot v2 of dm-maim'),
         Key([], "k", lazy.spawn(os.path.expanduser("~/.config/rofi/rofi-kill.sh")), desc='Kill processes '),
@@ -607,7 +625,9 @@ Key([mod], "slash", lazy.function(mpv_manager.toggle_pip_mode), desc="Toggle MPV
         Key([], "y", lazy.spawn("dm-youtube -r"), desc='youtube menu',),
             # Key([], "p", lazy.spawn('passmenu -p "Pass: "'), desc="pass menu"),
         Key([], "q", lazy.spawn("dm-logout -r"), desc='Logout menu'),
-        Key([], "r", lazy.spawn("dm-record -r"), desc='record'),
+        # Key([], "r", lazy.spawn("dm-record -r"), desc='record'),
+        Key([], "r", lazy.spawn(os.path.expanduser("~/.config/dmscripts/dm-record.sh")), desc='record')
+        ,
         Key([], "s", lazy.spawn("dm-websearch -r"), desc='Search various engines'),
         Key([], "w", lazy.spawn("dm-wifi -r"), desc='Search wifi'),
         Key([], "t", lazy.spawn(os.path.expanduser("~/.config/rofi/rofi_todo.sh")),
@@ -843,7 +863,7 @@ colors = colors.DoomOne
 # from having to type these out for each individual layout.
 layout_theme = {
     "border_width": 2,
-    "margin": 8,
+    "margin": 5,
     "border_focus": colors[8],
     "border_normal": colors[0],
 }

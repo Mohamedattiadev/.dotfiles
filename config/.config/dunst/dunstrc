@@ -21,7 +21,8 @@
     frame_color = "#51afef"
     separator_color = frame
     sort = yes
-    font = FiraCode Nerd Font 10
+    # font = FiraCode Nerd Font 10
+    font = Ubuntu 10
     line_height = 0
     markup = full
     format = "<b>%s</b>\n%b"

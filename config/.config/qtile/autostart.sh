@@ -57,6 +57,7 @@ qutebrowser &
 	brave https://www.youtube.com &
 	pcmanfm &
 	alacritty &
+	gromit-mpx &
 ) &
 
 # --- 4. Daemons / services ---

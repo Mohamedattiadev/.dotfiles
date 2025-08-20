@@ -19,49 +19,68 @@ header=$(date "+%A, %d %B %Y")
 
 # Assign priorities and format task lines
 process_tasks() {
-	# $1 should be "done" or "undone"
 	mode="$1"
 	awk -v mode="$mode" '
+    # Function: deterministic color based on tag name
+    function tag_color(tag,   sum, i, c, r, g, b) {
+        sum = 0
+        for (i=1; i<=length(tag); i++) {
+            c = ord(substr(tag,i,1))
+            sum += c * i
+        }
+        r = (sum * 53) % 256
+        g = (sum * 97) % 256
+        b = (sum * 193) % 256
+        return sprintf("#%02X%02X%02X", r, g, b)
+    }
+
+    # Function: get ASCII code of character
+    function ord(c) { return sprintf("%d", index("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", c)) }
+
     {
-        prio = 2;
-        line = $0;
-        raw_line = $0;
+        prio = 2
+        line = $0
 
         # Extract and remove @Color(...) tag
-        color = "";
+        color = ""
         if (match(line, /@Color\([^)]+\)/)) {
-            color_tag = substr(line, RSTART, RLENGTH);
-            sub(/@Color\([^)]+\)/, "", line);
-            color_name = color_tag;
-            gsub(/@Color\(|\)/, "", color_name);
-            gsub(/[ \t]+$/, "", color_name);  # Remove trailing spaces
-            color = color_name;
+            color_tag = substr(line, RSTART, RLENGTH)
+            sub(/@Color\([^)]+\)/, "", line)
+            color = color_tag
+            gsub(/@Color\(|\)/, "", color)
         }
 
         # Replace priority tags
-        if (sub(/@Prio\(high\)/, "(High)", line)) {
-            prio = 1;
-        } else if (sub(/@Prio\(low\)/, "(Low)", line)) {
-            prio = 3;
-        } else if (sub(/@Prio\(normal\)/, "(Normal)", line)) {
-            prio = 2;
-        }
+        if (sub(/@Prio\(high\)/, "(High)", line)) { prio = 1 }
+        else if (sub(/@Prio\(low\)/, "(Low)", line)) { prio = 3 }
+        else if (sub(/@Prio\(normal\)/, "(Normal)", line)) { prio = 2 }
 
-        # Remove markdown checkboxes and date
-        sub(/- \[.?\] */, "", line);
-        sub(/ *@([0-9]{4}(-[0-9]{2}){2}).*/, "", line);
-        gsub(/^[ \t]+|[ \t]+$/, "", line);  # trim
+        # Process tags
+       
+# Process tags
+tag_html = ""
+while (match(line, /@Tag\([^)]+\)/)) {
+    full_tag = substr(line, RSTART, RLENGTH)         # e.g., "@Tag(work)"
+    tag_name = full_tag
+    gsub(/@Tag\(|\)/,"",tag_name)                   # now tag_name = "work"
+    tag_html = tag_html "<span foreground=\"" tag_color(tag_name) "\">#" tag_name "</span> "
+    line = substr(line,1,RSTART-1) substr(line,RSTART+RLENGTH)  # remove tag from line
+}
 
-        # Add checkbox symbol based on mode
-        box = (mode == "done") ? "- [ x ]  " : "- [  ]  ";
-        final_line = box line;
+
+        # Remove markdown checkbox and dates
+        sub(/- \[.?\] */, "", line)
+        sub(/ *@([0-9]{4}-[0-9]{2}-[0-9]{2}).*/, "", line)
+        gsub(/^[ \t]+|[ \t]+$/, "", line)
+
+        # Add checkbox based on mode
+        box = (mode=="done") ? "- [ x ]  " : "- [  ]  "
+        final_line = box line " " tag_html
 
         # Apply color if specified
-        if (color != "") {
-            final_line = "<span foreground=\"" color "\">" final_line "</span>";
-        }
+        if (color != "") { final_line = "<span foreground=\"" color "\">" final_line "</span>" }
 
-        print prio "|" final_line;
+        print prio "|" final_line
     }' |
 		sort -n |
 		cut -d'|' -f2-

@@ -1,4 +1,4 @@
-# 📄 Templater Todo Template 
+# 📄 Templater Todo Template
 
 This template uses the **Templater** plugin in Obsidian to quickly create tasks using shorthand aliases.
 
@@ -7,7 +7,7 @@ This template uses the **Templater** plugin in Obsidian to quickly create tasks 
 You can type the following shortcuts, and the template will expand them automatically:
 
 | Shorthand | Expands To      |
-|-----------|-----------------|
+| --------- | --------------- |
 | `-l`      | `@prio(low)`    |
 | `-n`      | `@prio(normal)` |
 | `-h`      | `@prio(high)`   |

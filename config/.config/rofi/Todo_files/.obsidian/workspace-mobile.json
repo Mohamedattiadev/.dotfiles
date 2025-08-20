@@ -115,7 +115,7 @@
         "state": {
           "type": "backlink",
           "state": {
-            "file": "Shared_Links.md",
+            "file": "todos.md",
             "collapseAll": false,
             "extraContext": false,
             "sortOrder": "alphabetical",
@@ -171,10 +171,11 @@
   },
   "active": "e57953091ec874ce",
   "lastOpenFiles": [
+    "todos.md",
+    "todos.sync-conflict-20250817-134512-XJL4C45.md",
+    "Shared_Links.md",
     "Shared_Links.md.tmp",
     "Templates/add_link.md",
-    "todos.md",
-    "Shared_Links.md",
     "todos.sync-conflict-20250807-022247-XJL4C45.md",
     "todos.sync-conflict-20250807-010932-XJL4C45.md",
     "sum.md",

@@ -40,46 +40,29 @@ clean_system() {
 install_packages() {
 	log "Installing all core packages and languages..."
 
-	yay -S --needed --noconfirm
-	# ── System utilities ───────────────────────────────
-	tmux stow df btop htop missioncenter inotify-tools zoxide arandr \
+	yay -S --needed --noconfirm tmux stow df btop htop missioncenter inotify-tools zoxide arandr \
 		dunst rofi rofi-pass copyq warpd xdotool feh nitrogen \
-		blueman pavucontrol syncthing pcmanfm vlc obsidian ticktick kedconnect docker docker-compose
-
-	# ── Terminals & editors ─────────────────────────────
-	neovim emacs code zed-editor-bin alacritty kitty lazygit
-
-	# ── Document & PDF tools ────────────────────────────
-	zathura zathura-pdf-poppler okular
-
-	# ── Browsers ───────────────────────────────────────
-	brave-browser google-chrome chromium zen-browser whatsdesk
-
-	# ── Communication / Misc apps ──────────────────────
-	postman-bin yt-dlp
-
-	# ── Development: build tools ───────────────────────
-	gcc g++ clang cmake make vala pkgconf cairo gobject-introspection gtk4 libwnck3
-
-	# ── Programming languages & runtimes ───────────────
-	python python-pip python-rich python-pipx \
+		blueman pavucontrol syncthing pcmanfm vlc obsidian \
+		ticktick kedconnect docker docker-compose silicon \
+		screenkey imagemagick tesseract tesseract-data-eng \
+		tesseract-data-ara gromit-mpx gimp \
+		neovim emacs code zed-editor-bin alacritty kitty lazygit \
+		zathura zathura-pdf-poppler okular \
+		brave-browser google-chrome chromium zen-browser whatsdesk \
+		postman-bin yt-dlp \
+		gcc g++ clang cmake make vala pkgconf cairo gobject-introspection gtk4 libwnck3 \
+		python python-pip python-rich python-pipx \
 		rust go lua ruby perl php composer dotnet-sdk mono r \
 		jdk-openjdk java-runtime-common \
 		nodejs npm pnpm \
 		dart flutter swift-bin \
 		kotlin kotlinc \
 		ghc stack haskell \
-		fish fnm
-
-	# ── Game engines & compilers ───────────────────────
-	godot love fasm vlang-bin zig
-
-	# ── Language servers ───────────────────────────────
-	lua-language-server pyright rust-analyzer bash-language-server typescript-language-server \
-		vscode-langservers-extracted
-
-	# ── IDEs & specialized tools ───────────────────────
-	rstudio-desktop-bin
+		fish fnm \
+		godot love fasm vlang-bin zig \
+		lua-language-server pyright rust-analyzer bash-language-server typescript-language-server \
+		vscode-langservers-extracted \
+		rstudio-desktop-bin
 
 	log "Installing Wayland/X11-specific dependencies for 'hints'..."
 	if [ "$XDG_SESSION_TYPE" = "wayland" ]; then

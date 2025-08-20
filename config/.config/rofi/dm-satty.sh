@@ -127,10 +127,11 @@ main() {
 			satty "${temp_file}" || show_error "Failed to open satty"
 		fi
 
-		# Clean up temp file only if satty completed successfully
-		if [ -f "${temp_file}" ]; then
-			rm -f "${temp_file}"
-		fi
+		# Save edited screenshot to permanent location
+		output_file="${MAIM_DIR}/${MAIM_PREFIX}-satty-$(get_timestamp).png"
+		mv "${temp_file}" "${output_file}"
+		notify-send "Screenshot Saved" "${output_file}"
+
 	else
 		# Regular screenshot options
 		destination=$(printf '%s\n' "File" "Clipboard" "Both" | ${RMENU} "Destination:") || exit 0
