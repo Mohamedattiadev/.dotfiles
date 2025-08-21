@@ -80,12 +80,10 @@ body {
 }
 
 .bookmark-container {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-  width: 100%;
-  max-width: 1000px;
+  display: flex; /* Arrange children in a row */
+  gap: 20px; /* Space between columns */
+  justify-content: center; /* Center the whole row horizontally */
+  flex-wrap: nowrap; /* Prevent columns from wrapping to the next line */
 }
 
 .bookmark-set {
