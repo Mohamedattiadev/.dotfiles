@@ -930,7 +930,6 @@ floating_layout = layout.Floating(
         Match(wm_class="mpvk"),  # mpv
         Match(wm_class="satty"),  # mpv
         Match(wm_class="emacs"),  # mpv
-        Match(title=edit_title),  # tastytrade pop-out side gutter
         Match(title="link-preview"),
         Match(wm_class="org.gnome.NautilusPreviewer"),  # make the preview float
 
