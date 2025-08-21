@@ -42,7 +42,7 @@ install_packages() {
 
 	yay -S --needed --noconfirm tmux stow df btop htop missioncenter inotify-tools zoxide arandr \
 		dunst rofi rofi-pass copyq warpd xdotool feh nitrogen \
-		blueman pavucontrol syncthing pcmanfm vlc obsidian \
+		blueman pavucontrol syncthing pcmanfm vlc obsidian sushi nautilus \
 		ticktick kedconnect docker docker-compose silicon \
 		screenkey imagemagick tesseract tesseract-data-eng \
 		tesseract-data-ara gromit-mpx gimp \

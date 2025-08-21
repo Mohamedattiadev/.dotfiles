@@ -55,7 +55,8 @@ qutebrowser &
 	sleep 3
 	warpd &
 	brave https://www.youtube.com &
-	pcmanfm &
+	# pcmanfm &
+	env GTK_THEME=Adwaita:dark nautilus &
 	alacritty &
 	gromit-mpx &
 ) &
