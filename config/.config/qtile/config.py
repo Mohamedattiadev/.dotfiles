@@ -25,16 +25,19 @@
 # SOFTWARE.
 
 import os
+import re
 import subprocess
 from libqtile.backend.base import Window
 import time
 from typing import Optional
 import logging
 from libqtile import bar, extension, hook, layout, qtile, widget
+from qtile_extras.widget.decorations import RectDecoration,BorderDecoration
+from qtile_extras import widget as ewidget  # use extras’ widgets
 from scripts.volume_control import volume_change, toggle_mute
 from scripts.float_windows import *
 from scripts.mpv_manager import mpv_manager
-from scripts.toggle_apps import toggle_sum, toggle_obsidian
+from scripts.toggle_apps import toggle_qutebrowser, toggle_sum, toggle_obsidian, toggle_anki, toggle_telegram , toggle_alacritty,toggle_file_manager,toggle_google_chrome,toggle_brave
 from libqtile.config import (
     Click,
     Drag,
@@ -54,6 +57,19 @@ from libqtile.lazy import lazy
 
 # from qtile_extras.widget import StatusNotifier
 import colors
+
+
+colorsW = [
+    ["#282c34", "#282c34"], # bg
+    ["#bbc2cf", "#bbc2cf"], # fg
+    ["#1c1f24", "#1c1f24"], # color01
+    ["#ff6c6b", "#ff6c6b"], # color02
+    ["#98be65", "#98be65"], # color03
+    ["#da8548", "#da8548"], # color04
+    ["#51afef", "#51afef"], # color05
+    ["#c678dd", "#c678dd"], # color06
+    ["#46d9ff", "#46d9ff"]  # color15
+    ]
 os.environ["GTK_IM_MODULE"] = "none"
 os.environ["QT_IM_MODULE"] = "none"
 os.environ["XMODIFIERS"] = ""
@@ -91,73 +107,124 @@ def minimize_all(qtile):
             win.toggle_minimize()
 
 
+# --- helper: previous layout ---
+def kb_prev(qtile):
+    w = qtile.widgets_map["keyboardlayout"]  # change if your widget has a custom name
+    layouts = w.configured_keyboards
+    current = w.backend.get_keyboard()
+    if current in layouts:
+        prev = layouts[(layouts.index(current) - 1) % len(layouts)]
+    else:
+        prev = layouts[-1]
+    w.backend.set_keyboard(prev, w.option)
+    w.tick()
+
+
+
 keys=[
 
 
-
+    # ---zen-mode---
+    Key([mod,"shift"], "z", lazy.hide_show_bar(position="top"), desc="Toggle Zen Mode"),
+    Key([mod2, "shift"], "k", lazy.spawn("rofi_keymaps"), desc="Show keymaps"),
     # --- Gromit-MPX controls ---
     Key([mod2, "shift"], "w", lazy.spawn("gromit-mpx -t"), desc="Gromit: toggle draw"),
- Key([mod2, "shift"], "z", lazy.spawn("gromit-mpx -z"), desc="Gromit: undo"),
+    Key([mod2, "shift"], "z", lazy.spawn("gromit-mpx -z"), desc="Gromit: undo"),
     Key([mod2, "shift"], "r", lazy.spawn("gromit-mpx -y"), desc="Gromit: redo"),
-
     Key([mod2, "shift"], "c", lazy.spawn("gromit-mpx -c"), desc="Gromit: clear"),
-
     Key([mod2, "shift"], "v", lazy.spawn("gromit-mpx -v"), desc="Gromit: toggle visibility"),
-
-
-Key([mod2], "p", lazy.spawn(f"bash {home}/.config/qtile/scripts/clock_popup.sh")),
-    #volume
+    # ---today & week: plans-todos popup---
+    Key([mod2], "p", lazy.spawn("clock_popup"),desc="clock popup (today & week: plans-todos)"),
+    # ---volume---
     Key([mod2], "bracketleft",
-        lazy.function(lambda q: volume_change(-5))),
+        lazy.function(lambda q: volume_change(-5)),desc="volume down"),
     Key([mod2], "bracketright",
-        lazy.function(lambda q: volume_change(5))),
+        lazy.function(lambda q: volume_change(5)),desc="volume up"),
     Key([mod2], "minus",
-        lazy.function(lambda q: toggle_mute())),
-    #close notifications
+        lazy.function(lambda q: toggle_mute()),desc="mute volume"),
+    # ---close notifications---
     Key([mod2], "n", lazy.spawn("dunstctl close")),
-    #hints
-    Key([mod2], "f", lazy.spawn("hints")),
-    #gptscript-inline
-    Key([mod], "g",  lazy.spawn("fish -c 'xdotool key ctrl+a ctrl+x; ~/.config/GptScript/gpt_inline_auto.py'")),
+    # ---hints start---
+    # Key([mod2], "f", lazy.spawn("hints")),
+    # NOTE: need to do:
+    # ```
+	#  pipx install git+https://github.com/AlfredoSequeida/hints.git
+    #  "Installing Wayland/X11-specific dependencies for 'hints'...""
+    #  yay -S --needed --noconfirm libwnck3
+    #
+    #   NOTE: "Configuring accessibility environment variables in /etc/environment..."
+    #       sudo tee -a /etc/environment >/dev/null <<EOF
+    #       # Required for 'hints'
+    #       ACCESSIBILITY_ENABLED=1
+    #       GTK_MODULES=gail:atk-bridge
+    #       OOO_FORCE_DESKTOP=gnome
+    #       GNOME_ACCESSIBILITY=1
+    #       QT_ACCESSIBILITY=1
+    #       QT_LINUX_ACCESSIBILITY_ALWAYS_ON=1
+    #       EOF
+    #```
+    # "Enabling and starting hintsd and accessibility DBus service..."
+    # systemctl --user enable --now hintsd.service
+    # systemctl --user restart at-spi-dbus-bus.service
+    #
+    #  WARN: important to work:
+    #   systemctl --user enable --now hintsd.service
+    #   systemctl --user restart at-spi-dbus-bus.service
+    #"NOTE: To customize hints configuration, edit:"
+	# NOTE: copy the hintsConfig form `~/.dotfiles/installScript/hintsConfig.py`to this:
+    #  `~/.local/share/pipx/venvs/hints/lib/python*/site-packages hints/constants.py`
+    #
+    # ---hints end---    
 
-
-Key([mod2, "shift"], "o", toggle_obsidian()), 
-   #sum nvim sessio   #sum nvim sessionn
-Key(
-    [mod2, "shift"], "s",
-    toggle_sum(),  # <-- this is correct
-),
-    # keyboardlayout
-Key([mod2], "space", lazy.widget["keyboardlayout"].next_keyboard(), desc="Switch keyboard layout"),
-    # vimium like motions
-Key([mod2], "j", lazy.spawn("xdotool click --repeat 4 --delay 1 5")),
-Key([mod2], "k", lazy.spawn("xdotool click --repeat 4 --delay 1 4")),
-Key([mod2], "h", lazy.spawn("xdotool click --repeat 4 --delay 1 6")),  # Scroll left
-Key([mod2], "l", lazy.spawn("xdotool click --repeat 4 --delay 1 7")),  # Scroll right
-Key([mod2], "m", lazy.spawn("xdotool click 1")),  # left
-# Key([mod2], "comma", lazy.spawn("xdotool click 2")),
-Key([mod2], "period", lazy.spawn("xdotool click 3")),
-
-
-
-
-# Shift+g → Go to bottom (scroll down fast)
-Key([mod2, "shift"], "g", lazy.spawn("xdotool click --repeat 300 --delay 1 5")),
-
-# g → Go to top (scroll up fast)
-Key([mod2], "g", lazy.spawn(f"bash {home}/.config/qtile/scripts/gg_scroll.sh")),
-
-    # PIP mpv
-Key([mod], "slash", lazy.function(mpv_manager.toggle_pip_mode), desc="Toggle MPV PIP mode"),
-
-
+    # ---gptscript-inline---
+    Key([mod], "g",  lazy.spawn("fish -c 'xdotool key ctrl+a ctrl+x; ~/.config/GptScript/gpt_inline_auto.py'"),desc="gpt inline script (/gpt ,/mail, /sum)"),
+    # ---toggle obsidian session---
+    Key([mod2, "shift"], "o", toggle_obsidian(),desc="Open Obsidian to draw (u should have exclidraw in obsidian)"),
+    # ---toggle telegram  session---
+    Key([mod2, "shift"], "t", toggle_telegram(),desc="toggle telegram session"),
+    # ---toggle sum.md nvim session---
+    Key([mod2, "shift"], "s",toggle_sum(),desc="toggle sum.md nvim session"),
+    # ---toggle anki app session---
+    Key([mod2, "shift"], "a",toggle_anki(),desc="toggle anki app session"),
+    # ---toggle qutebrowser app session---
+    Key([mod], "b", toggle_qutebrowser(),desc="toggle qutebrowser session"),
+    # --- toggle alacritty app session ---
+    Key([mod], "n", toggle_alacritty() ,desc="toggle alacritty session"),
+    # --- toggle file manager app session ---
+    Key([mod], "m", toggle_file_manager() ,desc="toggle filemanager session"),
+    # Key([mod2,"shift"], "n", toggle_alacritty(),desc="toggle alacritty session"),
+    # --- toggle google chrome app session ---
+    Key([mod2,"shift"], "b", toggle_google_chrome() ,desc="toggle google chrome session"),
+    # --- toggle brave app session ---
+    Key([mod], "v", toggle_brave() ,desc="toggle brave session"),
+    # ---keyboardlayout---
+    Key([mod2], "space", lazy.widget["keyboardlayout"].next_keyboard(), desc="Switch keyboard layout"),
+    Key([mod2, "shift"], "space",lazy.function(kb_prev),desc="Previous keyboard layout"),
+    # ---vimium like scroll motions---
+    Key([mod2, "shift"], "g", lazy.spawn("xdotool click --repeat 500 --delay 1 5"),desc="scroll down fast"),
+    Key([mod2], "g", lazy.spawn("gg_scroll"),desc="scroll up fast"),
+    Key([mod2], "j", lazy.spawn("xdotool click --repeat 4 --delay 1 5"),desc="scroll down x4"),
+    Key([mod2], "k", lazy.spawn("xdotool click --repeat 4 --delay 1 4"),desc="scroll up x4"),
+    Key([mod2], "h", lazy.spawn("xdotool click --repeat 4 --delay 1 6"),desc="scroll left x4"), 
+    Key([mod2], "l", lazy.spawn("xdotool click --repeat 4 --delay 1 7"),desc="scroll right x4"), 
+    # ---left-middle-right click---
+    Key([mod2], "m", lazy.spawn("xdotool click 1"),desc="left click"),  
+    # Key([mod2], "comma", lazy.spawn("xdotool click 2"),desc="middle click"),
+    Key([mod2], "period", lazy.spawn("xdotool click 3"),desc=" right click"),
+    # ---youtube like PIP mpv---
+    Key([mod], "slash", lazy.function(mpv_manager.toggle_pip_mode), desc="Toggle MPV PIP mode"),
+    # ---open termianl---
     Key([mod], "Return", lazy.spawn(myTerm), desc="Terminal"),
-    # Key([mod, "shift"], "Return", lazy.spawn("dm-run"), desc="Run Launcher"),
+    # ---open rofi---
     Key([mod, "shift"], "Return", lazy.spawn("rofi -show run -show-icons"), desc='Run Launcher'),
-    Key([mod], "b", lazy.spawn(myBrowser4), desc="Web browser"),
-    Key([mod, "shift"],"b", lazy.spawn(myBrowser3), desc="Web browser3"),
+    # ---open browsers---
+    # Key([mod], "b", lazy.spawn(myBrowser4), desc="Web browser"),
+    # Key([mod, "shift"],"b", lazy.spawn(myBrowser3), desc="Web browser3"),
+    # ---toggle between layouts---
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+    # ---kill focused window---
     Key([mod, "shift"], "c", lazy.window.kill(), desc="Kill focused window"),
+    # ---reload the qtile config with notification and without---
     # Key([mod, "shift"], "r", lazy.reload_config(), desc="Reload the config"),
     Key(
     [mod, "shift"], "r",
@@ -166,16 +233,19 @@ Key([mod], "slash", lazy.function(mpv_manager.toggle_pip_mode), desc="Toggle MPV
             qtile.reload_config(),
                 qtile.spawn("notify-send -u critical -i dialog-ok-symbolic  'success' ' Qtile Config : Successfully reloaded!'")
 
-        )
-    ),
-    desc="Reload the config"
-),
+                )
+            ),
+            desc="Reload the config"
+        ),
+    # --- logout menu ---
     Key([mod, "shift"], "q", lazy.spawn("dm-logout -r"), desc="Logout menu"),
+    # --- spawn a command using a prompt widget ---
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     # Switch between windows
     # Some layouts like 'monadtall' only need to use j/k to move
     # through the stack, but other layouts like 'columns' will
     # require all four directions h/j/k/l to move around.
+    # --- Move focus to left, right, down, up ---
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
@@ -183,6 +253,7 @@ Key([mod], "slash", lazy.function(mpv_manager.toggle_pip_mode), desc="Toggle MPV
     # Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
+    # --- Move window to the left,right,down,up in treetab ---
     Key(
         [mod, "shift"],
         "h",
@@ -215,6 +286,7 @@ Key([mod], "slash", lazy.function(mpv_manager.toggle_pip_mode), desc="Toggle MPV
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
+    # --- Toggle between split and unsplit sides of stack ---
     Key(
         [mod, "shift"],
         "space",
@@ -222,6 +294,7 @@ Key([mod], "slash", lazy.function(mpv_manager.toggle_pip_mode), desc="Toggle MPV
         desc="Toggle between split and unsplit sides of stack",
     ),
     # Treetab prompt
+    # --- Prompt to add new section in treetab ---
     Key(
         [mod, "shift"],
         "a",
@@ -231,6 +304,7 @@ Key([mod], "slash", lazy.function(mpv_manager.toggle_pip_mode), desc="Toggle MPV
     # Grow/shrink windows left/right.
     # This is mainly for the 'monadtall' and 'monadwide' layouts
     # although it does also work in the 'bsp' and 'columns' layouts.
+    # --- Grow window to the left,right ---
     Key(
         [mod],
         "equal",
@@ -247,16 +321,23 @@ Key([mod], "slash", lazy.function(mpv_manager.toggle_pip_mode), desc="Toggle MPV
     ),
     # Grow windows up, down, left, right.  Only works in certain layouts.
     # Works in 'bsp' and 'columns' layout.
+    # --- Grow window up, down, left, right columns layout ---
     Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
     Key(
         [mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"
     ),
     Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+
+    # --- Reset all window sizes ---
+    # Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    # --- Toggle between min and max sizes ---
     Key([mod], "x", lazy.layout.maximize(), desc="Toggle between min and max sizes"),
+    # --- toggle floating ---
     Key([mod], "t", lazy.window.toggle_floating(), desc="toggle floating"),
+    # --- toggle fullscreen ---
     Key([mod], "f", lazy.window.toggle_fullscreen(), desc="toggle fullscreen"),
+    # --- Toggle hide/show all windows on current group ---
     Key(
         [mod, "shift"],
         "m",
@@ -264,121 +345,68 @@ Key([mod], "slash", lazy.function(mpv_manager.toggle_pip_mode), desc="Toggle MPV
         desc="Toggle hide/show all windows on current group",
     ),
     # Switch focus of monitors
+    # --- Move focus to next/prev monitor ---
     Key([mod], "period", lazy.next_screen(), desc="Move focus to next monitor"),
     Key([mod], "comma", lazy.prev_screen(), desc="Move focus to prev monitor"),
-    # Emacs programs launched using the key chord CTRL+e followed by 'key'
-    # KeyChord(
-    #     [mod],
-    #     "e",
-    #     [
-    #         Key([], "e", lazy.spawn(myEmacs), desc="Emacs Dashboard"),
-    #         Key(
-    #             [],
-    #             "a",
-    #             lazy.spawn(
-    #                 myEmacs + "--eval '(emms-play-directory-tree \"~/Music/\")'"
-    #             ),
-    #             desc="Emacs EMMS",
-    #         ),
-    #         Key(
-    #             [],
-    #             "b",
-    #             lazy.spawn(myEmacs + "--eval '(ibuffer)'"),
-    #             desc="Emacs Ibuffer",
-    #         ),
-    #         Key(
-    #             [],
-    #             "d",
-    #             lazy.spawn(myEmacs + "--eval '(dired nil)'"),
-    #             desc="Emacs Dired",
-    #         ),
-    #         Key([], "i", lazy.spawn(myEmacs + "--eval '(erc)'"), desc="Emacs ERC"),
-    #         Key(
-    #             [], "s", lazy.spawn(myEmacs + "--eval '(eshell)'"), desc="Emacs Eshell"
-    #         ),
-    #         Key([], "v", lazy.spawn(myEmacs + "--eval '(vterm)'"), desc="Emacs Vterm"),
-    #         Key(
-    #             [],
-    #             "w",
-    #             lazy.spawn(myEmacs + "--eval '(eww \"distro.tube\")'"),
-    #             desc="Emacs EWW",
-    #         ),
-    #         Key(
-    #             [],
-    #             "F4",
-    #             lazy.spawn("killall emacs"),
-    #             lazy.spawn("/usr/bin/emacs --daemon"),
-    #             desc="Kill/restart the Emacs daemon",
-    #         ),
-    #     ],
-    # ),
-    # Dmenu scripts launched using the key chord SUPER+p followed by 'key'
-    # KeyChord(
-    #     [mod],
-    #     "p",
-    #     [
-    #         Key([], "h", lazy.spawn("dm-hub"), desc="List all dmscripts"),
-    #         Key([], "a", lazy.spawn("dm-sounds"), desc="Choose ambient sound"),
-    #         Key([], "b", lazy.spawn("dm-setbg"), desc="Set background"),
-    #         Key([], "c", lazy.spawn("dtos-colorscheme"), desc="Choose color scheme"),
-    #         Key(
-    #             [], "e", lazy.spawn("dm-confedit"), desc="Choose a config file to edit"
-    #         ),
-    #         Key([], "i", lazy.spawn("dm-maim"), desc="Take a screenshot"),
-    #         Key([], "k", lazy.spawn("dm-kill"), desc="Kill processes "),
-    #         Key([], "m", lazy.spawn("dm-man"), desc="View manpages"),
-    #         Key([], "n", lazy.spawn("dm-note"), desc="Store and copy notes"),
-    #         Key([], "o", lazy.spawn("dm-bookman"), desc="Browser bookmarks"),
-    #         Key([], "p", lazy.spawn('passmenu -p "Pass: "'), desc="pass menu"),
-    #         Key([], "q", lazy.spawn("dm-logout"), desc="Logout menu"),
-    #         Key([], "r", lazy.spawn("dm-radio"), desc="Listen to online radio"),
-    #         Key([], "s", lazy.spawn("dm-websearch"), desc="Search various engines"),
-    #         Key([], "t", lazy.spawn("dm-translate"), desc="Translate text"),
-    #     ],
-    # ),
-
+   
+    # --- "P" with letter to do actions
  KeyChord([mod], "p", [
 
-    # Key([], "e", toggle_obsidian()),
-        #
-        Key([], "x", lazy.spawn("dunstctl close-all"), desc='Close all notifications'),
+        # Key([], "a", lazy.spawn("dm-sounds -r"), desc='Choose ambient sound'),
         # Key([], "o", lazy.spawn("emacsclient --eval '(emacs-everywhere)'"), desc='Open emacs edit field'),
-        Key([], "h", lazy.spawn("dm-hub -r"), desc='List all dmscripts'),
-        Key([], "a", lazy.spawn("dm-sounds -r"), desc='Choose ambient sound'),
-        Key([], "f", lazy.spawn(os.path.expanduser("~/.config/rofi/dm-confedit.sh")),
-        desc="Choose a config file to edit"),
-
-        Key([], "z", lazy.spawn(os.path.expanduser("~/.config/rofi/rofi_shared.sh")),
-        desc="Choose a config file to edit"),
-        Key([], "b", lazy.spawn("dm-setbg -r"), desc='Set background'),
-        Key([], "d", lazy.spawn("dm-documents -r"), desc='Set background'),
-Key(
-    [], 
-    "c", 
-    lazy.spawn("fish -c 'screenshot_todos_today'"), 
-    desc="Screenshot today's todos",
-),
         # Key([], "c", lazy.spawn("dtos-colorscheme"), desc='Choose color scheme'),
         # Key([], "e", lazy.spawn("dm-confedit"), desc='Choose a config file to edit'),
-        Key([], "i", lazy.spawn(os.path.expanduser("~/.config/rofi/dm-satty.sh")), desc='Take a screenshot v2 of dm-maim'),
-        Key([], "k", lazy.spawn(os.path.expanduser("~/.config/rofi/rofi-kill.sh")), desc='Kill processes '),
-        Key([], "m", lazy.spawn("dm-man -r"), desc='View manpages'),
-        Key([], "n", lazy.spawn("dm-note -r"), desc='Store and copy notes'),
         # Key([], "o", lazy.spawn("dm-bookman -r"), desc='Browser bookmarks'),
-        Key([], "p", lazy.spawn("rofi-pass"), desc='Password menu'),
-        Key([], "y", lazy.spawn("dm-youtube -r"), desc='youtube menu',),
-            # Key([], "p", lazy.spawn('passmenu -p "Pass: "'), desc="pass menu"),
-        Key([], "q", lazy.spawn("dm-logout -r"), desc='Logout menu'),
+        # Key([], "p", lazy.spawn('passmenu -p "Pass: "'), desc="pass menu"),
+        # Key([], "u", lazy.spawn("dm-music -r"), desc='Toggle music mpc/mpd')
         # Key([], "r", lazy.spawn("dm-record -r"), desc='record'),
-        Key([], "r", lazy.spawn(os.path.expanduser("~/.config/dmscripts/dm-record.sh")), desc='record')
-        ,
+        #
+        #
+        # --- Translate text ---
+        Key([], "e", lazy.spawn("rofi_translator"), desc='Translate text'),
+        # --- add anki note ---
+        Key([], "a", lazy.spawn("rofi_anki"), desc='add anki note'),
+        # --- Close all notifications ---
+        Key([], "x", lazy.spawn("dunstctl close-all"), desc='Close all notifications'),
+        # --- List all dmscripts ---
+        Key([], "h", lazy.spawn("dm-hub -r"), desc='List all dmscripts'),
+        # --- Choose a config file to edit ---
+        Key([], "f", lazy.spawn("dm-confedit"),desc="Choose a config file to edit"),
+        # --- choose shared link-preview ---
+        Key([], "z", lazy.spawn("rofi_shared"),desc="shared link-preview"),
+        # --- Set background ---
+        Key([], "b", lazy.spawn("dm-setbg -r"), desc='Set background'),
+        # --- show documents ---
+        Key([], "d", lazy.spawn("dm-documents -r"), desc='Set background'),
+        # make a screenshot of today's todos
+        Key([], "c", lazy.spawn("fish -c 'screenshot_todos_today'"), desc="Screenshot today's todos",),
+        # --- Take a screenshot v2 of dm-maim ---
+        Key([], "i", lazy.spawn("dm-satty"), desc='Take a screenshot v2 of dm-maim'),
+        # --- Kill processes ---
+        Key([], "k", lazy.spawn("rofi-kill"), desc='Kill processes '),
+        # --- View manpages ---
+        Key([], "m", lazy.spawn("dm-man -r"), desc='View manpages'),
+        # --- Store and copy notes ---
+        Key([], "n", lazy.spawn("dm-note -r"), desc='Store and copy notes'),
+        # --- rofi password menu ---
+        Key([], "p", lazy.spawn("rofi-pass"), desc='Password menu'),
+        # --- youtube menu ---
+        Key([], "y", lazy.spawn("dm-youtube -r"), desc='youtube menu',),
+        # --- logout menu ---
+        Key([], "q", lazy.spawn("dm-logout -r"), desc='Logout menu'),
+        # --- record  Version2 ---
+        Key([], "r", lazy.spawn("dm-recordV2"), desc='record'),
+        # --- Search various engines ---
         Key([], "s", lazy.spawn("dm-websearch -r"), desc='Search various engines'),
+        # --- Search wifi ---
         Key([], "w", lazy.spawn("dm-wifi -r"), desc='Search wifi'),
-        Key([], "t", lazy.spawn(os.path.expanduser("~/.config/rofi/rofi_todo.sh")),
-        desc="Open todo manager"),
-        Key([], "l", lazy.spawn(os.path.expanduser("~/.config/rofi/rofi_light.sh")),
-        desc="screen light"),
-        Key([], "u", lazy.spawn("dm-music -r"), desc='Toggle music mpc/mpd')
+        # --- Open todo manager ---
+        Key([], "t", lazy.spawn("rofi_todo"),desc="Open todo manager"),
+        # --- screen light ---
+        Key([], "l", lazy.spawn("rofi_light"),desc="screen light"),
+        # --- iLovePDF style image,pdf converter ---
+        Key([], "u", lazy.spawn("rofi_ilovepdf"), desc='Ultimate converter ( iLovePDF style image,pdf )'),
+
     ])
 ]
 #   ____ ____   ___  _   _ ____  ____
@@ -388,10 +416,14 @@ Key(
 #  \____|_| \_\\___/ \___/|_|   |____/
 
 # group_labels = ["", "", "👁", "", "", "", "✀", "🗯", "", "⎙"]
+#
+#
+#
+#
 groups = [
     Group(
         "1",
-        label="",
+        label="",
         matches=[
             Match(wm_class="ticktick"),
         ],
@@ -403,36 +435,47 @@ groups = [
         matches=[
             Match(wm_class="brave"),
             Match(wm_class="brave-browser"),
-            Match(wm_class="myBrowser2"),
+            Match(wm_class="zen-browser"),
             Match(wm_class="vlc"),
             Match(wm_class="ops"),
+            Match(wm_class="firefox"),
         ],
-        layout="monadtall",
+        layout="max",
     ),
     # Group("3", label="", matches=[Match(wm_class="pcmanfm")], layout="monadtall"),
-    Group("3", label="", matches=[Match(wm_class="org.gnome.Nautilus") ,Match(wm_class="pcmanfm")], layout="monadtall"),
+    Group("3", label="", matches=[Match(wm_class="org.gnome.Nautilus"),
+                                   Match(wm_class="pcmanfm")], layout="monadtall"),
     Group(
         "4",
         label="",
         matches=[
             Match(wm_class="code"),
-            # Match(wm_class="zed"),
-            # Match(wm_class="cursor"),
-        ],
+            Match(wm_class="dev.zed.Zed"),
+            Match(wm_class="Alacritty",title=re.compile(r"^(?!.*(nvimsum|edit-field)).*$")),
+            Match(wm_class="cursor"),
+            ],
         layout="monadtall",
     ),
     Group(
         "5",
         label="",
-        matches=[Match(wm_class="firefox"),Match(wm_class="qutebrowser")],
+        matches=[Match(wm_class="qutebrowser")],
 
-        layout="monadtall",
+        layout="max",
     ),
-    Group("6", label="6", layout="monadtall"),
+    Group("6", label="👁",
+
+        matches=[Match(wm_class="google-chrome")],
+          layout="monadtall"),
     Group("7", label="7", layout="monadtall"),
     Group("8", label="8", layout="monadtall"),
-    Group("S", layout="max"),  # Add this if not present
-    Group("9", label="", matches=[Match(wm_class="thunderbird")], layout="monadtall"),
+    Group("S", layout="max",matches=[Match(wm_class="Anki"),
+                                     Match(wm_class="obsidian"),Match(title="nvimsum")]),
+    Group("9", label="",
+          matches=[Match(wm_class="thunderbird"),
+                   Match(wm_class="TelegramDesktop"),
+                   # Match(wm_class="whatsdesk"),
+                   Match(wm_class="discord")],)
 ]
 
 
@@ -504,16 +547,16 @@ groups.append(
             #     "pomodoro", "pomatez", width=0.05, height=0.6, x=0.35, y=0.1, opacity=1
             # ),
            
-            DropDown(
-                "obsidian",
-                "Obsidian-1.7.7.AppImage",
-                width=0.6,
-                height=0.8,
-                x=0.2,
-                y=0.1,
-                opacity=1,
-    on_focus_lost_hide=False,
-            ),
+    #         DropDown(
+    #             "obsidian",
+    #             "Obsidian-1.7.7.AppImage",
+    #             width=0.6,
+    #             height=0.8,
+    #             x=0.2,
+    #             y=0.1,
+    #             opacity=1,
+    # on_focus_lost_hide=False,
+    #         ),
             
 
             # DropDown(
@@ -533,6 +576,8 @@ groups.append(
                 x=0.2,
                 y=0.1,
                 opacity=1,
+                on_focus_lost_hide=False,
+
             ),
             DropDown(
                 "chatgpt",
@@ -555,6 +600,17 @@ groups.append(
                 opacity=1,
                 on_focus_lost_hide=False,
             ),
+
+            DropDown(
+                "note",
+                "env GTK_THEME=Adwaita:dark notorious",
+                width=0.3,
+                height=0.6,
+                x=0.0,
+                y=0.01,
+                opacity=1,
+                on_focus_lost_hide=False,
+            ),
           DropDown(
     "deepseek",
     "firefox  --app= https://chat.deepseek.com",
@@ -571,11 +627,11 @@ groups.append(
 keys.extend(
     [
         Key(["mod4"], "1", lazy.group["scratchpad"].dropdown_toggle("term1")),
-
         Key(["mod4"], "2", lazy.group["scratchpad"].dropdown_toggle("term2")),
         Key(["mod4"], "3", lazy.group["scratchpad"].dropdown_toggle("mixer")),
-        Key(["mod4"], "4", lazy.group["scratchpad"].dropdown_toggle("obsidian")),
-        Key(["mod4"], "5", lazy.group["scratchpad"].dropdown_toggle("2ndScreen")),
+        Key(["mod4"], "4", lazy.group["scratchpad"].dropdown_toggle("2ndScreen")),
+        Key(["mod4"], "q", lazy.group["scratchpad"].dropdown_toggle("note")),
+        # Key(["mod4"], "4", lazy.group["scratchpad"].dropdown_toggle("obsidian")),
         # Key(["mod4"], "4", lazy.group["scratchpad"].dropdown_toggle("pomodoro")),
         # Key(["mod4"], "4", lazy.group["scratchpad"].dropdown_toggle("blueman")),
         Key(["mod4"], "8", lazy.group["scratchpad"].dropdown_toggle("whats")),
@@ -601,23 +657,63 @@ keys.extend(
 # It is best not manually change the colorscheme; instead run 'dtos-colorscheme'
 # which is set to 'MOD + p c'
 
+
+
+# chip = lambda txt, cb=None: ewidget.TextBox(
+#     text=txt,
+#     font="Ubuntu Mono",
+#     fontsize=13,
+#     padding=18,                  # inner spacing
+#     foreground=colors[3],        # text color
+#     # background=colors[0],        # bar bg (usually your global bar color)
+#     mouse_callbacks={"Button1": cb} if cb else None,
+#     decorations=[
+#         RectDecoration(
+#             colour=colors[2],    # chip fill color
+#             radius=11,           # <- roundness
+#             filled=True,
+#             padding_x=6,         # outer spacing so the rounded bg shows nicely
+#             padding_y=2,
+#         )
+#     ],
+# )
+#
+#
+def chip(WCls, **kwargs):
+    deco = [RectDecoration(
+        colour=colorsW[2],
+            radius=11,           # <- roundness
+            filled=True,
+            padding_x=3,         # outer spacing so the rounded bg shows nicely
+            padding_y=2,
+    )]
+    # merge if user already passed decorations
+    if "decorations" in kwargs and kwargs["decorations"]:
+        kwargs["decorations"] = list(kwargs["decorations"]) + deco
+    else:
+        kwargs["decorations"] = deco
+    return WCls(**kwargs)
+
+
+
+
 colors = colors.DoomOne
 
 ### LAYOUTS ###
 # Some settings that I use on almost every layout, which saves us
 # from having to type these out for each individual layout.
 layout_theme = {
-    "border_width": 2,
+    "border_width": 3,
     "margin": 5,
     "border_focus": colors[8],
-    "border_normal": colors[0],
+    "border_normal": colors[1],
 }
 
 layouts = [
     # layout.Bsp(**layout_theme),
     # layout.Floating(**layout_theme)
     # layout.RatioTile(**layout_theme),
-    # layout.Tile(shift_windows=True, **layout_theme),
+    # layout.Tile(shift_windows=True, **layout_theme),  # i will use this for write + reading + video =noting 
     # layout.VerticalTile(**layout_theme),
     # layout.Matrix(**layout_theme),
     layout.MonadTall(**layout_theme),
@@ -626,8 +722,8 @@ layouts = [
         border_width=0,
         margin=0,
     ),
-    layout.Stack(**layout_theme, num_stacks=2),
-    layout.Columns(**layout_theme),
+    # layout.Stack(**layout_theme, num_stacks=2),
+    # layout.Columns(**layout_theme),
     layout.TreeTab(
         font="Ubuntu Bold",
         fontsize=11,
@@ -635,91 +731,97 @@ layouts = [
         bg_color=colors[0],
         active_bg=colors[8],
         active_fg=colors[2],
-        inactive_bg=colors[1],
+        inactive_bg=colors[3],
         inactive_fg=colors[0],
         padding_left=8,
-        padding_x=8,
+        padding_x=5,
         padding_y=6,
-        sections=["ONE", "TWO", "THREE"],
+        sections=["ONE", "TWO", "THREE","DEV"],
         section_fontsize=10,
         section_fg=colors[7],
         section_top=15,
         section_bottom=15,
         level_shift=8,
         vspace=3,
-        panel_width=240,
+        panel_width=180,
     ),
-    layout.Zoomy(**layout_theme),
+    # layout.Zoomy(**layout_theme),
 ]
 
 # Some settings that I use on almost every widget, which saves us
 # from having to type these out for each individual widget.
-widget_defaults = dict(font="Ubuntu Bold", fontsize=10, padding=0, background=colors[0])
+widget_defaults = dict(font="Ubuntu Bold", fontsize=10, padding=0, )
 
 extension_defaults = widget_defaults.copy()
 
 
 def init_widgets_list():
     widgets_list = [
-        widget.Image(
-            filename="~/.config/qtile/icons/archLogo.png",
+    #     widget.Image(
+    #         filename="~/.config/qtile/icons/archLogo.png",
+    #
+    # margin=5,
+    #         scale="False",
+    #         mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(myTerm)},
+    #     ),
+        #
+ #        widget.TextBox(
+ #            text="❯_", font="Ubuntu Mono", padding=8, fontsize=13, clickable=True,
+ # foreground=colors[3],
+ # background=colors[2],
+ #             mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(myTerm)},
+ #        ),
 
+        # widget.TextBox(
+        #     text="|", font="Ubuntu Mono", foreground=colors[1], padding=4, fontsize=14
+        # ),
+
+        # widget.CurrentLayout(
+        #     # custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
+        #     foreground=colors[1],
+        #     padding=0,
+        #     scale=0.5,
+        # ),
+        # widget.CurrentLayout(foreground=colors[3], padding=5),
+        #
+        
+chip(
+    ewidget.Image,
+    filename="~/.config/qtile/icons/archLogo.png",
     margin=5,
-            scale="False",
-            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(myTerm)},
-        ),
-        widget.Prompt(font="Ubuntu Mono", fontsize=12, foreground=colors[1]),
-        widget.GroupBox(
-            fontsize=11,
-            margin_y=5,
-            margin_x=12,
-            padding_y=2,
-            padding_x=5,
-  # margin_y=3,
-  #           margin_x=4,
-  #           padding_y=2,
-  #           padding_x=3,
-  #           borderwidth=3,
+        padding=13,
+    scale="False",
+    mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(myTerm)},
+),
+ chip(
+        ewidget.CurrentLayout,
+        # fontsize=13,
+        padding=18,
+        foreground=colors[3],
+        # background=colors[0],
+    ),
 
-            borderwidth=2,
-            active=colors[8],
-            inactive=colors[1],
-            rounded=False,
-            highlight_color=colors[2],
-            highlight_method="line",
-            this_current_screen_border=colors[7],
-            this_screen_border=colors[4],
-            other_current_screen_border=colors[7],
-            other_screen_border=colors[4],
-        ),
-        widget.TextBox(
-            text="|", font="Ubuntu Mono", foreground=colors[1], padding=4, fontsize=14
-        ),
 
-# widget.LaunchBar(
-#                  progs = [("🦁", "brave", "Brave web browser"),
-#                           ("🚀", "alacritty", "Alacritty terminal"),
-#                           ("📁", "pcmanfm", "PCManFM file manager"),
-#                           ("🎸", "vlc", "VLC media player")
-#                          ], 
-#                  fontsize = 10,
-#                  padding = 8,
-#                  foreground = colors[3],
-#         )
-#         ,
-
-        widget.CurrentLayoutIcon(
-            # custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
-            foreground=colors[1],
-            padding=0,
-            scale=0.5,
-        ),
-        widget.CurrentLayout(foreground=colors[3], padding=5),
         widget.TextBox(
             text="|", font="Ubuntu Mono", foreground=colors[1], padding=3, fontsize=14
         ),
-        widget.WindowName(foreground=colors[1], max_chars=40,padding=4,margin=5),
+widget.WindowName(
+    foreground=colors[1],
+    max_chars=50,
+    padding=4,
+    margin=5,
+    width=bar.CALCULATED,  # underline fits text width
+    decorations=[
+        BorderDecoration(
+            colour=colors[4],
+            border_width=[0, 0, 2, 0],  # bottom border only (underline)
+            padding_x=0,
+            padding_y=None,
+        )
+    ],
+),
 
+# ewidget.Spacer(length=bar.STRETCH),
        # widget.TextBox(
        #      text="|", font="Ubuntu Mono", foreground=colors[1], padding=4, fontsize=14
        #  ),
@@ -733,115 +835,299 @@ def init_widgets_list():
        #      fmt="❤  {}",
        #
        #  ),
-   widget.TextBox(
-            text="|", font="Ubuntu Mono", foreground=colors[1], padding=4, fontsize=14
-        ),
+        #
 
-        widget.CPU(
-            format="▓ Cpu: {load_percent}%",
-            mouse_callbacks={
-    "Button1": lambda: qtile.cmd_spawn("env GTK_THEME=Adwaita:dark missioncenter")
-    },
-            foreground=colors[5],
-          
-        ),
- widget.TextBox(
-            text="|", font="Ubuntu Mono", foreground=colors[1], padding=4, fontsize=14
-        ),
-        widget.Memory(
-            foreground=colors[8],
-            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(myFullScreenTerm + " -e btop")},
-            format="{MemUsed: .0f}{mm}",
-            fmt="🖥 Mem: {} used",
-       
-        ),
- widget.TextBox(
-            text="|", font="Ubuntu Mono", foreground=colors[1], padding=4, fontsize=14
-        ),
-
-widget.Battery(
-    format = "🔋 {char} {percent:2.0%}",
-    foreground=colors[6],
-    low_foreground=colors[1],  # Red for low battery
-    mouse_callbacks={
-        "Button1": lambda: qtile.cmd_spawn(
-            "/bin/sh -c 'notify-send \"Battery Status\" \"$(acpi | cut -d \",\" -f 2-)\"'"
-        )
-    },
-    charge_char="↑",
-    discharge_char="↓",
-    full_char="✔",
-    show_percentage=True,
-    show_short_text=True,
+  #       widget.GroupBox(
+  #           fontsize=9,
+  #           margin_y=5,
+  #           margin_x=10,
+  #           padding_y=2,
+  #           padding_x=7,
+  # # margin_y=3,
+  # #           margin_x=4,
+  # #           padding_y=2,
+  # #           padding_x=3,
+  # #           borderwidth=3,
+  #
+  #           borderwidth=2,
+  #           active=colors[8],
+  #           inactive=colors[1],
+  #           # rounded=True,
+  #           highlight_color=colors[2],
+  #           highlight_method="line",
+  #           this_current_screen_border=colors[7],
+  #           this_screen_border=colors[4],
+  #           other_current_screen_border=colors[7],
+  #           other_screen_border=colors[4],
+  #           hide_unused=True,
+  #
+  #       ),
+        #
+ewidget.Spacer(length=bar.STRETCH),
+        chip(
+    ewidget.GroupBox,
+    fontsize=9,
+    margin_y=6,
+    margin_x=8,
+    padding_y=3,
+    padding_x=8,
+    borderwidth=3,
+    active=colors[8],
+    inactive=colors[1],
+    highlight_color=colors[2],
+    highlight_method="line",
+    this_current_screen_border=colors[7],
+    this_screen_border=colors[4],
+    other_current_screen_border=colors[7],
+    other_screen_border=colors[4],
+    hide_unused=True,
 ),
+
+ewidget.Spacer(length=bar.STRETCH),
+
+#
+   # widget.TextBox(
+   #          text="|", font="Ubuntu Mono", foreground=colors[1], padding=4, fontsize=14
+   #      ),
+    #
+    #     widget.CPU(
+    #         # format="▓ Cpu: {load_percent}%",
+    #         format="   {load_percent}%",
+    #         fontsize=11,           # slightly bigger (default is 10)
+    #         mouse_callbacks={
+    # "Button1": lambda: qtile.cmd_spawn("env GTK_THEME=Adwaita:dark missioncenter")
+    # },
+    #         foreground=colors[5],
+    #       
+    #     ),
+        #
+chip(
+        ewidget.CPU,
+        format="  {load_percent}%",
+        fontsize=10,
+        padding=11,
+        foreground=colors[5],
+        mouse_callbacks={
+            "Button1": lambda: qtile.cmd_spawn("env GTK_THEME=Adwaita:dark missioncenter")
+        },
+    ),
+        #     
+ # widget.TextBox(
+ #            text="|", font="Ubuntu Mono", foreground=colors[1], padding=4, fontsize=14
+ #        ),
+       #  widget.Memory(
+       #      foreground=colors[8],
+       #      mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(myFullScreenTerm + " -e btop")},
+       #      format="{MemUsed: .0f}{mm}",
+       #      fmt="🖥  {} used",
+       #      fontsize=11,           # slightly bigger (default is 10)
+       # 
+       #  ),
+
+    chip(
+        ewidget.Memory,
+        format="{MemUsed: .0f}{mm}",
+        fmt="🖥  {} ",
+        fontsize=10,
+        padding=11,
+        foreground=colors[8],
+        mouse_callbacks={
+            "Button1": lambda: qtile.cmd_spawn(myFullScreenTerm + " -e btop")
+        },
+    ),
+
+ # widget.TextBox(
+ #            text="|", font="Ubuntu Mono", foreground=colors[1], padding=4, fontsize=14
+ #        ),
+
+# widget.Battery(
+#     # format = "🔋  {char} {percent:2.0%}",
+#     format = "  {char} {percent:2.0%}",
+#             fontsize=11,           # slightly bigger (default is 10)
+#     foreground=colors[6],
+#     low_foreground=colors[1],  # Red for low battery
+#     mouse_callbacks={
+#         "Button1": lambda: qtile.cmd_spawn(
+#             "/bin/sh -c 'notify-send \"Battery Status\" \"$(acpi | cut -d \",\" -f 2-)\"'"
+#         )
+#     },
+#     charge_char="↑",
+#     discharge_char="↓",
+#     full_char="✔",
+#     show_percentage=True,
+#     show_short_text=True,
+# ),
+# widget.Battery(
+#
+#     format="  {char} {percent:2.0%}",
+#     fontsize=11,
+#     foreground=colors[6],      # normal color (when above 20%)
+#     low_foreground=colors[3],  # warning color (when ≤ 20%)
+#     low_percentage=0.2,        # 20% threshold
+#     mouse_callbacks={
+#         "Button1": lambda: qtile.cmd_spawn(
+#             "/bin/sh -c 'notify-send \"Battery Status\" \"$(acpi | cut -d \",\" -f 2-)\"'"
+#         )
+#     },
+#     charge_char="↑",
+#     discharge_char="↓",
+#     full_char="✔",
+#     show_percentage=True,
+#     show_short_text=True,
+# ),
+        #
+        #
+         chip(
+        ewidget.Battery,
+        format="  {char} {percent:2.0%}",
+        fontsize=10,
+        padding=12,
+        foreground=colors[6],     # > 20%
+        low_foreground=colors[3],  # < 20%
+        low_percentage=0.2,
+        charge_char="↑",
+        discharge_char="↓",
+        full_char="✔",
+        show_percentage=True,
+        show_short_text=True,
+        mouse_callbacks={
+            "Button1": lambda: qtile.cmd_spawn(
+                "/bin/sh -c 'notify-send \"Battery Status\" \"$(acpi | cut -d \",\" -f 2-)\"'"
+            )
+        },
+    ),
 #--------------------
- widget.TextBox(
-            text="|", font="Ubuntu Mono", foreground=colors[1], padding=4, fontsize=14
-        ),
+ # widget.TextBox(
+ #            text="|", font="Ubuntu Mono", foreground=colors[1], padding=4, fontsize=14
+ #        ),
 
-
-       
-
-
-
-
-
-
-widget.DF(
-    update_interval=60,
-    foreground=colors[5],
-    partition="/",
-    format="{uf}{m} free",
-    fmt="🖴  Disk: {}",
-    visible_on_warn=False,
-    mouse_callbacks={
-        "Button1": lambda: qtile.cmd_spawn(home + "/.config/qtile/scripts/disk_notify.sh")
-    },
-)
-
+# widget.DF(
+#     update_interval=60,
+#     foreground=colors[5],
+#     partition="/",
+#     format="{uf}{m} Free",
+#     fontsize=11,           # slightly bigger (default is 10)
+#     fmt="🖴  {}",
+#     visible_on_warn=False,
+#     mouse_callbacks={
+#         "Button1": lambda: qtile.spawn("disk_notify")
+#     },
+# )
+        #
+        chip(
+        ewidget.DF,
+        update_interval=60,
+        partition="/",
+        format="{uf}{m}",
+        fmt="🖴  {}",
+        fontsize=10,
+        padding=11,
+        visible_on_warn=False,
+        foreground=colors[1],
+        mouse_callbacks={"Button1": lambda: qtile.spawn("disk_notify")},
+    )
 ,
- widget.TextBox(
-            text="|", font="Ubuntu Mono", foreground=colors[1], padding=4, fontsize=14
-        ),
+ # widget.TextBox(
+ #            text="|", font="Ubuntu Mono", foreground=colors[1], padding=4, fontsize=14
+ #        ),
 
 
-        widget.Volume(
-            foreground=colors[7],
-            fmt="🕫  Vol: {}",
-        ),
- widget.TextBox(
-            text="|", font="Ubuntu Mono", foreground=colors[1], padding=4, fontsize=14
-        ),
+        # widget.Volume(
+        #     foreground=colors[7],
+        #     fmt="🕫   {}",
+        # ),
+ chip(
+        ewidget.Volume,
+        fmt="🕫  {}",
+        padding=11,
+        foreground=colors[7],
+    ),
+ # widget.TextBox(
+ #            text="|", font="Ubuntu Mono", foreground=colors[1], padding=4, fontsize=14
+ #        ),
 
 
-widget.KeyboardLayout(
-    configured_keyboards=["us", "ara", "tr"],
- display_map={
-        "us": "🇺🇸 EN",
-        "ara": "🇸🇦 AR",
-        "tr": "🇹🇷 TR",
-    },
-            fmt="{}",
-    foreground=colors[4],
-),
+# widget.KeyboardLayout(
+#     configured_keyboards=["us", "ara", "tr", "de"],  # Added "de"
+#     display_map={
+#         "us": "🇺🇸 EN",
+#         "ara": "🇸🇦 AR",
+#         "tr": "🇹🇷 TR",
+#         "de": "🇩🇪 DE",  # Added Germany
+#     },
+#     fmt="{}",
+#     foreground=colors[4],
+# ),
+ chip(
+        ewidget.KeyboardLayout,
+        configured_keyboards=["us", "ara", "tr", "de"],
+        display_map={
+            "us": "🇺🇸 EN",
+            "ara": "🇸🇦 AR",
+            "tr": "🇹🇷 TR",
+            "de": "🇩🇪 DE",
+        },
+        fmt="{}",
+        padding=11,
+        foreground=colors[4],
+    ),
 
 
- widget.TextBox(
-            text="|", font="Ubuntu Mono", foreground=colors[1], padding=4, fontsize=14
-        ),
-widget.Clock(
-    foreground=colors[8],
-    format=" %a, %b %d - %H:%M",
-    mouse_callbacks={
-        "Button1": lambda: qtile.cmd_spawn(home + "/.config/qtile/scripts/clock_popup.sh")
-    },
-),
- widget.TextBox(
-            text="|", font="Ubuntu Mono", foreground=colors[1], padding=4, fontsize=14
-        ),
-        widget.Spacer(length=3),
-        widget.Systray(padding=5),
-        widget.Spacer(length=6),
+ # widget.TextBox(
+ #            text="|", font="Ubuntu Mono", foreground=colors[1], padding=4, fontsize=14
+ #        ),
+# widget.Clock(
+#     foreground=colors[8],
+#     format=" %a, %b %d - %H:%M",
+#     mouse_callbacks={
+#         "Button1": lambda: qtile.spawn("clock_popup")
+#     },
+ chip(
+        ewidget.Clock,
+        format=" %a, %b %d - %H:%M",
+        padding=11,
+        foreground=colors[8],
+        mouse_callbacks={"Button1": lambda: qtile.spawn("clock_popup")},
+    ),
+
+ # widget.TextBox(
+ #            text="|", font="Ubuntu Mono", foreground=colors[1], padding=4, fontsize=14
+ #        ),
+        # widget.Spacer(length=2),
+        widget.Systray(padding=7,icon_size=14),
+# chip(
+#     ewidget.Systray,
+#     padding=6,
+# ),
+        # widget.Spacer(length=5),
+# chip(
+#     ewidget.WidgetBox,
+#     text_closed="",   # small dot (Nerd Font)
+#     text_open="",     # slightly different dot when open
+#     fontsize=13,        # smaller than bar height for subtlety
+#     widgets=[
+#         ewidget.Systray(padding=6),
+#     ],
+#     padding=6,
+# )
+        
+
+# chip(
+#         ewidget.Systray(
+#             padding=8,     # inner spacing around icons
+#             icon_size=14,  # smaller icons (default is ~20)
+#         ),
+# chip(
+#     ewidget.WidgetBox,
+#     text_closed="",    # right chevron when closed
+#     text_open="",      # down chevron when open
+#     fontsize=12,        # smaller arrow size
+#     widgets=[
+#         ewidget.Systray(padding=5),
+#     ],
+#     padding=6,
+# )
+
     ]
     return widgets_list
 
@@ -864,14 +1150,36 @@ def init_widgets_screen2():
 # For adding transparency to your bar, add (background="#00000000") to the "Screen" line(s)
 # For ex: Screen(top=bar.Bar(widgets=init_widgets_screen2(), background="#00000000", size=24)),
 
+#
+# def init_screens():
+#     return [
+#         Screen(top=bar.Bar(widgets=init_widgets_screen1(),
+#     margin=[4, 50, 4, 50],  # top, right, bottom, left
+#     size=28 ,
+#             background = "#11111b00")),
+#         # Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=26)),
+#         Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=26)),
+#     ]
 
 def init_screens():
     return [
-        Screen(top=bar.Bar(widgets=init_widgets_screen1(),margin=[8, 12, 0, 12], size=30)),
-        Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=26)),
-        Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=26)),
-    ]
+        Screen(
+            top=bar.Bar(
+                # all widgets (including your chip) go in this list
+                widgets=init_widgets_screen1(),
+                size=28,
+                margin=[5, 10, 5, 10],  # top, right, bottom, left
+                background="#11111b00",  # transparent
+            ),
+        ),
 
+        Screen(
+            top=bar.Bar(
+                widgets=init_widgets_screen2(),
+                size=26,
+            ),
+        ),
+    ]
 
 if __name__ in ["config", "__main__"]:
     screens = init_screens()
@@ -932,6 +1240,7 @@ floating_layout = layout.Floating(
         Match(wm_class="emacs"),  # mpv
         Match(title="link-preview"),
         Match(wm_class="org.gnome.NautilusPreviewer"),  # make the preview float
+        # Match(wm_class="Anki"),  # make the preview float
 
 
     ],

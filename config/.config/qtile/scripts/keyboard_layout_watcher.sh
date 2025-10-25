@@ -15,6 +15,9 @@ while true; do
 		tr)
 			msg="🇹🇷 Turkish"
 			;;
+		de)
+			msg="🇩🇪 German"
+			;;
 		*)
 			msg="$current_layout"
 			;;

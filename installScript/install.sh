@@ -275,6 +275,9 @@ setup_ssh() {
 	echo -e "\n➡️  Add this key to GitHub (Settings > SSH and GPG Keys)"
 }
 
+#NOTE: NEEDED TO ADD:
+## espanso register and start command  -> for the auto replacement words ex: :soy  =>"Eid"
+
 # --- Main Script Execution ---
 main() {
 	refresh_system

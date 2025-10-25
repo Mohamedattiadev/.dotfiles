@@ -48,25 +48,29 @@ nitrogen --restore &
 # --- 2. Light apps (start right after essentials) ---
 pamac-tray-icon-plasma &
 kdeconnectd &
-qutebrowser &
 
 # --- 3. Heavy apps (deferred a few seconds) ---
 (
 	sleep 3
 	warpd &
 	brave https://www.youtube.com &
-	# pcmanfm &
-	env GTK_THEME=Adwaita:dark nautilus &
+	pcmanfm &
+	# env GTK_THEME=Adwaita:dark nautilus &
 	alacritty &
 	gromit-mpx &
+	# ticktick &
 ) &
 
-# --- 4. Daemons / services ---
 (
-	sleep 5
-	emacs --daemon &
-	# nvim --headless --listen /tmp/nvimsocket &
+	sleep 8
+	qutebrowser &
 ) &
+# --- 4. Daemons / services ---
+# (
+# sleep 5
+# emacs --daemon &
+# nvim --headless --listen /tmp/nvimsocket &
+# ) &
 
 # --- 5. Systemd user services (batched where possible) ---
 (
