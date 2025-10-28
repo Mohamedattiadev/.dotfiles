@@ -1,21 +1,15 @@
-# CRITICAL: Load the autoconfig first.
+# Pre-configured settings for fast loading
 config.load_autoconfig()
+c.tabs.show = 'never'
+c.statusbar.show = 'never'
+c.window.title_format = 'QutePreview'
+c.content.javascript.enabled = True
+c.scrolling.smooth = False
+# CRITICAL: Load the autoconfig first.
 
 
 
 # Import the theme module (doom_one.py should be in ~/.config/qutebrowser/)
-import doom_one
-
-# -----------------------------------------------------------------------------
-# Theme & UI
-# -----------------------------------------------------------------------------
-config.set("colors.webpage.darkmode.enabled", True)
-doom_one.setup(c, {
-    "spacing": {
-        "vertical": 5,
-        "horizontal": 5
-    }
-})
 
 dark_mode = True  # Manually switch this or automate later
 
@@ -140,7 +134,7 @@ config.bind('<Ctrl-j>', 'completion-item-focus --next', mode='prompt')
 config.bind('<Ctrl-k>', 'completion-item-focus --prev', mode='prompt')
 
 # Hints
-config.bind('T', 'cmd-set-text -s :tab-select')
+config.bind('T', 'hint links tab')
 config.bind('Y', 'hint links yank')
 config.bind('M', 'hint links spawn mpv {hint-url}')
 
@@ -150,7 +144,7 @@ config.bind('yI', 'hint images yank')  # lowercase y, uppercase I
 # Passthrough
 config.bind('<Ctrl-p>', 'mode-enter passthrough ;; message-info "Passthrough mode ON"')
 config.bind('<Escape>', 'mode-leave ;; message-info "Passthrough mode OFF"', mode='passthrough')
-config.bind('<Escape>', 'clear-messages', mode='normal')
+config.bind('<Escape>', 'close', mode='normal')
 
 # Custom Commands
 config.bind('<space>t', 'open -t', mode='normal')
@@ -171,8 +165,7 @@ config.bind('xt', 'config-cycle tabs.show always never')
 config.bind('xx', 'config-cycle statusbar.show always never;; config-cycle tabs.show always never')
 # config.bind('y', 'yank', mode='normal')
 # config.bind('y', 'yank selection', mode='caret')
-config.bind('<space>iw', 'devtools window')
-config.bind('<space>I', 'devtools ')
+config.bind('<space>i', 'devtools window')
 # config.bind('V', 'mode-enter caret ;; fake-key V')
 config.bind('Sh', 'open -t  qute://history')
 config.bind('Sm', 'open -t qute://bookmarks')
@@ -198,19 +191,10 @@ config.bind('N', 'edit-text', mode='insert')
 config.bind('qR', 'hint links spawn --userscript qr',mode="normal")
 config.bind('Sd', 'spawn --userscript ~/.config/qutebrowser/scripts/open_download',mode="normal")
 config.bind('E', 'edit-url', mode='normal')
-# Bind 'Z' in normal mode to open a Zen-style floating preview
-config.bind(
-    'P',
-    'hint --rapid links window',
-    mode='normal'
-) # preview links
+config.bind('Zp', 'hint links userscript ~/.config/qutebrowser/userscripts/zen_link_preview')
+# Alternative: Jump to a link and enter caret mode
 
 
-config.bind(
-    'K',
-    'spawn --userscript ~/.config/qutebrowser/scripts/show_keymaps',
-    mode='normal',
-)
 
 # -----------------------------------------------------------------------------
 # Search Engines
@@ -326,3 +310,6 @@ c.aliases.update({
 # config.set('content.javascript.enabled', True, 'devtools://*')
 #
 # print("--- Error-Free Config Loaded ---")
+
+
+
